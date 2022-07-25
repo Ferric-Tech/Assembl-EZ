@@ -1,5 +1,16 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { FormFieldType } from 'src/app/enums/form.eum';
 import { FormConfig } from 'src/app/interfaces/form-screen.interface';
 
@@ -20,9 +31,13 @@ export class FormScreen implements OnInit {
     this.formConfig.fields.forEach((field) => {
       this.form.addControl(
         field.fieldName,
-        new FormControl(field.defaultValue)
+        new FormControl(field.defaultValue, Validators.required)
       );
+      this.form.controls[field.fieldName].setValidators([Validators.required]);
+      this.form.controls[field.fieldName].setValidators([Validators.min(1)]);
     });
     this.cd.detectChanges();
   }
+
+  onSubmit() {}
 }

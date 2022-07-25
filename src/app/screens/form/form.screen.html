@@ -1,6 +1,7 @@
 <form
   [ngStyle]="{'padding': formConfig.isInExpansionTable ? '0' : '0 10%' }"
   [formGroup]="form"
+  (ngSubmit)="onSubmit()"
 >
   <div *ngFor="let field of formConfig.fields">
     <div class="field-container" [ngSwitch]="field.fieldType">
@@ -10,6 +11,7 @@
           type="text"
           formControlName="{{field.fieldName}}"
           [ngModel]="form.controls[field.fieldName].value | number :'1.2-2'"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
         />
       </div>
       <div class="field-input" *ngSwitchCase="fieldType.INPUT_WHOLE_NUMBER">
@@ -17,8 +19,12 @@
           type="text"
           formControlName="{{field.fieldName}}"
           [ngModel]="form.controls[field.fieldName].value | number :'1.0-0'"
+          oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
         />
       </div>
     </div>
   </div>
 </form>
+<div *ngIf="form.valid" class="form-button-container">
+  <button class="primary-menu-button" type="submit">Get Quote</button>
+</div>

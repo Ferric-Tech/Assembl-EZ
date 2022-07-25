@@ -29,4 +29,5 @@ export class QuotesPage {
   };
 
   menuOptions = [{ display: 'Back', link: '' }];
+  isSubmittable = false;
 }
