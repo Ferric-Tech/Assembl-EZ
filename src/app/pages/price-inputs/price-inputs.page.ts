@@ -6,6 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./price-inputs.page.scss'],
 })
 export class PriceInputsPage implements OnInit {
+  menuOptions = [{ display: 'Back', link: '' }];
   constructor() {}
 
   ngOnInit(): void {}

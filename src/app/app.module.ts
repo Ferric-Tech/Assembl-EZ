@@ -8,10 +8,18 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { PriceInputsPage } from './pages/price-inputs/price-inputs.page';
 import { QuotesPage } from './pages/quotes/quotes.page';
-import { MenuComponent } from './screens/menu/menu.component';
+import { MenuScreen } from './screens/menu/menu.screen';
+import { PageHeaderComponent } from './components/page-header/page-header.component';
 
 @NgModule({
-  declarations: [AppComponent, MainPage, PriceInputsPage, QuotesPage, MenuComponent],
+  declarations: [
+    AppComponent,
+    MainPage,
+    PriceInputsPage,
+    QuotesPage,
+    MenuScreen,
+    PageHeaderComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,

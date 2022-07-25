@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./quotes.page.scss'],
 })
 export class QuotesPage implements OnInit {
+  menuOptions = [{ display: 'Back', link: '' }];
+
   constructor() {}
 
   ngOnInit(): void {}
