@@ -1,5 +1,5 @@
 <form [formGroup]="form">
-  <div *ngFor="let field of formConfigs">
+  <div *ngFor="let field of formConfig.fields">
     <div class="field-container" [ngSwitch]="field.fieldType">
       <p class="field-title">{{field.fieldDisplay}}</p>
       <div class="field-input" *ngSwitchCase="fieldType.INPUT">

@@ -9,7 +9,7 @@ import { FormConfig } from 'src/app/interfaces/form-screen.interface';
   styleUrls: ['./form.screen.scss'],
 })
 export class FormScreen implements OnInit {
-  @Input() formConfigs: FormConfig[] = [];
+  @Input() formConfig: FormConfig = { isInExpansionTable: false, fields: [] };
 
   fieldType = FormFieldType;
   form = this.fb.group({});
@@ -17,7 +17,7 @@ export class FormScreen implements OnInit {
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
-    this.formConfigs.forEach((field) => {
+    this.formConfig.fields.forEach((field) => {
       this.form.addControl(
         field.fieldName,
         new FormControl(field.defaultValue)

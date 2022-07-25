@@ -13,6 +13,7 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
 import { FormScreen } from './screens/form/form.screen';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { ExpansionTableScreen } from './screens/expansion-table/expansion-table.screen';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     MenuScreen,
     PageHeaderComponent,
     FormScreen,
+    ExpansionTableScreen,
   ],
   imports: [
     BrowserModule,
