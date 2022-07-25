@@ -1,12 +1,22 @@
-<form [formGroup]="form">
+<form
+  [ngStyle]="{'padding': formConfig.isInExpansionTable ? '0' : '0 10%' }"
+  [formGroup]="form"
+>
   <div *ngFor="let field of formConfig.fields">
     <div class="field-container" [ngSwitch]="field.fieldType">
       <p class="field-title">{{field.fieldDisplay}}</p>
-      <div class="field-input" *ngSwitchCase="fieldType.INPUT">
+      <div class="field-input" *ngSwitchCase="fieldType.INPUT_DECIMAL_NUMBER">
         <input
           type="text"
           formControlName="{{field.fieldName}}"
           [ngModel]="form.controls[field.fieldName].value | number :'1.2-2'"
+        />
+      </div>
+      <div class="field-input" *ngSwitchCase="fieldType.INPUT_WHOLE_NUMBER">
+        <input
+          type="text"
+          formControlName="{{field.fieldName}}"
+          [ngModel]="form.controls[field.fieldName].value | number :'1.0-0'"
         />
       </div>
     </div>

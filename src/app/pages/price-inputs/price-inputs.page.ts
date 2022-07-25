@@ -17,37 +17,37 @@ export class PriceInputsPage {
     {
       fieldDisplay: 'Lourve Panel',
       fieldName: 'lourvePanel',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
     {
       fieldDisplay: 'Lourve Carrier',
       fieldName: 'lourveCarrier',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
     {
       fieldDisplay: 'Lourve Beam',
       fieldName: 'lourveBeam',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
     {
       fieldDisplay: 'IBR Sheet',
       fieldName: 'ibrSheet',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
     {
       fieldDisplay: 'IBR Beam',
       fieldName: 'ibrBeam',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
     {
       fieldDisplay: 'Gutter',
       fieldName: 'gutter',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
   ];
@@ -56,13 +56,13 @@ export class PriceInputsPage {
     {
       fieldDisplay: 'Gearbox',
       fieldName: 'gearbox',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
     {
       fieldDisplay: 'Crank handle',
       fieldName: 'crankHandle',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
   ];
@@ -71,13 +71,13 @@ export class PriceInputsPage {
     {
       fieldDisplay: 'Labour minimum ',
       fieldName: 'labourMinimum',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
     {
       fieldDisplay: 'Labour hourly rate ',
       fieldName: 'labourHourRate',
-      fieldType: FormFieldType.INPUT,
+      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
       defaultValue: 0,
     },
   ];
@@ -87,7 +87,7 @@ export class PriceInputsPage {
       title: 'Aluminium',
       contentType: ExpansionPanelContentType.FORM,
       formContent: {
-        isInExpansionTable: false,
+        isInExpansionTable: true,
         fields: this.materialFormFieldConfigs,
       },
     },
@@ -95,7 +95,7 @@ export class PriceInputsPage {
       title: 'Chromedek',
       contentType: ExpansionPanelContentType.FORM,
       formContent: {
-        isInExpansionTable: false,
+        isInExpansionTable: true,
         fields: this.materialFormFieldConfigs,
       },
     },
@@ -103,7 +103,7 @@ export class PriceInputsPage {
       title: 'Gearboxes',
       contentType: ExpansionPanelContentType.FORM,
       formContent: {
-        isInExpansionTable: false,
+        isInExpansionTable: true,
         fields: this.gearboxFormFieldConfigs,
       },
     },
@@ -111,7 +111,7 @@ export class PriceInputsPage {
       title: 'Labour',
       contentType: ExpansionPanelContentType.FORM,
       formContent: {
-        isInExpansionTable: false,
+        isInExpansionTable: true,
         fields: this.labourFormFieldConfigs,
       },
     },
