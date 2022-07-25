@@ -12,6 +12,7 @@
           formControlName="{{field.fieldName}}"
           [ngModel]="form.controls[field.fieldName].value | number :'1.2-2'"
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
+          got
         />
       </div>
       <div class="field-input" *ngSwitchCase="fieldType.INPUT_WHOLE_NUMBER">
