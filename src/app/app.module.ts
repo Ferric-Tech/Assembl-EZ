@@ -6,9 +6,11 @@ import { AppComponent } from './app.component';
 import { MainPage } from './pages/main/main.page';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
+import { PriceInputsPage } from './pages/price-inputs/price-inputs.page';
+import { QuotesPage } from './pages/quotes/quotes.page';
 
 @NgModule({
-  declarations: [AppComponent, MainPage],
+  declarations: [AppComponent, MainPage, PriceInputsPage, QuotesPage],
   imports: [
     BrowserModule,
     AppRoutingModule,
