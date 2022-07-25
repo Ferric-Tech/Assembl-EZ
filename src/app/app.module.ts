@@ -10,6 +10,9 @@ import { PriceInputsPage } from './pages/price-inputs/price-inputs.page';
 import { QuotesPage } from './pages/quotes/quotes.page';
 import { MenuScreen } from './screens/menu/menu.screen';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
+import { FormScreen } from './screens/form/form.screen';
+import { ReactiveFormsModule } from '@angular/forms';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   declarations: [
@@ -19,12 +22,15 @@ import { PageHeaderComponent } from './components/page-header/page-header.compon
     QuotesPage,
     MenuScreen,
     PageHeaderComponent,
+    FormScreen,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatButtonModule,
+    ReactiveFormsModule,
+    MatExpansionModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

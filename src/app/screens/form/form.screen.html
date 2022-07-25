@@ -1,0 +1,14 @@
+<form [formGroup]="form">
+  <div *ngFor="let field of formConfigs">
+    <div class="field-container" [ngSwitch]="field.fieldType">
+      <p class="field-title">{{field.fieldDisplay}}</p>
+      <div class="field-input" *ngSwitchCase="fieldType.INPUT">
+        <input
+          type="text"
+          formControlName="{{field.fieldName}}"
+          [ngModel]="form.controls[field.fieldName].value | number :'1.2-2'"
+        />
+      </div>
+    </div>
+  </div>
+</form>
