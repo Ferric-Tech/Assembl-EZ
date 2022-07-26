@@ -6,6 +6,11 @@ import {
   FormConfig,
   FormFieldConfig,
 } from 'src/app/interfaces/form-screen.interface';
+import {
+  Product,
+  ProductGroup,
+  TestPriceList,
+} from 'src/app/services/test-data.data';
 
 @Component({
   selector: 'app-price-inputs-page',
@@ -13,109 +18,30 @@ import {
   styleUrls: ['./price-inputs.page.scss'],
 })
 export class PriceInputsPage {
-  private materialFormFieldConfigs: FormFieldConfig[] = [
-    {
-      fieldDisplay: 'Lourve Panel',
-      fieldName: 'lourvePanel',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'Lourve Carrier',
-      fieldName: 'lourveCarrier',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'Lourve Beam',
-      fieldName: 'lourveBeam',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'IBR Sheet',
-      fieldName: 'ibrSheet',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'IBR Beam',
-      fieldName: 'ibrBeam',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'Gutter',
-      fieldName: 'gutter',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-  ];
-
-  private gearboxFormFieldConfigs: FormFieldConfig[] = [
-    {
-      fieldDisplay: 'Gearbox',
-      fieldName: 'gearbox',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'Crank handle',
-      fieldName: 'crankHandle',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-  ];
-
-  private labourFormFieldConfigs: FormFieldConfig[] = [
-    {
-      fieldDisplay: 'Labour minimum ',
-      fieldName: 'labourMinimum',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'Labour hourly rate ',
-      fieldName: 'labourHourRate',
-      fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-      defaultValue: 0,
-    },
-  ];
-
-  expansionPanelConfig: ExpansionPanelConfig[] = [
-    {
-      title: 'Aluminium',
-      contentType: ExpansionPanelContentType.FORM,
-      formContent: {
-        isInExpansionTable: true,
-        fields: this.materialFormFieldConfigs,
-      },
-    },
-    {
-      title: 'Chromedek',
-      contentType: ExpansionPanelContentType.FORM,
-      formContent: {
-        isInExpansionTable: true,
-        fields: this.materialFormFieldConfigs,
-      },
-    },
-    {
-      title: 'Gearboxes',
-      contentType: ExpansionPanelContentType.FORM,
-      formContent: {
-        isInExpansionTable: true,
-        fields: this.gearboxFormFieldConfigs,
-      },
-    },
-    {
-      title: 'Labour',
-      contentType: ExpansionPanelContentType.FORM,
-      formContent: {
-        isInExpansionTable: true,
-        fields: this.labourFormFieldConfigs,
-      },
-    },
-  ];
-
+  expansionPanelConfig: ExpansionPanelConfig[] = [];
   menuOptions = [{ display: 'Back', link: '' }];
+
+  ngOnInit() {
+    let testData: ProductGroup = TestPriceList;
+
+    Object.keys(testData).forEach((productGroup) => {
+      let fields: FormFieldConfig[] = [];
+      testData[productGroup].forEach((product) => {
+        fields.push({
+          fieldDisplay: product.display,
+          fieldName: product.name,
+          fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
+          defaultValue: product.value,
+        });
+      });
+      this.expansionPanelConfig.push({
+        title: productGroup,
+        contentType: ExpansionPanelContentType.FORM,
+        formContent: {
+          isInExpansionTable: true,
+          fields: fields,
+        },
+      });
+    });
+  }
 }
