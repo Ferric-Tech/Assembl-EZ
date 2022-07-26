@@ -82,7 +82,7 @@ export class PriceInputsPage {
     },
   ];
 
-  accordionConfig: ExpansionPanelConfig[] = [
+  expansionPanelConfig: ExpansionPanelConfig[] = [
     {
       title: 'Aluminium',
       contentType: ExpansionPanelContentType.FORM,

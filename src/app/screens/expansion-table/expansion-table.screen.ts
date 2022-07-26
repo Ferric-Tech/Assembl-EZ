@@ -8,7 +8,7 @@ import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interfa
   styleUrls: ['./expansion-table.screen.scss'],
 })
 export class ExpansionTableScreen {
-  @Input() accordionConfig: ExpansionPanelConfig[] = [];
+  @Input() expansionPanelConfig: ExpansionPanelConfig[] = [];
 
   contentType = ExpansionPanelContentType;
 }

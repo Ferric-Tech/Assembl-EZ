@@ -16,5 +16,9 @@ mat-accordion {
 }
 
 mat-expansion-panel {
-  margin: 5px;
+  margin: 5px 0;
+}
+
+mat-panel-title {
+  min-width: 70%;
 }

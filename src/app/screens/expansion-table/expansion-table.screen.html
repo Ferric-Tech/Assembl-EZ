@@ -1,9 +1,12 @@
 <div class="screen-container">
   <div class="accordion-container">
-    <mat-accordion *ngFor="let panel of accordionConfig">
+    <mat-accordion *ngFor="let panel of expansionPanelConfig">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title> {{panel.title}} </mat-panel-title>
+          <mat-panel-description *ngIf="panel.description">
+            {{panel.description}}
+          </mat-panel-description>
         </mat-expansion-panel-header>
         <div [ngSwitch]="panel.contentType">
           <app-form-screen

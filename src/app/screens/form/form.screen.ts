@@ -1,16 +1,12 @@
 import {
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   Input,
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormFieldType } from 'src/app/enums/form.eum';
 import { FormConfig } from 'src/app/interfaces/form-screen.interface';
 
@@ -21,6 +17,7 @@ import { FormConfig } from 'src/app/interfaces/form-screen.interface';
 })
 export class FormScreen implements OnInit {
   @Input() formConfig: FormConfig = { isInExpansionTable: false, fields: [] };
+  @Output() formValues = new EventEmitter<any>();
 
   fieldType = FormFieldType;
   form = this.fb.group({});
@@ -39,5 +36,7 @@ export class FormScreen implements OnInit {
     this.cd.detectChanges();
   }
 
-  onSubmit() {}
+  onSubmit() {
+    this.formValues.emit(this.form.value);
+  }
 }

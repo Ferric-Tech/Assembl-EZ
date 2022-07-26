@@ -1,3 +1,14 @@
 <app-page-header [header]="'Quotes'"></app-page-header>
-<app-form-screen [formConfig]="formConfig"></app-form-screen>
+<div [ngSwitch]="currentViewState">
+  <app-form-screen
+    *ngSwitchCase="viewState.PARAMETERS"
+    [formConfig]="formConfig"
+    (formValues)="processQuote($event)"
+  ></app-form-screen>
+  <app-expansion-table-screen
+    *ngSwitchCase="viewState.RESULTS"
+    [expansionPanelConfig]="expansionPanelConfig"
+  ></app-expansion-table-screen>
+</div>
+
 <app-menu-screen [menuOptions]="menuOptions"></app-menu-screen>
