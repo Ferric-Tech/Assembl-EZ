@@ -1,9 +1,20 @@
+.list-container {
+  margin: 10px 0;
+}
+
+.list-title {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  font-weight: bold;
+}
+
 .list-headers {
   display: flex;
   width: 100%;
   justify-content: space-between;
   flex-direction: row;
-  font-weight: bold;
+  font-weight: bolder;
 }
 
 .list-lines {

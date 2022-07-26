@@ -1,8 +1,14 @@
-<div class="list-headers">
-  <div *ngFor="let header of listConfig.headers">{{header.content}}</div>
-</div>
-<div class="list-lines">
-  <div class="list-line" *ngFor="let line of listConfig.lines">
-    <div *ngFor="let field of line">{{field}}</div>
+<div
+  class="list-container"
+  [ngStyle]="{'padding': listConfig.isInExpansionTable ? '0' : '0 10%' }"
+>
+  <div class="list-title">{{listConfig.title}}</div>
+  <div class="list-headers">
+    <div *ngFor="let header of listConfig.headers">{{header.content}}</div>
+  </div>
+  <div class="list-lines">
+    <div class="list-line" *ngFor="let line of listConfig.lines">
+      <div *ngFor="let field of line">{{field}}</div>
+    </div>
   </div>
 </div>

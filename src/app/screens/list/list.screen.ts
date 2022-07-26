@@ -9,6 +9,7 @@ import { ListConfig } from 'src/app/interfaces/list-screen.interface';
 export class ListScreen {
   @Input() listConfig: ListConfig = {
     isInExpansionTable: false,
+    title: '',
     headers: [],
     lines: [],
   };

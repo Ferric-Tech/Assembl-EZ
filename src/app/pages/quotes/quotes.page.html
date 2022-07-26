@@ -5,10 +5,15 @@
     [formConfig]="formConfig"
     (formValues)="processQuote($event)"
   ></app-form-screen>
-  <app-expansion-table-screen
-    *ngSwitchCase="viewState.RESULTS"
-    [expansionPanelConfig]="expansionPanelConfig"
-  ></app-expansion-table-screen>
+  <div *ngSwitchCase="viewState.RESULTS">
+    <app-list-screen
+      *ngIf="quoteSpecs"
+      [listConfig]="quoteSpecs"
+    ></app-list-screen>
+    <app-expansion-table-screen
+      [expansionPanelConfig]="expansionPanelConfig"
+    ></app-expansion-table-screen>
+  </div>
 </div>
 
 <app-menu-screen [menuOptions]="menuOptions"></app-menu-screen>

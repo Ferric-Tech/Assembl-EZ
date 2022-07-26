@@ -1,9 +1,6 @@
 import { Component } from '@angular/core';
 import { FormFieldType } from 'src/app/enums/form.eum';
-import {
-  FormConfig,
-  FormFieldConfig,
-} from 'src/app/interfaces/form-screen.interface';
+import { FormFieldConfig } from 'src/app/interfaces/form-screen.interface';
 import { QuotePageViewState as ViewState } from 'src/app/enums/viewstates.enum';
 import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
 import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
@@ -19,6 +16,7 @@ export class QuotesPage {
   currentViewState: ViewState = ViewState.PARAMETERS;
 
   expansionPanelConfig: ExpansionPanelConfig[] = [];
+  quoteSpecs: ListConfig | undefined;
 
   private formFieldConfigs: FormFieldConfig[] = [
     {
@@ -43,7 +41,36 @@ export class QuotesPage {
   menuOptions = [{ display: 'Back', link: '' }];
   isSubmittable = false;
 
-  processQuote(formValue: any) {
+  processQuote(formValue: { width: string; projection: string }) {
+    let squareMeters = this.calcSqm(formValue);
+    this.setQuoteSpecs(formValue, squareMeters);
+    this.setExpansionPanelsConfigs();
+    this.currentViewState = ViewState.RESULTS;
+  }
+
+  private calcSqm(formValue: { width: string; projection: string }) {
+    return (
+      (parseInt(formValue.projection) * parseInt(formValue.width)) / 1000000
+    );
+  }
+
+  private setQuoteSpecs(
+    formValue: { width: string; projection: string },
+    squareMeters: number
+  ) {
+    this.quoteSpecs = {
+      isInExpansionTable: false,
+      title: 'Quote specs',
+      headers: [],
+      lines: [
+        ['Width', formValue.width],
+        ['Projection', formValue.projection],
+        ['Square meters', squareMeters.toFixed(2).toString() + ' sqm'],
+      ],
+    };
+  }
+
+  private setExpansionPanelsConfigs() {
     this.expansionPanelConfig = [
       {
         title: 'Alu Lourve',
@@ -51,6 +78,7 @@ export class QuotesPage {
         contentType: ExpansionPanelContentType.LIST,
         listContent: {
           isInExpansionTable: true,
+          title: 'Bill of materials',
           headers: [
             { widthFactor: 3, content: 'Component' },
             { widthFactor: 1, content: 'Qty' },
@@ -62,7 +90,7 @@ export class QuotesPage {
             ['Gearbox', '1'],
             ['Gearbox  crankhandel', '1'],
           ],
-        } as ListConfig,
+        },
       },
       {
         title: 'Alu IBR',
@@ -70,6 +98,7 @@ export class QuotesPage {
         contentType: ExpansionPanelContentType.LIST,
         listContent: {
           isInExpansionTable: true,
+          title: 'Bill of materials',
           headers: [
             { widthFactor: 3, content: 'Component' },
             { widthFactor: 1, content: 'Qty' },
@@ -78,9 +107,8 @@ export class QuotesPage {
             ['IBR sheets', '5'],
             ['IBR beams', '2'],
           ],
-        } as ListConfig,
+        },
       },
     ];
-    this.currentViewState = ViewState.RESULTS;
   }
 }

@@ -1,5 +1,6 @@
 export interface ListConfig {
   isInExpansionTable: boolean;
+  title: string;
   headers: ListHeaderConfig[];
   lines: string[][];
 }
