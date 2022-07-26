@@ -14,6 +14,7 @@ import { FormScreen } from './screens/form/form.screen';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpansionTableScreen } from './screens/expansion-table/expansion-table.screen';
+import { ListScreen } from './screens/list/list.screen';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { ExpansionTableScreen } from './screens/expansion-table/expansion-table.
     PageHeaderComponent,
     FormScreen,
     ExpansionTableScreen,
+    ListScreen,
   ],
   imports: [
     BrowserModule,

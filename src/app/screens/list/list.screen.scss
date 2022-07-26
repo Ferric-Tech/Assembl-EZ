@@ -1,0 +1,20 @@
+.list-headers {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: row;
+  font-weight: bold;
+}
+
+.list-lines {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+}
+
+.list-line {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  flex-direction: row;
+}

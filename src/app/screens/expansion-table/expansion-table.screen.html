@@ -9,10 +9,18 @@
           </mat-panel-description>
         </mat-expansion-panel-header>
         <div [ngSwitch]="panel.contentType">
-          <app-form-screen
-            *ngSwitchCase="contentType.FORM"
-            [formConfig]="panel.formContent"
-          ></app-form-screen>
+          <div *ngSwitchCase="contentType.FORM">
+            <app-form-screen
+              *ngIf="panel.formContent"
+              [formConfig]="panel.formContent"
+            ></app-form-screen>
+          </div>
+          <div *ngSwitchCase="contentType.LIST">
+            <app-list-screen
+              *ngIf="panel.listContent"
+              [listConfig]="panel.listContent"
+            ></app-list-screen>
+          </div>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
