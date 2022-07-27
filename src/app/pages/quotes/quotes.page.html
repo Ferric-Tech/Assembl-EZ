@@ -6,7 +6,7 @@
     (formValues)="onProductGroupSelected($event)"
   ></app-form-screen>
   <app-form-screen
-    *ngSwitchCase="viewState.PRODUCT_PARAMS"
+    *ngSwitchCase="viewState.PRODUCT_MEASUREMENTS"
     [formConfig]="productParamsFormConfig"
     (formValues)="processQuote($event)"
   ></app-form-screen>

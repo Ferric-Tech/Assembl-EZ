@@ -20,6 +20,7 @@ export class FormScreen implements OnInit {
     formTitle: '',
     isInExpansionTable: false,
     fields: [],
+    proceedText: '',
   };
   @Output() formValues = new EventEmitter<any>();
 
@@ -51,7 +52,6 @@ export class FormScreen implements OnInit {
       this.form.controls[field.fieldName].setValidators([Validators.min(1)]);
     });
     this.cd.detectChanges();
-    console.log(this.form.value);
   }
 
   onSubmit() {

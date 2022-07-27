@@ -4,6 +4,7 @@ export interface FormConfig {
   formTitle: string;
   fields: FormFieldConfig[];
   isInExpansionTable: boolean;
+  proceedText: string;
 }
 
 export interface FormFieldConfig {

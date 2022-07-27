@@ -5,8 +5,12 @@
 .list-title {
   display: flex;
   width: 100%;
+  text-align: center;
+  align-items: center;
   justify-content: center;
-  font-weight: bold;
+  font-size: medium;
+  font-weight: bolder;
+  margin: 10px 0;
 }
 
 .list-headers {

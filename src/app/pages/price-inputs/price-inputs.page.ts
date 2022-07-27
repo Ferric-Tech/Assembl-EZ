@@ -41,6 +41,7 @@ export class PriceInputsPage {
           formTitle: productGroup + ' components',
           isInExpansionTable: true,
           fields: fields,
+          proceedText: 'Save',
         },
       });
     });

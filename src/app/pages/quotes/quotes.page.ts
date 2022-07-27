@@ -20,6 +20,7 @@ export class QuotesPage implements OnInit {
   currentViewState: ViewState = ViewState.PRODUCT_SELECT;
   expansionPanelConfig: ExpansionPanelConfig[] = [];
   quoteSpecs: ListConfig | undefined;
+  quoteParams = {} as { productGroup: string; measurements: {} };
 
   productSelectFormConfig = {
     formTitle: 'Select product group',
@@ -33,10 +34,11 @@ export class QuotesPage implements OnInit {
         options: [] as FormFieldOption[],
       },
     ],
+    proceedText: 'Proceed',
   };
 
   productParamsFormConfig = {
-    formTitle: 'Provide product specs',
+    formTitle: 'Provide product measurements',
     isInExpansionTable: false,
     fields: [
       {
@@ -52,13 +54,13 @@ export class QuotesPage implements OnInit {
         defaultValue: 0,
       },
     ],
+    proceedText: 'Generate quotes',
   };
 
   menuOptions = [{ display: 'Back', link: '' }];
   isSubmittable = false;
 
   ngOnInit() {
-    // Get list of products
     let productGroups: ProductGroup = TestProductList;
     let productsGroupsForSelection: FormFieldOption[] = [];
     Object.keys(productGroups).forEach((product) => {
@@ -67,33 +69,45 @@ export class QuotesPage implements OnInit {
     this.productSelectFormConfig.fields[0].options = productsGroupsForSelection;
   }
 
-  onProductGroupSelected(formValue: any) {}
+  onProductGroupSelected(formValue: any) {
+    this.quoteParams = formValue;
+    console.log(this.quoteParams);
+    this.currentViewState = ViewState.PRODUCT_MEASUREMENTS;
+  }
 
-  processQuote(formValue: { width: string; projection: string }) {
-    let squareMeters = this.calcSqm(formValue);
-    this.setQuoteSpecs(formValue, squareMeters);
+  processQuote(formValue: { [key: string]: string }) {
+    let measurements: { [key: string]: string } = {};
+    Object.keys(formValue).forEach((key) => {
+      measurements[key] = formValue[key];
+    });
+    measurements['squareMeters'] = this.calcSqm(formValue).toString();
+    this.setQuoteSpecs(formValue, measurements['squareMeters']);
     this.setExpansionPanelsConfigs();
     this.currentViewState = ViewState.RESULTS;
   }
 
-  private calcSqm(formValue: { width: string; projection: string }) {
+  private calcSqm(formValue: { [key: string]: string }) {
     return (
-      (parseInt(formValue.projection) * parseInt(formValue.width)) / 1000000
+      (parseInt(formValue['projection']) * parseInt(formValue['width'])) /
+      1000000
     );
   }
 
   private setQuoteSpecs(
-    formValue: { width: string; projection: string },
-    squareMeters: number
+    formValue: { [key: string]: string },
+    squareMeters: string
   ) {
     this.quoteSpecs = {
       isInExpansionTable: false,
       title: 'Quote specs',
       headers: [],
       lines: [
-        ['Width', formValue.width],
-        ['Projection', formValue.projection],
-        ['Square meters', squareMeters.toFixed(2).toString() + ' sqm'],
+        ['Width', formValue['width']],
+        ['Projection', formValue['projection']],
+        [
+          'Square meters',
+          parseInt(squareMeters).toFixed(2).toString() + ' sqm',
+        ],
       ],
     };
   }
