@@ -33,6 +33,16 @@ export class QuotesPage implements OnInit {
         default: 0,
         options: [] as FormFieldOption[],
       },
+      {
+        fieldDisplay: 'Product range:',
+        fieldName: 'productRange',
+        fieldType: FormFieldType.RADIO,
+        default: 0,
+        options: [
+          { display: 'All', value: 1 },
+          { display: 'Selected', value: 2 },
+        ] as FormFieldOption[],
+      },
     ],
     proceedText: 'Proceed',
   };

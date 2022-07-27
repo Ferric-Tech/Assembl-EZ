@@ -5,11 +5,13 @@
     [formConfig]="productSelectFormConfig"
     (formValues)="onProductGroupSelected($event)"
   ></app-form-screen>
+
   <app-form-screen
     *ngSwitchCase="viewState.PRODUCT_MEASUREMENTS"
     [formConfig]="productParamsFormConfig"
     (formValues)="processQuote($event)"
   ></app-form-screen>
+
   <div *ngSwitchCase="viewState.RESULTS">
     <app-list-screen
       *ngIf="quoteSpecs"

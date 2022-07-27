@@ -5,8 +5,12 @@
 >
   <div class="form-title">{{formConfig.formTitle}}</div>
   <div *ngFor="let field of formConfig.fields">
-    <div class="field-container" [ngSwitch]="field.fieldType">
+    <div class="fields-container" [ngSwitch]="field.fieldType">
       <p class="field-title">{{field.fieldDisplay}}</p>
+      <div
+        class="center-spacer-gap"
+        *ngIf="field.fieldType !=  fieldType.RADIO"
+      ></div>
       <div class="field-input" *ngSwitchCase="fieldType.INPUT_DECIMAL_NUMBER">
         <input
           type="text"
@@ -23,7 +27,7 @@
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
         />
       </div>
-      <div class="field-input" *ngSwitchCase="fieldType.SELECT">
+      <div class="field-select" *ngSwitchCase="fieldType.SELECT">
         <select
           class="field-select"
           formControlName="{{field.fieldName}}"
@@ -31,6 +35,19 @@
         >
           <option value="{{option.value}}">{{option.display}}</option>
         </select>
+      </div>
+      <div class="field-radio" *ngSwitchCase="fieldType.RADIO">
+        <mat-radio-group
+          class="field-radio-group"
+          formControlName="{{field.fieldName}}"
+        >
+          <mat-radio-button
+            *ngFor="let option of field.options"
+            value="{{option.value}}"
+            >{{option.display}}</mat-radio-button
+          >
+        </mat-radio-group>
+        <div class="right-spacer-gap"></div>
       </div>
     </div>
   </div>

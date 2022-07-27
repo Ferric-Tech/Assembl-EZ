@@ -15,6 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpansionTableScreen } from './screens/expansion-table/expansion-table.screen';
 import { ListScreen } from './screens/list/list.screen';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { ListScreen } from './screens/list/list.screen';
     MatButtonModule,
     ReactiveFormsModule,
     MatExpansionModule,
+    MatRadioModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
