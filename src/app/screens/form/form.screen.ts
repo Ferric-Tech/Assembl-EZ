@@ -16,11 +16,28 @@ import { FormConfig } from 'src/app/interfaces/form-screen.interface';
   styleUrls: ['./form.screen.scss'],
 })
 export class FormScreen implements OnInit {
-  @Input() formConfig: FormConfig = { isInExpansionTable: false, fields: [] };
+  @Input() formConfig: FormConfig = {
+    formTitle: '',
+    isInExpansionTable: false,
+    fields: [],
+  };
   @Output() formValues = new EventEmitter<any>();
 
   fieldType = FormFieldType;
   form = this.fb.group({});
+
+  get validForm() {
+    let formValid = true;
+    Object.keys(this.form.controls).forEach((key) => {
+      if (
+        this.form.controls[key].value === 0 ||
+        this.form.controls[key].value === null
+      ) {
+        formValid = false;
+      }
+    });
+    return formValid && this.form.valid;
+  }
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}
 
@@ -34,6 +51,7 @@ export class FormScreen implements OnInit {
       this.form.controls[field.fieldName].setValidators([Validators.min(1)]);
     });
     this.cd.detectChanges();
+    console.log(this.form.value);
   }
 
   onSubmit() {

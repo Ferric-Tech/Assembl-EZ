@@ -7,10 +7,10 @@ import {
   FormFieldConfig,
 } from 'src/app/interfaces/form-screen.interface';
 import {
-  Product,
-  ProductGroup,
-  TestPriceList,
-} from 'src/app/services/test-data.data';
+  ComponentItem,
+  ComponentGroup,
+  TestComponentList,
+} from 'src/app/test-data/components.data';
 
 @Component({
   selector: 'app-price-inputs-page',
@@ -22,7 +22,7 @@ export class PriceInputsPage {
   menuOptions = [{ display: 'Back', link: '' }];
 
   ngOnInit() {
-    let testData: ProductGroup = TestPriceList;
+    let testData: ComponentGroup = TestComponentList;
 
     Object.keys(testData).forEach((productGroup) => {
       let fields: FormFieldConfig[] = [];
@@ -38,6 +38,7 @@ export class PriceInputsPage {
         title: productGroup,
         contentType: ExpansionPanelContentType.FORM,
         formContent: {
+          formTitle: productGroup + ' components',
           isInExpansionTable: true,
           fields: fields,
         },

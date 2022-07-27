@@ -1,8 +1,13 @@
 <app-page-header [header]="'Quotes'"></app-page-header>
 <div [ngSwitch]="currentViewState">
   <app-form-screen
-    *ngSwitchCase="viewState.PARAMETERS"
-    [formConfig]="formConfig"
+    *ngSwitchCase="viewState.PRODUCT_SELECT"
+    [formConfig]="productSelectFormConfig"
+    (formValues)="onProductGroupSelected($event)"
+  ></app-form-screen>
+  <app-form-screen
+    *ngSwitchCase="viewState.PRODUCT_PARAMS"
+    [formConfig]="productParamsFormConfig"
     (formValues)="processQuote($event)"
   ></app-form-screen>
   <div *ngSwitchCase="viewState.RESULTS">

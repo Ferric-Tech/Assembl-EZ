@@ -1,15 +1,15 @@
-export interface ProductGroup {
-  [key: string]: Product[];
+export interface ComponentGroup {
+  [key: string]: ComponentItem[];
 }
 
-export interface Product {
+export interface ComponentItem {
   name: string;
   display: string;
   value: number;
   incVAT: boolean;
 }
 
-export const TestPriceList: ProductGroup = {
+export const TestComponentList: ComponentGroup = {
   Aluminium: [
     {
       name: 'lourvePanel',

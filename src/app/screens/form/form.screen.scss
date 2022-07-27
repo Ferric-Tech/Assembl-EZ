@@ -1,3 +1,14 @@
+.form-title {
+  display: flex;
+  width: 100%;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  font-size: medium;
+  font-weight: bolder;
+  margin: 10px 0;
+}
+
 .field-container {
   display: flex;
   flex-direction: row;
@@ -6,7 +17,6 @@
 
 .field-title {
   margin: 10px 0;
-  font-weight: bold;
 }
 
 .field-input {
@@ -15,8 +25,19 @@
 
 input {
   width: 80px;
-  height: 20px;
+  height: 25px;
   text-align: end;
+  align-items: center;
+  font-size: smaller;
+}
+
+select {
+  width: 150px;
+  height: 25px;
+  text-align: end;
+  align-items: center;
+  margin-top: 5px;
+  font-size: smaller;
 }
 
 .form-button-container {

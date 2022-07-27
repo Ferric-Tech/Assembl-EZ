@@ -1,4 +1,5 @@
 export enum QuotePageViewState {
-  PARAMETERS,
+  PRODUCT_SELECT,
+  PRODUCT_PARAMS,
   RESULTS,
 }

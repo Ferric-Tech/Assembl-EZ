@@ -1,45 +1,73 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormFieldType } from 'src/app/enums/form.eum';
-import { FormFieldConfig } from 'src/app/interfaces/form-screen.interface';
+import {
+  FormFieldConfig,
+  FormFieldOption,
+} from 'src/app/interfaces/form-screen.interface';
 import { QuotePageViewState as ViewState } from 'src/app/enums/viewstates.enum';
 import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
 import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
 import { ListConfig } from 'src/app/interfaces/list-screen.interface';
+import { ProductGroup, TestProductList } from 'src/app/test-data/products.data';
 
 @Component({
   selector: 'app-quotes-page',
   templateUrl: './quotes.page.html',
   styleUrls: ['./quotes.page.scss'],
 })
-export class QuotesPage {
+export class QuotesPage implements OnInit {
   viewState = ViewState;
-  currentViewState: ViewState = ViewState.PARAMETERS;
-
+  currentViewState: ViewState = ViewState.PRODUCT_SELECT;
   expansionPanelConfig: ExpansionPanelConfig[] = [];
   quoteSpecs: ListConfig | undefined;
 
-  private formFieldConfigs: FormFieldConfig[] = [
-    {
-      fieldDisplay: 'Width (mm)',
-      fieldName: 'width',
-      fieldType: FormFieldType.INPUT_WHOLE_NUMBER,
-      defaultValue: 0,
-    },
-    {
-      fieldDisplay: 'Projection (mm)',
-      fieldName: 'projection',
-      fieldType: FormFieldType.INPUT_WHOLE_NUMBER,
-      defaultValue: 0,
-    },
-  ];
-
-  formConfig = {
+  productSelectFormConfig = {
+    formTitle: 'Select product group',
     isInExpansionTable: false,
-    fields: this.formFieldConfigs,
+    fields: [
+      {
+        fieldDisplay: 'Product Group:',
+        fieldName: 'productGroup',
+        fieldType: FormFieldType.SELECT,
+        default: 0,
+        options: [] as FormFieldOption[],
+      },
+    ],
+  };
+
+  productParamsFormConfig = {
+    formTitle: 'Provide product specs',
+    isInExpansionTable: false,
+    fields: [
+      {
+        fieldDisplay: 'Width (mm)',
+        fieldName: 'width',
+        fieldType: FormFieldType.INPUT_WHOLE_NUMBER,
+        defaultValue: 0,
+      },
+      {
+        fieldDisplay: 'Projection (mm)',
+        fieldName: 'projection',
+        fieldType: FormFieldType.INPUT_WHOLE_NUMBER,
+        defaultValue: 0,
+      },
+    ],
   };
 
   menuOptions = [{ display: 'Back', link: '' }];
   isSubmittable = false;
+
+  ngOnInit() {
+    // Get list of products
+    let productGroups: ProductGroup = TestProductList;
+    let productsGroupsForSelection: FormFieldOption[] = [];
+    Object.keys(productGroups).forEach((product) => {
+      productsGroupsForSelection.push({ display: product, value: product });
+    });
+    this.productSelectFormConfig.fields[0].options = productsGroupsForSelection;
+  }
+
+  onProductGroupSelected(formValue: any) {}
 
   processQuote(formValue: { width: string; projection: string }) {
     let squareMeters = this.calcSqm(formValue);
