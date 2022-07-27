@@ -1,6 +1,7 @@
 <form
   [ngStyle]="{'padding': formConfig.isInExpansionTable ? '0' : '0 10%' }"
   [formGroup]="form"
+  (change)="onFormChange()"
   (ngSubmit)="onSubmit()"
 >
   <div class="form-title">{{formConfig.formTitle}}</div>
@@ -40,6 +41,7 @@
         <mat-radio-group
           class="field-radio-group"
           formControlName="{{field.fieldName}}"
+          (change)="onFormChange()"
         >
           <mat-radio-button
             *ngFor="let option of field.options"

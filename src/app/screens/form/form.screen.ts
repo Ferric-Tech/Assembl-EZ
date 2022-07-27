@@ -5,6 +5,7 @@ import {
   Input,
   OnInit,
   Output,
+  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormFieldType } from 'src/app/enums/form.eum';
@@ -19,6 +20,7 @@ export class FormScreen implements OnInit {
   @Input() formConfig: FormConfig = {
     formTitle: '',
     isInExpansionTable: false,
+    isDynamic: false,
     fields: [],
     proceedText: '',
   };
@@ -43,6 +45,10 @@ export class FormScreen implements OnInit {
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}
 
   ngOnInit(): void {
+    this.setForm();
+  }
+
+  private setForm() {
     this.formConfig.fields.forEach((field) => {
       this.form.addControl(
         field.fieldName,
@@ -56,5 +62,12 @@ export class FormScreen implements OnInit {
 
   onSubmit() {
     this.formValues.emit(this.form.value);
+  }
+
+  onFormChange() {
+    if (this.formConfig.isDynamic) {
+      this.formValues.emit(this.form.value);
+    }
+    this.setForm();
   }
 }

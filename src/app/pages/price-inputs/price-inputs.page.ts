@@ -40,6 +40,7 @@ export class PriceInputsPage {
         formContent: {
           formTitle: productGroup + ' components',
           isInExpansionTable: true,
+          isDynamic: false,
           fields: fields,
           proceedText: 'Save',
         },

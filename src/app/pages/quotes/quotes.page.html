@@ -3,7 +3,7 @@
   <app-form-screen
     *ngSwitchCase="viewState.PRODUCT_SELECT"
     [formConfig]="productSelectFormConfig"
-    (formValues)="onProductGroupSelected($event)"
+    (formValues)="onProductSelectFormChange($event)"
   ></app-form-screen>
 
   <app-form-screen
