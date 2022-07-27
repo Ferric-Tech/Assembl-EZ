@@ -6,5 +6,7 @@ import { Injectable } from '@angular/core';
 export class QuotesService {
   constructor() {}
 
-  generateQuote() {}
+  generateQuote(quoteParams: any) {
+    console.log(quoteParams);
+  }
 }

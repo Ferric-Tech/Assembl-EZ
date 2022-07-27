@@ -14,6 +14,7 @@ import {
   ProductGroup,
   TestProductList,
 } from 'src/app/test-data/products.data';
+import { QuotesService } from 'src/app/services/quotes.service';
 
 @Component({
   selector: 'app-quotes-page',
@@ -25,7 +26,7 @@ export class QuotesPage implements OnInit {
   currentViewState: ViewState = ViewState.PRODUCT_SELECT;
   expansionPanelConfig: ExpansionPanelConfig[] = [];
   quoteSpecs: ListConfig | undefined;
-  quoteParams = {} as { productGroup: string; measurements: {} };
+  quoteParams = {} as any;
 
   private productGroupField = {
     fieldDisplay: 'Product Group:',
@@ -88,11 +89,16 @@ export class QuotesPage implements OnInit {
   menuOptions = [{ display: 'Back', link: '' }];
   isSubmittable = false;
 
+  constructor(private quotesService: QuotesService) {}
+
   ngOnInit() {
-    let productGroups: ProductGroup = TestProductList;
+    let productGroups: ProductGroup[] = TestProductList;
     let productsGroupsForSelection: FormFieldOption[] = [];
-    Object.keys(productGroups).forEach((product) => {
-      productsGroupsForSelection.push({ display: product, value: product });
+    productGroups.forEach((productGroup) => {
+      productsGroupsForSelection.push({
+        display: productGroup.productGroupName,
+        value: productGroup.productGroupName,
+      });
     });
     this.productSelectFormConfig.fields[0].options = productsGroupsForSelection;
   }
@@ -135,11 +141,16 @@ export class QuotesPage implements OnInit {
     }
   }
 
-  private getProductsFromProductGroup(productGroupName: string) {
-    let productGroups: ProductGroup = TestProductList;
-    let productGroup = productGroups[productGroupName];
+  private getProductsFromProductGroup(selectedProductGroupName: string) {
+    let productGroups: ProductGroup[] = TestProductList;
+    let selectedProductGroup = {} as ProductGroup;
+    productGroups.forEach((productGroup) => {
+      if (productGroup.productGroupName === selectedProductGroupName) {
+        selectedProductGroup = productGroup;
+      }
+    });
     let productOptions: FormFieldOption[] = [];
-    productGroup.forEach((product: Product) => {
+    selectedProductGroup.products.forEach((product: Product) => {
       productOptions.push({
         display: product.productName,
         value: product.productName,
@@ -150,16 +161,17 @@ export class QuotesPage implements OnInit {
 
   onProductSelectFormSubmitted(formValue: any) {
     this.quoteParams = formValue;
-    console.log(this.quoteParams);
     this.currentViewState = ViewState.PRODUCT_MEASUREMENTS;
   }
 
-  processQuote(formValue: { [key: string]: string }) {
+  onProductMeasurementFormSubmitted(formValue: { [key: string]: string }) {
     let measurements: { [key: string]: string } = {};
     Object.keys(formValue).forEach((key) => {
       measurements[key] = formValue[key];
     });
     measurements['squareMeters'] = this.calcSqm(formValue).toString();
+    this.quoteParams = { ...this.quoteParams, ...measurements };
+    this.quotesService.generateQuote(this.quoteParams);
     this.setQuoteSpecs(formValue, measurements['squareMeters']);
     this.setExpansionPanelsConfigs();
     this.currentViewState = ViewState.RESULTS;

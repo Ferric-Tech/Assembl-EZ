@@ -1,4 +1,4 @@
-export enum ProductUnitType {
+export enum ProductMeasurementType {
   WIDTH_PROJECTION,
 }
 
@@ -85,12 +85,13 @@ export interface ComponentRuleFormula {
 }
 
 export interface ProductGroup {
-  [key: string]: Product[];
+  productGroupName: string;
+  productGroupMeasureType: ProductMeasurementType;
+  products: Product[];
 }
 
 export interface Product {
   productName: string;
-  productUnitType: ProductUnitType;
   margin: number;
   components: ComponentInput[];
 }
@@ -102,302 +103,102 @@ export interface ComponentInput {
   componentRuleCondition?: ComponentRuleCondition;
 }
 
-export const TestProductList: ProductGroup = {
-  Awnings: [
-    {
-      productName: 'Aluminium Lourve',
-      productUnitType: ProductUnitType.WIDTH_PROJECTION,
-      margin: 0.35,
-      components: [
-        {
-          component: {
-            componentGroup: 'Aluminium',
-            componentName: 'lourvePanel',
-          },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.ROUND_UP,
-            firstNumber: ComponentDependencyType.AREA,
-            operator: FormulaOpertor.MULTIPLY_BY,
-            secondNumber: 7.5,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Aluminium',
-            componentName: 'lourveCarrier',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.WIDTH,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 3000,
-                },
-              ],
+export const TestProductList: ProductGroup[] = [
+  {
+    productGroupName: 'Awnings',
+    productGroupMeasureType: ProductMeasurementType.WIDTH_PROJECTION,
+    products: [
+      {
+        productName: 'Aluminium Lourve',
+        margin: 0.35,
+        components: [
+          {
+            component: {
+              componentGroup: 'Aluminium',
+              componentName: 'lourvePanel',
             },
-            ifTrue: {
-              rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PROJECTION,
-              operator: FormulaOpertor.DIVIDE_BY,
-              secondNumber: 500,
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
+              rounding: Rounding.ROUND_UP,
+              firstNumber: ComponentDependencyType.AREA,
+              operator: FormulaOpertor.MULTIPLY_BY,
+              secondNumber: 7.5,
             },
-            ifFalse: {
+          },
+          {
+            component: {
+              componentGroup: 'Aluminium',
+              componentName: 'lourveCarrier',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
               test: {
                 binder: ConditionBinder.NONE,
                 conditions: [
                   {
                     subject: ComponentDependencyType.WIDTH,
-                    comparisionType: ComparisionType.EQUAL_TO,
+                    comparisionType: ComparisionType.LESS_THAN,
                     comparative: 3000,
                   },
                 ],
               },
               ifTrue: {
+                rounding: Rounding.NONE,
+                firstNumber: ComponentDependencyType.PROJECTION,
+                operator: FormulaOpertor.DIVIDE_BY,
+                secondNumber: 500,
+              },
+              ifFalse: {
                 test: {
                   binder: ConditionBinder.NONE,
                   conditions: [
                     {
-                      subject: ComponentDependencyType.PROJECTION,
-                      comparisionType: ComparisionType.GREATER_THAN,
-                      comparative: 3500,
+                      subject: ComponentDependencyType.WIDTH,
+                      comparisionType: ComparisionType.EQUAL_TO,
+                      comparative: 3000,
                     },
                   ],
                 },
                 ifTrue: {
-                  rounding: Rounding.ROUND,
+                  test: {
+                    binder: ConditionBinder.NONE,
+                    conditions: [
+                      {
+                        subject: ComponentDependencyType.PROJECTION,
+                        comparisionType: ComparisionType.GREATER_THAN,
+                        comparative: 3500,
+                      },
+                    ],
+                  },
+                  ifTrue: {
+                    rounding: Rounding.ROUND,
+                    firstNumber: ComponentDependencyType.PROJECTION,
+                    operator: FormulaOpertor.DIVIDE_BY,
+                    secondNumber: 333,
+                  },
+                  ifFalse: {
+                    rounding: Rounding.ROUND,
+                    firstNumber: ComponentDependencyType.PROJECTION,
+                    operator: FormulaOpertor.DIVIDE_BY,
+                    secondNumber: 500,
+                  },
+                },
+                ifFalse: {
+                  rounding: Rounding.NONE,
                   firstNumber: ComponentDependencyType.PROJECTION,
                   operator: FormulaOpertor.DIVIDE_BY,
                   secondNumber: 333,
                 },
-                ifFalse: {
-                  rounding: Rounding.ROUND,
-                  firstNumber: ComponentDependencyType.PROJECTION,
-                  operator: FormulaOpertor.DIVIDE_BY,
-                  secondNumber: 500,
-                },
-              },
-              ifFalse: {
-                rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.PROJECTION,
-                operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: 333,
               },
             },
           },
-        },
-        {
-          component: {
-            componentGroup: 'Aluminium',
-            componentName: 'lourveBeam',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.AND,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.WIDTH,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 4500,
-                },
-                {
-                  subject: ComponentDependencyType.PROJECTION,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 3000,
-                },
-              ],
+          {
+            component: {
+              componentGroup: 'Aluminium',
+              componentName: 'lourveBeam',
             },
-            ifTrue: 0,
-            ifFalse: 1,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Aluminium',
-            componentName: 'gutter',
-          },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.NONE,
-            firstNumber: ComponentDependencyType.PERIMETER,
-            operator: FormulaOpertor.ADD,
-            secondNumber: 0.8,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Gearboxes',
-            componentName: 'gearbox',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.AREA,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 16,
-                },
-              ],
-            },
-            ifTrue: 1,
-            ifFalse: 2,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Gearboxes',
-            componentName: 'crankHandle',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.AREA,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 16,
-                },
-              ],
-            },
-            ifTrue: 1,
-            ifFalse: 2,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourMinimum',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
-                  },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
-                      componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
-                    },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
-                  },
-                },
-              ],
-            },
-            ifTrue: 1,
-            ifFalse: 0,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourHourRate',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
-                  },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
-                      componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
-                    },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
-                  },
-                },
-              ],
-            },
-            ifTrue: 0,
-            ifFalse: ComponentDependencyType.AREA,
-          },
-        },
-      ],
-    },
-    {
-      productName: 'Aluminium IBR',
-      productUnitType: ProductUnitType.WIDTH_PROJECTION,
-      margin: 0.35,
-      components: [
-        {
-          component: {
-            componentGroup: 'Aluminium',
-            componentName: 'ibrSheet',
-          },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.ROUND_UP,
-            firstNumber: {
-              rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.WIDTH,
-              operator: FormulaOpertor.DIVIDE_BY,
-              secondNumber: {
-                rounding: Rounding.NONE,
-                firstNumber: 2,
-                operator: FormulaOpertor.MULTIPLY_BY,
-                secondNumber: {
-                  rounding: Rounding.NONE,
-                  firstNumber: 3,
-                  operator: FormulaOpertor.DIVIDE_BY,
-                  secondNumber: 1000,
-                },
-              },
-            },
-            operator: FormulaOpertor.MULTIPLY_BY,
-            secondNumber: {
-              rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PROJECTION,
-              operator: FormulaOpertor.DIVIDE_BY,
-              secondNumber: 1000,
-            },
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Aluminium',
-            componentName: 'ibrBeam',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.AND,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.WIDTH,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 3000,
-                },
-                {
-                  subject: ComponentDependencyType.PROJECTION,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 4000,
-                },
-              ],
-            },
-            ifTrue: 0,
-            ifFalse: {
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
               test: {
                 binder: ConditionBinder.AND,
                 conditions: [
@@ -417,380 +218,378 @@ export const TestProductList: ProductGroup = {
               ifFalse: 1,
             },
           },
-        },
-        {
-          component: {
-            componentGroup: 'Aluminium',
-            componentName: 'gutter',
-          },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.NONE,
-            firstNumber: ComponentDependencyType.PERIMETER,
-            operator: FormulaOpertor.ADD,
-            secondNumber: 0.8,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourMinimum',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
-                  },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
-                      componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
-                    },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
-                  },
-                },
-              ],
+          {
+            component: {
+              componentGroup: 'Aluminium',
+              componentName: 'gutter',
             },
-            ifTrue: 1,
-            ifFalse: 0,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourHourRate',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
-                  },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
-                      componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
-                    },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
-                  },
-                },
-              ],
-            },
-            ifTrue: 0,
-            ifFalse: ComponentDependencyType.AREA,
-          },
-        },
-      ],
-    },
-    {
-      productName: 'Chromedek Lourve',
-      productUnitType: ProductUnitType.WIDTH_PROJECTION,
-      margin: 0.35,
-      components: [
-        {
-          component: {
-            componentGroup: 'Chromedek',
-            componentName: 'lourvePanel',
-          },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.ROUND_UP,
-            firstNumber: ComponentDependencyType.AREA,
-            operator: FormulaOpertor.MULTIPLY_BY,
-            secondNumber: 7.5,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Chromedek',
-            componentName: 'lourveCarrier',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.WIDTH,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 3000,
-                },
-              ],
-            },
-            ifTrue: {
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
               rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PROJECTION,
-              operator: FormulaOpertor.DIVIDE_BY,
-              secondNumber: 500,
+              firstNumber: ComponentDependencyType.PERIMETER,
+              operator: FormulaOpertor.ADD,
+              secondNumber: 0.8,
             },
-            ifFalse: {
+          },
+          {
+            component: {
+              componentGroup: 'Gearboxes',
+              componentName: 'gearbox',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: ComponentDependencyType.AREA,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 16,
+                  },
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 2,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Gearboxes',
+              componentName: 'crankHandle',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: ComponentDependencyType.AREA,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 16,
+                  },
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 2,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourMinimum',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
+                      componentGroup: 'Labour',
+                      componentName: 'labourMinimum',
+                    },
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 0,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourHourRate',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
+                      componentGroup: 'Labour',
+                      componentName: 'labourMinimum',
+                    },
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 0,
+              ifFalse: ComponentDependencyType.AREA,
+            },
+          },
+        ],
+      },
+      {
+        productName: 'Aluminium IBR',
+        margin: 0.35,
+        components: [
+          {
+            component: {
+              componentGroup: 'Aluminium',
+              componentName: 'ibrSheet',
+            },
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
+              rounding: Rounding.ROUND_UP,
+              firstNumber: {
+                rounding: Rounding.NONE,
+                firstNumber: ComponentDependencyType.WIDTH,
+                operator: FormulaOpertor.DIVIDE_BY,
+                secondNumber: {
+                  rounding: Rounding.NONE,
+                  firstNumber: 2,
+                  operator: FormulaOpertor.MULTIPLY_BY,
+                  secondNumber: {
+                    rounding: Rounding.NONE,
+                    firstNumber: 3,
+                    operator: FormulaOpertor.DIVIDE_BY,
+                    secondNumber: 1000,
+                  },
+                },
+              },
+              operator: FormulaOpertor.MULTIPLY_BY,
+              secondNumber: {
+                rounding: Rounding.NONE,
+                firstNumber: ComponentDependencyType.PROJECTION,
+                operator: FormulaOpertor.DIVIDE_BY,
+                secondNumber: 1000,
+              },
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Aluminium',
+              componentName: 'ibrBeam',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.AND,
+                conditions: [
+                  {
+                    subject: ComponentDependencyType.WIDTH,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 3000,
+                  },
+                  {
+                    subject: ComponentDependencyType.PROJECTION,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 4000,
+                  },
+                ],
+              },
+              ifTrue: 0,
+              ifFalse: {
+                test: {
+                  binder: ConditionBinder.AND,
+                  conditions: [
+                    {
+                      subject: ComponentDependencyType.WIDTH,
+                      comparisionType: ComparisionType.LESS_THAN,
+                      comparative: 4500,
+                    },
+                    {
+                      subject: ComponentDependencyType.PROJECTION,
+                      comparisionType: ComparisionType.LESS_THAN,
+                      comparative: 3000,
+                    },
+                  ],
+                },
+                ifTrue: 0,
+                ifFalse: 1,
+              },
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Aluminium',
+              componentName: 'gutter',
+            },
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
+              rounding: Rounding.NONE,
+              firstNumber: ComponentDependencyType.PERIMETER,
+              operator: FormulaOpertor.ADD,
+              secondNumber: 0.8,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourMinimum',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
+                      componentGroup: 'Labour',
+                      componentName: 'labourMinimum',
+                    },
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 0,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourHourRate',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
+                      componentGroup: 'Labour',
+                      componentName: 'labourMinimum',
+                    },
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 0,
+              ifFalse: ComponentDependencyType.AREA,
+            },
+          },
+        ],
+      },
+      {
+        productName: 'Chromedek Lourve',
+        margin: 0.35,
+        components: [
+          {
+            component: {
+              componentGroup: 'Chromedek',
+              componentName: 'lourvePanel',
+            },
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
+              rounding: Rounding.ROUND_UP,
+              firstNumber: ComponentDependencyType.AREA,
+              operator: FormulaOpertor.MULTIPLY_BY,
+              secondNumber: 7.5,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Chromedek',
+              componentName: 'lourveCarrier',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
               test: {
                 binder: ConditionBinder.NONE,
                 conditions: [
                   {
                     subject: ComponentDependencyType.WIDTH,
-                    comparisionType: ComparisionType.EQUAL_TO,
+                    comparisionType: ComparisionType.LESS_THAN,
                     comparative: 3000,
                   },
                 ],
               },
               ifTrue: {
+                rounding: Rounding.NONE,
+                firstNumber: ComponentDependencyType.PROJECTION,
+                operator: FormulaOpertor.DIVIDE_BY,
+                secondNumber: 500,
+              },
+              ifFalse: {
                 test: {
                   binder: ConditionBinder.NONE,
                   conditions: [
                     {
-                      subject: ComponentDependencyType.PROJECTION,
-                      comparisionType: ComparisionType.GREATER_THAN,
-                      comparative: 3500,
+                      subject: ComponentDependencyType.WIDTH,
+                      comparisionType: ComparisionType.EQUAL_TO,
+                      comparative: 3000,
                     },
                   ],
                 },
                 ifTrue: {
-                  rounding: Rounding.ROUND,
+                  test: {
+                    binder: ConditionBinder.NONE,
+                    conditions: [
+                      {
+                        subject: ComponentDependencyType.PROJECTION,
+                        comparisionType: ComparisionType.GREATER_THAN,
+                        comparative: 3500,
+                      },
+                    ],
+                  },
+                  ifTrue: {
+                    rounding: Rounding.ROUND,
+                    firstNumber: ComponentDependencyType.PROJECTION,
+                    operator: FormulaOpertor.DIVIDE_BY,
+                    secondNumber: 333,
+                  },
+                  ifFalse: {
+                    rounding: Rounding.ROUND,
+                    firstNumber: ComponentDependencyType.PROJECTION,
+                    operator: FormulaOpertor.DIVIDE_BY,
+                    secondNumber: 500,
+                  },
+                },
+                ifFalse: {
+                  rounding: Rounding.NONE,
                   firstNumber: ComponentDependencyType.PROJECTION,
                   operator: FormulaOpertor.DIVIDE_BY,
                   secondNumber: 333,
                 },
-                ifFalse: {
-                  rounding: Rounding.ROUND,
-                  firstNumber: ComponentDependencyType.PROJECTION,
-                  operator: FormulaOpertor.DIVIDE_BY,
-                  secondNumber: 500,
-                },
-              },
-              ifFalse: {
-                rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.PROJECTION,
-                operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: 333,
               },
             },
           },
-        },
-        {
-          component: {
-            componentGroup: 'Chromedek',
-            componentName: 'lourveBeam',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.AND,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.WIDTH,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 4500,
-                },
-                {
-                  subject: ComponentDependencyType.PROJECTION,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 3000,
-                },
-              ],
+          {
+            component: {
+              componentGroup: 'Chromedek',
+              componentName: 'lourveBeam',
             },
-            ifTrue: 0,
-            ifFalse: 1,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Chromedek',
-            componentName: 'gutter',
-          },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.NONE,
-            firstNumber: ComponentDependencyType.PERIMETER,
-            operator: FormulaOpertor.ADD,
-            secondNumber: 0.8,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Gearboxes',
-            componentName: 'gearbox',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.AREA,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 16,
-                },
-              ],
-            },
-            ifTrue: 1,
-            ifFalse: 2,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Gearboxes',
-            componentName: 'crankHandle',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.AREA,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 16,
-                },
-              ],
-            },
-            ifTrue: 1,
-            ifFalse: 2,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourMinimum',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
-                  },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
-                      componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
-                    },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
-                  },
-                },
-              ],
-            },
-            ifTrue: 1,
-            ifFalse: 0,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourHourRate',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
-                  },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
-                      componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
-                    },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
-                  },
-                },
-              ],
-            },
-            ifTrue: 0,
-            ifFalse: ComponentDependencyType.AREA,
-          },
-        },
-      ],
-    },
-    {
-      productName: 'Chromedek IBR',
-      productUnitType: ProductUnitType.WIDTH_PROJECTION,
-      margin: 0.35,
-      components: [
-        {
-          component: {
-            componentGroup: 'Chromedek',
-            componentName: 'ibrSheet',
-          },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.ROUND_UP,
-            firstNumber: {
-              rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.WIDTH,
-              operator: FormulaOpertor.DIVIDE_BY,
-              secondNumber: {
-                rounding: Rounding.NONE,
-                firstNumber: 2,
-                operator: FormulaOpertor.MULTIPLY_BY,
-                secondNumber: {
-                  rounding: Rounding.NONE,
-                  firstNumber: 3,
-                  operator: FormulaOpertor.DIVIDE_BY,
-                  secondNumber: 1000,
-                },
-              },
-            },
-            operator: FormulaOpertor.MULTIPLY_BY,
-            secondNumber: {
-              rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PROJECTION,
-              operator: FormulaOpertor.DIVIDE_BY,
-              secondNumber: 1000,
-            },
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Chromedek',
-            componentName: 'ibrBeam',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.AND,
-              conditions: [
-                {
-                  subject: ComponentDependencyType.WIDTH,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 3000,
-                },
-                {
-                  subject: ComponentDependencyType.PROJECTION,
-                  comparisionType: ComparisionType.LESS_THAN,
-                  comparative: 4000,
-                },
-              ],
-            },
-            ifTrue: 0,
-            ifFalse: {
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
               test: {
                 binder: ConditionBinder.AND,
                 conditions: [
@@ -810,85 +609,287 @@ export const TestProductList: ProductGroup = {
               ifFalse: 1,
             },
           },
-        },
-        {
-          component: {
-            componentGroup: 'Chromedek',
-            componentName: 'gutter',
+          {
+            component: {
+              componentGroup: 'Chromedek',
+              componentName: 'gutter',
+            },
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
+              rounding: Rounding.NONE,
+              firstNumber: ComponentDependencyType.PERIMETER,
+              operator: FormulaOpertor.ADD,
+              secondNumber: 0.8,
+            },
           },
-          componentRuleType: ComponentRuleType.FORMULA,
-          componentRuleFormula: {
-            rounding: Rounding.NONE,
-            firstNumber: ComponentDependencyType.PERIMETER,
-            operator: FormulaOpertor.ADD,
-            secondNumber: 0.8,
-          },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourMinimum',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
+          {
+            component: {
+              componentGroup: 'Gearboxes',
+              componentName: 'gearbox',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: ComponentDependencyType.AREA,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 16,
                   },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 2,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Gearboxes',
+              componentName: 'crankHandle',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: ComponentDependencyType.AREA,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 16,
+                  },
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 2,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourMinimum',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
                       componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
+                      componentName: 'labourMinimum',
                     },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 0,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourHourRate',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
+                      componentGroup: 'Labour',
+                      componentName: 'labourMinimum',
+                    },
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 0,
+              ifFalse: ComponentDependencyType.AREA,
+            },
+          },
+        ],
+      },
+      {
+        productName: 'Chromedek IBR',
+        margin: 0.35,
+        components: [
+          {
+            component: {
+              componentGroup: 'Chromedek',
+              componentName: 'ibrSheet',
+            },
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
+              rounding: Rounding.ROUND_UP,
+              firstNumber: {
+                rounding: Rounding.NONE,
+                firstNumber: ComponentDependencyType.WIDTH,
+                operator: FormulaOpertor.DIVIDE_BY,
+                secondNumber: {
+                  rounding: Rounding.NONE,
+                  firstNumber: 2,
+                  operator: FormulaOpertor.MULTIPLY_BY,
+                  secondNumber: {
+                    rounding: Rounding.NONE,
+                    firstNumber: 3,
+                    operator: FormulaOpertor.DIVIDE_BY,
+                    secondNumber: 1000,
                   },
                 },
-              ],
+              },
+              operator: FormulaOpertor.MULTIPLY_BY,
+              secondNumber: {
+                rounding: Rounding.NONE,
+                firstNumber: ComponentDependencyType.PROJECTION,
+                operator: FormulaOpertor.DIVIDE_BY,
+                secondNumber: 1000,
+              },
             },
-            ifTrue: 1,
-            ifFalse: 0,
           },
-        },
-        {
-          component: {
-            componentGroup: 'Labour',
-            componentName: 'labourHourRate',
-          },
-          componentRuleType: ComponentRuleType.CONDITION,
-          componentRuleCondition: {
-            test: {
-              binder: ConditionBinder.NONE,
-              conditions: [
-                {
-                  subject: {
-                    componentGroup: 'Labour',
-                    componentName: 'labourMinimum',
+          {
+            component: {
+              componentGroup: 'Chromedek',
+              componentName: 'ibrBeam',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.AND,
+                conditions: [
+                  {
+                    subject: ComponentDependencyType.WIDTH,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 3000,
                   },
-                  comparisionType: ComparisionType.GREATER_THAN,
-                  comparative: {
-                    rounding: Rounding.NONE,
-                    firstNumber: {
-                      componentGroup: 'Labour',
-                      componentName: 'labourHourRate',
+                  {
+                    subject: ComponentDependencyType.PROJECTION,
+                    comparisionType: ComparisionType.LESS_THAN,
+                    comparative: 4000,
+                  },
+                ],
+              },
+              ifTrue: 0,
+              ifFalse: {
+                test: {
+                  binder: ConditionBinder.AND,
+                  conditions: [
+                    {
+                      subject: ComponentDependencyType.WIDTH,
+                      comparisionType: ComparisionType.LESS_THAN,
+                      comparative: 4500,
                     },
-                    operator: FormulaOpertor.MULTIPLY_BY,
-                    secondNumber: ComponentDependencyType.AREA,
-                  },
+                    {
+                      subject: ComponentDependencyType.PROJECTION,
+                      comparisionType: ComparisionType.LESS_THAN,
+                      comparative: 3000,
+                    },
+                  ],
                 },
-              ],
+                ifTrue: 0,
+                ifFalse: 1,
+              },
             },
-            ifTrue: 0,
-            ifFalse: ComponentDependencyType.AREA,
           },
-        },
-      ],
-    },
-  ],
-};
+          {
+            component: {
+              componentGroup: 'Chromedek',
+              componentName: 'gutter',
+            },
+            componentRuleType: ComponentRuleType.FORMULA,
+            componentRuleFormula: {
+              rounding: Rounding.NONE,
+              firstNumber: ComponentDependencyType.PERIMETER,
+              operator: FormulaOpertor.ADD,
+              secondNumber: 0.8,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourMinimum',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
+                      componentGroup: 'Labour',
+                      componentName: 'labourMinimum',
+                    },
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 1,
+              ifFalse: 0,
+            },
+          },
+          {
+            component: {
+              componentGroup: 'Labour',
+              componentName: 'labourHourRate',
+            },
+            componentRuleType: ComponentRuleType.CONDITION,
+            componentRuleCondition: {
+              test: {
+                binder: ConditionBinder.NONE,
+                conditions: [
+                  {
+                    subject: {
+                      componentGroup: 'Labour',
+                      componentName: 'labourMinimum',
+                    },
+                    comparisionType: ComparisionType.GREATER_THAN,
+                    comparative: {
+                      rounding: Rounding.NONE,
+                      firstNumber: {
+                        componentGroup: 'Labour',
+                        componentName: 'labourHourRate',
+                      },
+                      operator: FormulaOpertor.MULTIPLY_BY,
+                      secondNumber: ComponentDependencyType.AREA,
+                    },
+                  },
+                ],
+              },
+              ifTrue: 0,
+              ifFalse: ComponentDependencyType.AREA,
+            },
+          },
+        ],
+      },
+    ],
+  },
+];

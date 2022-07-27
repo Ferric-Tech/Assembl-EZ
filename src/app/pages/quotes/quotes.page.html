@@ -10,7 +10,7 @@
   <app-form-screen
     *ngSwitchCase="viewState.PRODUCT_MEASUREMENTS"
     [formConfig]="productParamsFormConfig"
-    (formSubmitted)="processQuote($event)"
+    (formSubmitted)="onProductMeasurementFormSubmitted($event)"
   ></app-form-screen>
 
   <div *ngSwitchCase="viewState.RESULTS">
