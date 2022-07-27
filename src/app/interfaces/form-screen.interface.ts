@@ -6,6 +6,7 @@ export interface FormConfig {
   isInExpansionTable: boolean;
   isDynamic: boolean;
   proceedText: string;
+  canProceed: boolean;
 }
 
 export interface FormFieldConfig {

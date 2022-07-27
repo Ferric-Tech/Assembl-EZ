@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormFieldType } from 'src/app/enums/form.eum';
 import {
+  FormConfig,
   FormFieldConfig,
   FormFieldOption,
 } from 'src/app/interfaces/form-screen.interface';
@@ -8,7 +9,11 @@ import { QuotePageViewState as ViewState } from 'src/app/enums/viewstates.enum';
 import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
 import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
 import { ListConfig } from 'src/app/interfaces/list-screen.interface';
-import { ProductGroup, TestProductList } from 'src/app/test-data/products.data';
+import {
+  Product,
+  ProductGroup,
+  TestProductList,
+} from 'src/app/test-data/products.data';
 
 @Component({
   selector: 'app-quotes-page',
@@ -44,23 +49,25 @@ export class QuotesPage implements OnInit {
   private productSelectField = {
     fieldDisplay: 'Products:',
     fieldName: 'productSelect',
-    fieldType: FormFieldType.SELECT,
+    fieldType: FormFieldType.MULTI_SELECT,
     default: 0,
     options: [] as FormFieldOption[],
   };
 
-  productSelectFormConfig = {
-    formTitle: 'Select product group',
+  productSelectFormConfig: FormConfig = {
+    formTitle: 'Production selection',
     isInExpansionTable: false,
     isDynamic: true,
+    canProceed: false,
     fields: [this.productGroupField],
     proceedText: 'Proceed',
   };
 
-  productParamsFormConfig = {
+  productParamsFormConfig: FormConfig = {
     formTitle: 'Provide product measurements',
     isInExpansionTable: false,
     isDynamic: false,
+    canProceed: false,
     fields: [
       {
         fieldDisplay: 'Width (mm)',
@@ -102,12 +109,15 @@ export class QuotesPage implements OnInit {
 
     if (this.productSelectFormConfig.fields.length === 2) {
       if (parseInt(formValue['productRange']) === 2) {
+        this.getProductsFromProductGroup(formValue['productGroup']);
         this.productSelectFormConfig.fields.push(this.productSelectField);
+        this.productSelectFormConfig.canProceed = false;
       } else {
         this.productSelectFormConfig.fields = [
           this.productGroupField,
           this.productRangeField,
         ];
+        this.productSelectFormConfig.canProceed = true;
       }
       return;
     }
@@ -118,13 +128,30 @@ export class QuotesPage implements OnInit {
           this.productGroupField,
           this.productRangeField,
         ];
+        this.productSelectFormConfig.canProceed = true;
         return;
       }
+      this.productSelectFormConfig.canProceed = false;
     }
+  }
 
+  private getProductsFromProductGroup(productGroupName: string) {
+    let productGroups: ProductGroup = TestProductList;
+    let productGroup = productGroups[productGroupName];
+    let productOptions: FormFieldOption[] = [];
+    productGroup.forEach((product: Product) => {
+      productOptions.push({
+        display: product.productName,
+        value: product.productName,
+      });
+    });
+    this.productSelectField.options = productOptions;
+  }
+
+  onProductSelectFormSubmitted(formValue: any) {
     this.quoteParams = formValue;
     console.log(this.quoteParams);
-    // this.currentViewState = ViewState.PRODUCT_MEASUREMENTS;
+    this.currentViewState = ViewState.PRODUCT_MEASUREMENTS;
   }
 
   processQuote(formValue: { [key: string]: string }) {

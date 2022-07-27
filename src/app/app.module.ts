@@ -16,6 +16,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { ExpansionTableScreen } from './screens/expansion-table/expansion-table.screen';
 import { ListScreen } from './screens/list/list.screen';
 import { MatRadioModule } from '@angular/material/radio';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { MatRadioModule } from '@angular/material/radio';
     ReactiveFormsModule,
     MatExpansionModule,
     MatRadioModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

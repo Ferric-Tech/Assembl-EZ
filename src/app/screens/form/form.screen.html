@@ -29,13 +29,32 @@
         />
       </div>
       <div class="field-select" *ngSwitchCase="fieldType.SELECT">
-        <select
+        <mat-select
           class="field-select"
           formControlName="{{field.fieldName}}"
-          *ngFor="let option of field.options"
+          (selectionChange)="onFormChange()"
         >
-          <option value="{{option.value}}">{{option.display}}</option>
-        </select>
+          <mat-option
+            *ngFor="let option of field.options"
+            value="{{option.value}}"
+          >
+            {{option.display}}
+          </mat-option>
+        </mat-select>
+      </div>
+      <div class="field-select" *ngSwitchCase="fieldType.MULTI_SELECT">
+        <mat-select
+          class="field-select"
+          formControlName="{{field.fieldName}}"
+          (selectionChange)="onFormChange()"
+          multiple
+        >
+          <mat-option
+            *ngFor="let option of field.options"
+            value="{{option.value}}"
+            >{{option.display}}</mat-option
+          >
+        </mat-select>
       </div>
       <div class="field-radio" *ngSwitchCase="fieldType.RADIO">
         <mat-radio-group

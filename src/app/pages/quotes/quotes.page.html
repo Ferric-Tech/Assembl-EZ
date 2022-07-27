@@ -3,13 +3,14 @@
   <app-form-screen
     *ngSwitchCase="viewState.PRODUCT_SELECT"
     [formConfig]="productSelectFormConfig"
-    (formValues)="onProductSelectFormChange($event)"
+    (formChanged)="onProductSelectFormChange($event)"
+    (formSubmitted)="onProductSelectFormSubmitted($event)"
   ></app-form-screen>
 
   <app-form-screen
     *ngSwitchCase="viewState.PRODUCT_MEASUREMENTS"
     [formConfig]="productParamsFormConfig"
-    (formValues)="processQuote($event)"
+    (formSubmitted)="processQuote($event)"
   ></app-form-screen>
 
   <div *ngSwitchCase="viewState.RESULTS">

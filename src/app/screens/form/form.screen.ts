@@ -23,8 +23,10 @@ export class FormScreen implements OnInit {
     isDynamic: false,
     fields: [],
     proceedText: '',
+    canProceed: false,
   };
-  @Output() formValues = new EventEmitter<any>();
+  @Output() formSubmitted = new EventEmitter<any>();
+  @Output() formChanged = new EventEmitter<any>();
 
   fieldType = FormFieldType;
   form = this.fb.group({});
@@ -32,14 +34,21 @@ export class FormScreen implements OnInit {
   get validForm() {
     let formValid = true;
     Object.keys(this.form.controls).forEach((key) => {
-      if (
-        this.form.controls[key].value === 0 ||
-        this.form.controls[key].value === null
-      ) {
+      // Complex logic required to test if multi-selector is empty
+      if (typeof this.form.controls[key].value === 'object') {
+        if (this.form.controls[key].value != null) {
+          if (Object.keys(this.form.controls[key].value).length === 0) {
+            formValid = false;
+          }
+        }
+      }
+
+      if (!this.form.controls[key].value) {
         formValid = false;
       }
     });
-    return formValid && this.form.valid;
+    // canProceed allows the parent to over-ride
+    return (formValid && this.form.valid) || this.formConfig.canProceed;
   }
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}
@@ -61,13 +70,13 @@ export class FormScreen implements OnInit {
   }
 
   onSubmit() {
-    this.formValues.emit(this.form.value);
+    this.formSubmitted.emit(this.form.value);
   }
 
   onFormChange() {
     if (this.formConfig.isDynamic) {
-      this.formValues.emit(this.form.value);
+      this.formChanged.emit(this.form.value);
+      this.setForm();
     }
-    this.setForm();
   }
 }

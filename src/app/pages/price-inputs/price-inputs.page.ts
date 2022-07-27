@@ -41,6 +41,7 @@ export class PriceInputsPage {
           formTitle: productGroup + ' components',
           isInExpansionTable: true,
           isDynamic: false,
+          canProceed: false,
           fields: fields,
           proceedText: 'Save',
         },
