@@ -54,7 +54,6 @@ export interface QuotedProductComponent {
 export class QuotesService {
   quoteParams = {} as QuoteParams;
   components: ComponentGroup = TestComponentList;
-  print = false;
 
   constructor() {}
 
@@ -88,8 +87,6 @@ export class QuotesService {
       // Determine the components needed
       let components: QuotedProductComponent[] = [];
       product.components.forEach((component) => {
-        this.print = component.component.componentName === 'ibrSheet';
-
         components.push({
           componentGroup: component.component.componentGroup,
           componentName: component.component.componentName,
@@ -311,35 +308,15 @@ export class QuotesService {
   ): number {
     switch (operator) {
       case FormulaOpertor.ADD: {
-        this.print
-          ? console.log(
-              firstValue + '+' + secondValue + '=' + firstValue + secondValue
-            )
-          : null;
         return firstValue + secondValue;
       }
       case FormulaOpertor.MINUS: {
-        this.print
-          ? console.log(
-              firstValue + '-' + secondValue + '=' + (firstValue - secondValue)
-            )
-          : null;
         return firstValue - secondValue;
       }
       case FormulaOpertor.MULTIPLY_BY: {
-        this.print
-          ? console.log(
-              firstValue + '*' + secondValue + '=' + firstValue * secondValue
-            )
-          : null;
         return firstValue * secondValue;
       }
       case FormulaOpertor.DIVIDE_BY: {
-        this.print
-          ? console.log(
-              firstValue + '/' + secondValue + '=' + firstValue / secondValue
-            )
-          : null;
         return firstValue / secondValue;
       }
     }
