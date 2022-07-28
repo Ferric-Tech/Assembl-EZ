@@ -221,12 +221,13 @@ export class QuotesPage implements OnInit {
       product.components.forEach((component) => {
         listOfComponents.push([
           component.componentName,
-          component.componentQuantity.toString(),
+          component.componentQuantity.toFixed(2).toString(),
+          component.componentTotalPrice.toFixed(2).toString(),
         ]);
       });
       this.expansionPanelConfig.push({
         title: product.productName,
-        description: 'R0',
+        description: product.price.toFixed(2).toString(),
         contentType: ExpansionPanelContentType.LIST,
         listContent: {
           isInExpansionTable: true,
@@ -234,6 +235,7 @@ export class QuotesPage implements OnInit {
           headers: [
             { widthFactor: 3, content: 'Component' },
             { widthFactor: 1, content: 'Qty' },
+            { widthFactor: 1, content: 'Price' },
           ],
           lines: listOfComponents,
         },

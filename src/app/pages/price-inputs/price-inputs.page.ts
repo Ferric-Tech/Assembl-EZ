@@ -22,7 +22,7 @@ export class PriceInputsPage {
   menuOptions = [{ display: 'Back', link: '' }];
 
   ngOnInit() {
-    let testData: ComponentGroup = TestComponentList;
+    const testData: ComponentGroup = TestComponentList;
 
     Object.keys(testData).forEach((productGroup) => {
       let fields: FormFieldConfig[] = [];
@@ -31,7 +31,7 @@ export class PriceInputsPage {
           fieldDisplay: product.display,
           fieldName: product.name,
           fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-          defaultValue: product.value,
+          defaultValue: product.price,
         });
       });
       this.expansionPanelConfig.push({

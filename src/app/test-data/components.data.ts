@@ -5,7 +5,7 @@ export interface ComponentGroup {
 export interface ComponentItem {
   name: string;
   display: string;
-  value: number;
+  price: number;
   incVAT: boolean;
 }
 
@@ -14,37 +14,37 @@ export const TestComponentList: ComponentGroup = {
     {
       name: 'lourvePanel',
       display: 'Lourve Panel',
-      value: 82.8,
+      price: 82.8,
       incVAT: false,
     },
     {
       name: 'lourveCarrier',
       display: 'Lourve Carrier',
-      value: 460,
+      price: 460,
       incVAT: false,
     },
     {
       name: 'lourveBeam',
       display: 'Lourve Beam',
-      value: 1300,
+      price: 1300,
       incVAT: false,
     },
     {
       name: 'ibrSheet',
       display: 'IBR Sheet',
-      value: 241.5,
+      price: 241.5,
       incVAT: false,
     },
     {
       name: 'ibrBeam',
       display: 'IBR Beam',
-      value: 1300,
+      price: 1300,
       incVAT: false,
     },
     {
       name: 'gutter',
       display: 'Gutter',
-      value: 175.95,
+      price: 175.95,
       incVAT: false,
     },
   ],
@@ -52,37 +52,37 @@ export const TestComponentList: ComponentGroup = {
     {
       name: 'lourvePanel',
       display: 'Lourve Panel',
-      value: 66.57,
+      price: 66.57,
       incVAT: false,
     },
     {
       name: 'lourveCarrier',
       display: 'Lourve Carrier',
-      value: 460,
+      price: 460,
       incVAT: false,
     },
     {
       name: 'lourveBeam',
       display: 'Lourve Beam',
-      value: 1500,
+      price: 1500,
       incVAT: false,
     },
     {
       name: 'ibrSheet',
       display: 'IBR Sheet',
-      value: 170,
+      price: 170,
       incVAT: false,
     },
     {
       name: 'ibrBeam',
       display: 'IBR Beam',
-      value: 1500,
+      price: 1500,
       incVAT: false,
     },
     {
       name: 'gutter',
       display: 'Gutter',
-      value: 137.31,
+      price: 137.31,
       incVAT: false,
     },
   ],
@@ -90,13 +90,13 @@ export const TestComponentList: ComponentGroup = {
     {
       name: 'gearbox',
       display: 'Gearbox',
-      value: 351.21,
+      price: 351.21,
       incVAT: false,
     },
     {
       name: 'crankHandle',
       display: 'Crank handle',
-      value: 141.45,
+      price: 141.45,
       incVAT: false,
     },
   ],
@@ -104,13 +104,13 @@ export const TestComponentList: ComponentGroup = {
     {
       name: 'labourMinimum',
       display: 'Labour minimum',
-      value: 1500,
+      price: 1500,
       incVAT: false,
     },
     {
       name: 'labourHourRate',
       display: 'Labour hourly rate',
-      value: 180,
+      price: 180,
       incVAT: false,
     },
   ],

@@ -46,6 +46,7 @@ export interface QuotedProductComponent {
   componentGroup: string;
   componentName: string;
   componentQuantity: number;
+  componentTotalPrice: number;
 }
 
 @Injectable({
@@ -87,18 +88,31 @@ export class QuotesService {
       // Determine the components needed
       let components: QuotedProductComponent[] = [];
       product.components.forEach((component) => {
+        const margin = product.margin;
+        const quantity = this.calculateComponentQuantatiesRequired(component);
+        const totalPrice = this.calculateComponentTotalPrice(
+          component,
+          quantity,
+          margin
+        );
         components.push({
           componentGroup: component.component.componentGroup,
           componentName: component.component.componentName,
-          componentQuantity:
-            this.calculateComponentQuantatiesRequired(component),
+          componentQuantity: quantity,
+          componentTotalPrice: totalPrice,
         });
+      });
+
+      // Calc product price
+      let productTotalPrice = 0;
+      components.forEach((component) => {
+        productTotalPrice = productTotalPrice + component.componentTotalPrice;
       });
 
       // Prepare the quoted product
       let quotedProduct = {
         productName: product.productName,
-        price: 0,
+        price: productTotalPrice,
         components: components,
       };
       quoteResponse.quotedProducts.push(quotedProduct);
@@ -231,14 +245,13 @@ export class QuotesService {
             componentItem.name ===
             (variable as ComponentReferance).componentName
           ) {
-            requiredValue = componentItem.value;
+            requiredValue = componentItem.price;
           }
         });
         return requiredValue;
       }
 
       case VariableType.FORMULA: {
-        this.print;
         return this.resolveFormula(variable as ComponentRuleFormula);
       }
     }
@@ -320,5 +333,28 @@ export class QuotesService {
         return firstValue / secondValue;
       }
     }
+  }
+
+  private calculateComponentTotalPrice(
+    component: ComponentInput,
+    quantity: number,
+    margin: number
+  ): number {
+    const componentList: ComponentGroup = TestComponentList;
+    let targetComponent = {} as ComponentItem;
+    componentList[component.component.componentGroup].forEach(
+      (componentItem) => {
+        if (componentItem.name === component.component.componentName) {
+          targetComponent = componentItem;
+        }
+      }
+    );
+
+    let pricePerUnitExVAT = 0;
+    pricePerUnitExVAT = targetComponent.incVAT
+      ? targetComponent.price / 1.15
+      : targetComponent.price;
+
+    return pricePerUnitExVAT * (1 + margin) * quantity;
   }
 }
