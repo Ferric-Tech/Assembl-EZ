@@ -17,6 +17,7 @@ import {
   FormulaOpertor,
   Product,
   ProductGroup,
+  Rounding,
   TestProductList,
   VariableType,
 } from '../test-data/products.data';
@@ -53,6 +54,7 @@ export interface QuotedProductComponent {
 export class QuotesService {
   quoteParams = {} as QuoteParams;
   components: ComponentGroup = TestComponentList;
+  print = false;
 
   constructor() {}
 
@@ -86,6 +88,8 @@ export class QuotesService {
       // Determine the components needed
       let components: QuotedProductComponent[] = [];
       product.components.forEach((component) => {
+        this.print = component.component.componentName === 'ibrSheet';
+
         components.push({
           componentGroup: component.component.componentGroup,
           componentName: component.component.componentName,
@@ -194,21 +198,27 @@ export class QuotesService {
       case VariableType.DEPENDENCY: {
         switch (variable) {
           case ComponentDependencyType.WIDTH: {
-            if (this.quoteParams.width) return parseInt(this.quoteParams.width);
+            if (this.quoteParams.width) {
+              return parseInt(this.quoteParams.width);
+            }
             break;
           }
           case ComponentDependencyType.PROJECTION: {
-            if (this.quoteParams.projection)
+            if (this.quoteParams.projection) {
               return parseInt(this.quoteParams.projection);
+            }
             break;
           }
           case ComponentDependencyType.AREA: {
-            if (this.quoteParams.area) return parseInt(this.quoteParams.area);
+            if (this.quoteParams.area) {
+              return parseInt(this.quoteParams.area);
+            }
             break;
           }
           case ComponentDependencyType.PERIMETER: {
-            if (this.quoteParams.perimeter)
+            if (this.quoteParams.perimeter) {
               return parseInt(this.quoteParams.perimeter);
+            }
             break;
           }
         }
@@ -231,6 +241,7 @@ export class QuotesService {
       }
 
       case VariableType.FORMULA: {
+        this.print;
         return this.resolveFormula(variable as ComponentRuleFormula);
       }
     }
@@ -270,7 +281,27 @@ export class QuotesService {
       formula.secondVariable,
       formula.secondVariableType
     );
-    return this.executeFormula(firstValue, secondValue, formula.operator);
+
+    switch (formula.rounding) {
+      case Rounding.NONE: {
+        return this.executeFormula(firstValue, secondValue, formula.operator);
+      }
+      case Rounding.ROUND: {
+        return Math.round(
+          this.executeFormula(firstValue, secondValue, formula.operator)
+        );
+      }
+      case Rounding.ROUND_DOWN: {
+        return Math.floor(
+          this.executeFormula(firstValue, secondValue, formula.operator)
+        );
+      }
+      case Rounding.ROUND_UP: {
+        return Math.ceil(
+          this.executeFormula(firstValue, secondValue, formula.operator)
+        );
+      }
+    }
   }
 
   private executeFormula(
@@ -280,15 +311,35 @@ export class QuotesService {
   ): number {
     switch (operator) {
       case FormulaOpertor.ADD: {
+        this.print
+          ? console.log(
+              firstValue + '+' + secondValue + '=' + firstValue + secondValue
+            )
+          : null;
         return firstValue + secondValue;
       }
       case FormulaOpertor.MINUS: {
+        this.print
+          ? console.log(
+              firstValue + '-' + secondValue + '=' + (firstValue - secondValue)
+            )
+          : null;
         return firstValue - secondValue;
       }
       case FormulaOpertor.MULTIPLY_BY: {
+        this.print
+          ? console.log(
+              firstValue + '*' + secondValue + '=' + firstValue * secondValue
+            )
+          : null;
         return firstValue * secondValue;
       }
       case FormulaOpertor.DIVIDE_BY: {
+        this.print
+          ? console.log(
+              firstValue + '/' + secondValue + '=' + firstValue / secondValue
+            )
+          : null;
         return firstValue / secondValue;
       }
     }
