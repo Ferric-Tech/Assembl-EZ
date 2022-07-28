@@ -24,7 +24,6 @@ export enum ComparisionType {
 }
 
 export enum ConditionBinder {
-  NONE,
   AND,
   OR,
 }
@@ -43,19 +42,35 @@ export enum Rounding {
   ROUND_DOWN,
 }
 
-export interface ComponentRef {
+export enum VariableType {
+  NUMBER,
+  DEPENDENCY,
+  COMPONENT,
+  FORMULA,
+  CONDITION,
+}
+
+export interface ComponentReferance {
   componentGroup: string;
   componentName: string;
 }
 
 export interface ComponentRuleCondition {
   test: ComponentRuleConditionTest;
-  ifTrue: ComponentRuleCondition | ComponentRuleFormula | number;
-  ifFalse:
-    | ComponentRuleCondition
-    | ComponentRuleFormula
+  ifTrueType: VariableType;
+  ifTrue:
     | number
-    | ComponentDependencyType;
+    | ComponentDependencyType
+    | ComponentReferance
+    | ComponentRuleFormula
+    | ComponentRuleCondition;
+  ifFalseType: VariableType;
+  ifFalse:
+    | number
+    | ComponentDependencyType
+    | ComponentReferance
+    | ComponentRuleFormula
+    | ComponentRuleCondition;
 }
 
 export interface ComponentRuleConditionTest {
@@ -64,23 +79,37 @@ export interface ComponentRuleConditionTest {
 }
 
 export interface RuleCondition {
-  subject: ComponentDependencyType | ComponentRuleFormula | ComponentRef;
+  firstVariableType: VariableType;
+  firstVariable:
+    | number
+    | ComponentDependencyType
+    | ComponentReferance
+    | ComponentRuleFormula
+    | ComponentRuleCondition;
   comparisionType: ComparisionType;
-  comparative: ComponentRuleFormula | number;
+  secondVariableType: VariableType;
+  secondVariable:
+    | number
+    | ComponentDependencyType
+    | ComponentReferance
+    | ComponentRuleFormula
+    | ComponentRuleCondition;
 }
 
 export interface ComponentRuleFormula {
   rounding: Rounding;
-  firstNumber:
+  firstVariableType: VariableType;
+  firstVariable:
     | number
     | ComponentDependencyType
-    | ComponentRef
+    | ComponentReferance
     | ComponentRuleFormula;
   operator: FormulaOpertor;
-  secondNumber:
+  secondVariableType: VariableType;
+  secondVariable:
     | number
     | ComponentDependencyType
-    | ComponentRef
+    | ComponentReferance
     | ComponentRuleFormula;
 }
 
@@ -97,10 +126,11 @@ export interface Product {
 }
 
 export interface ComponentInput {
-  component: ComponentRef;
+  component: ComponentReferance;
   componentRuleType: ComponentRuleType;
   componentRuleFormula?: ComponentRuleFormula;
   componentRuleCondition?: ComponentRuleCondition;
+  componentRuleValue?: number;
 }
 
 export const TestProductList: ProductGroup[] = [
@@ -120,9 +150,11 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.ROUND_UP,
-              firstNumber: ComponentDependencyType.AREA,
+              firstVariableType: VariableType.DEPENDENCY,
+              firstVariable: ComponentDependencyType.AREA,
               operator: FormulaOpertor.MULTIPLY_BY,
-              secondNumber: 7.5,
+              secondVariableType: VariableType.NUMBER,
+              secondVariable: 7.5,
             },
           },
           {
@@ -133,61 +165,81 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.WIDTH,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.WIDTH,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 3000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 3000,
                   },
                 ],
               },
+              ifTrueType: VariableType.FORMULA,
               ifTrue: {
                 rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.PROJECTION,
+                firstVariableType: VariableType.DEPENDENCY,
+                firstVariable: ComponentDependencyType.PROJECTION,
                 operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: 500,
+                secondVariableType: VariableType.NUMBER,
+                secondVariable: 500,
               },
+              ifFalseType: VariableType.CONDITION,
               ifFalse: {
                 test: {
-                  binder: ConditionBinder.NONE,
+                  binder: ConditionBinder.AND,
                   conditions: [
                     {
-                      subject: ComponentDependencyType.WIDTH,
+                      firstVariableType: VariableType.DEPENDENCY,
+                      firstVariable: ComponentDependencyType.WIDTH,
                       comparisionType: ComparisionType.EQUAL_TO,
-                      comparative: 3000,
+                      secondVariableType: VariableType.NUMBER,
+                      secondVariable: 3000,
                     },
                   ],
                 },
+                ifTrueType: VariableType.CONDITION,
                 ifTrue: {
                   test: {
-                    binder: ConditionBinder.NONE,
+                    binder: ConditionBinder.AND,
                     conditions: [
                       {
-                        subject: ComponentDependencyType.PROJECTION,
+                        firstVariableType: VariableType.DEPENDENCY,
+                        firstVariable: ComponentDependencyType.PROJECTION,
                         comparisionType: ComparisionType.GREATER_THAN,
-                        comparative: 3500,
+                        secondVariableType: VariableType.NUMBER,
+                        secondVariable: 3500,
                       },
                     ],
                   },
+                  ifTrueType: VariableType.FORMULA,
                   ifTrue: {
                     rounding: Rounding.ROUND,
-                    firstNumber: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     operator: FormulaOpertor.DIVIDE_BY,
-                    secondNumber: 333,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 333,
                   },
+                  ifFalseType: VariableType.FORMULA,
                   ifFalse: {
                     rounding: Rounding.ROUND,
-                    firstNumber: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     operator: FormulaOpertor.DIVIDE_BY,
-                    secondNumber: 500,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 500,
                   },
                 },
+                ifFalseType: VariableType.FORMULA,
                 ifFalse: {
                   rounding: Rounding.NONE,
-                  firstNumber: ComponentDependencyType.PROJECTION,
+                  firstVariableType: VariableType.DEPENDENCY,
+                  firstVariable: ComponentDependencyType.PROJECTION,
                   operator: FormulaOpertor.DIVIDE_BY,
-                  secondNumber: 333,
+                  secondVariableType: VariableType.NUMBER,
+                  secondVariable: 333,
                 },
               },
             },
@@ -203,18 +255,24 @@ export const TestProductList: ProductGroup[] = [
                 binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.WIDTH,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.WIDTH,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 4500,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 4500,
                   },
                   {
-                    subject: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 3000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 3000,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 1,
             },
           },
@@ -226,9 +284,11 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PERIMETER,
+              firstVariableType: VariableType.DEPENDENCY,
+              firstVariable: ComponentDependencyType.PERIMETER,
               operator: FormulaOpertor.ADD,
-              secondNumber: 0.8,
+              secondVariableType: VariableType.NUMBER,
+              secondVariable: 0.8,
             },
           },
           {
@@ -239,16 +299,20 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.AREA,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.AREA,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 16,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 16,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 2,
             },
           },
@@ -260,16 +324,20 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.AREA,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.AREA,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 16,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 16,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 2,
             },
           },
@@ -281,27 +349,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 0,
             },
           },
@@ -313,27 +387,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.DEPENDENCY,
               ifFalse: ComponentDependencyType.AREA,
             },
           },
@@ -351,28 +431,38 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.ROUND_UP,
-              firstNumber: {
+              firstVariableType: VariableType.FORMULA,
+              firstVariable: {
                 rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.WIDTH,
+                firstVariableType: VariableType.DEPENDENCY,
+                firstVariable: ComponentDependencyType.WIDTH,
                 operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: {
+                secondVariableType: VariableType.FORMULA,
+                secondVariable: {
                   rounding: Rounding.NONE,
-                  firstNumber: 2,
+                  firstVariableType: VariableType.NUMBER,
+                  firstVariable: 2,
                   operator: FormulaOpertor.MULTIPLY_BY,
-                  secondNumber: {
+                  secondVariableType: VariableType.FORMULA,
+                  secondVariable: {
                     rounding: Rounding.NONE,
-                    firstNumber: 3,
+                    firstVariableType: VariableType.NUMBER,
+                    firstVariable: 3,
                     operator: FormulaOpertor.DIVIDE_BY,
-                    secondNumber: 1000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 1000,
                   },
                 },
               },
               operator: FormulaOpertor.MULTIPLY_BY,
-              secondNumber: {
+              secondVariableType: VariableType.FORMULA,
+              secondVariable: {
                 rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.PROJECTION,
+                firstVariableType: VariableType.DEPENDENCY,
+                firstVariable: ComponentDependencyType.PROJECTION,
                 operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: 1000,
+                secondVariableType: VariableType.NUMBER,
+                secondVariable: 1000,
               },
             },
           },
@@ -387,35 +477,47 @@ export const TestProductList: ProductGroup[] = [
                 binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.WIDTH,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.WIDTH,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 3000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 3000,
                   },
                   {
-                    subject: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 4000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 4000,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.CONDITION,
               ifFalse: {
                 test: {
                   binder: ConditionBinder.AND,
                   conditions: [
                     {
-                      subject: ComponentDependencyType.WIDTH,
+                      firstVariableType: VariableType.DEPENDENCY,
+                      firstVariable: ComponentDependencyType.WIDTH,
                       comparisionType: ComparisionType.LESS_THAN,
-                      comparative: 4500,
+                      secondVariableType: VariableType.NUMBER,
+                      secondVariable: 4500,
                     },
                     {
-                      subject: ComponentDependencyType.PROJECTION,
+                      firstVariableType: VariableType.DEPENDENCY,
+                      firstVariable: ComponentDependencyType.PROJECTION,
                       comparisionType: ComparisionType.LESS_THAN,
-                      comparative: 3000,
+                      secondVariableType: VariableType.NUMBER,
+                      secondVariable: 3000,
                     },
                   ],
                 },
+                ifTrueType: VariableType.NUMBER,
                 ifTrue: 0,
+                ifFalseType: VariableType.NUMBER,
                 ifFalse: 1,
               },
             },
@@ -428,9 +530,11 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PERIMETER,
+              firstVariableType: VariableType.DEPENDENCY,
+              firstVariable: ComponentDependencyType.PERIMETER,
               operator: FormulaOpertor.ADD,
-              secondNumber: 0.8,
+              secondVariableType: VariableType.NUMBER,
+              secondVariable: 0.8,
             },
           },
           {
@@ -441,27 +545,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 0,
             },
           },
@@ -473,27 +583,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.DEPENDENCY,
               ifFalse: ComponentDependencyType.AREA,
             },
           },
@@ -511,9 +627,11 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.ROUND_UP,
-              firstNumber: ComponentDependencyType.AREA,
+              firstVariableType: VariableType.DEPENDENCY,
+              firstVariable: ComponentDependencyType.AREA,
               operator: FormulaOpertor.MULTIPLY_BY,
-              secondNumber: 7.5,
+              secondVariableType: VariableType.NUMBER,
+              secondVariable: 7.5,
             },
           },
           {
@@ -524,61 +642,81 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.WIDTH,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.WIDTH,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 3000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 3000,
                   },
                 ],
               },
+              ifTrueType: VariableType.FORMULA,
               ifTrue: {
                 rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.PROJECTION,
+                firstVariableType: VariableType.DEPENDENCY,
+                firstVariable: ComponentDependencyType.PROJECTION,
                 operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: 500,
+                secondVariableType: VariableType.NUMBER,
+                secondVariable: 500,
               },
+              ifFalseType: VariableType.CONDITION,
               ifFalse: {
                 test: {
-                  binder: ConditionBinder.NONE,
+                  binder: ConditionBinder.AND,
                   conditions: [
                     {
-                      subject: ComponentDependencyType.WIDTH,
+                      firstVariableType: VariableType.DEPENDENCY,
+                      firstVariable: ComponentDependencyType.WIDTH,
                       comparisionType: ComparisionType.EQUAL_TO,
-                      comparative: 3000,
+                      secondVariableType: VariableType.NUMBER,
+                      secondVariable: 3000,
                     },
                   ],
                 },
+                ifTrueType: VariableType.CONDITION,
                 ifTrue: {
                   test: {
-                    binder: ConditionBinder.NONE,
+                    binder: ConditionBinder.AND,
                     conditions: [
                       {
-                        subject: ComponentDependencyType.PROJECTION,
+                        firstVariableType: VariableType.DEPENDENCY,
+                        firstVariable: ComponentDependencyType.PROJECTION,
                         comparisionType: ComparisionType.GREATER_THAN,
-                        comparative: 3500,
+                        secondVariableType: VariableType.NUMBER,
+                        secondVariable: 3500,
                       },
                     ],
                   },
+                  ifTrueType: VariableType.FORMULA,
                   ifTrue: {
                     rounding: Rounding.ROUND,
-                    firstNumber: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     operator: FormulaOpertor.DIVIDE_BY,
-                    secondNumber: 333,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 333,
                   },
+                  ifFalseType: VariableType.FORMULA,
                   ifFalse: {
                     rounding: Rounding.ROUND,
-                    firstNumber: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     operator: FormulaOpertor.DIVIDE_BY,
-                    secondNumber: 500,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 500,
                   },
                 },
+                ifFalseType: VariableType.FORMULA,
                 ifFalse: {
                   rounding: Rounding.NONE,
-                  firstNumber: ComponentDependencyType.PROJECTION,
+                  firstVariableType: VariableType.DEPENDENCY,
+                  firstVariable: ComponentDependencyType.PROJECTION,
                   operator: FormulaOpertor.DIVIDE_BY,
-                  secondNumber: 333,
+                  secondVariableType: VariableType.NUMBER,
+                  secondVariable: 333,
                 },
               },
             },
@@ -594,18 +732,24 @@ export const TestProductList: ProductGroup[] = [
                 binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.WIDTH,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.WIDTH,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 4500,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 4500,
                   },
                   {
-                    subject: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 3000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 3000,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 1,
             },
           },
@@ -617,9 +761,11 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PERIMETER,
+              firstVariableType: VariableType.DEPENDENCY,
+              firstVariable: ComponentDependencyType.PERIMETER,
               operator: FormulaOpertor.ADD,
-              secondNumber: 0.8,
+              secondVariableType: VariableType.NUMBER,
+              secondVariable: 0.8,
             },
           },
           {
@@ -630,16 +776,20 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.AREA,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.AREA,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 16,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 16,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 2,
             },
           },
@@ -651,16 +801,20 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.AREA,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.AREA,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 16,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 16,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 2,
             },
           },
@@ -672,27 +826,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 0,
             },
           },
@@ -704,27 +864,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.DEPENDENCY,
               ifFalse: ComponentDependencyType.AREA,
             },
           },
@@ -742,28 +908,38 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.ROUND_UP,
-              firstNumber: {
+              firstVariableType: VariableType.FORMULA,
+              firstVariable: {
                 rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.WIDTH,
+                firstVariableType: VariableType.DEPENDENCY,
+                firstVariable: ComponentDependencyType.WIDTH,
                 operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: {
+                secondVariableType: VariableType.FORMULA,
+                secondVariable: {
                   rounding: Rounding.NONE,
-                  firstNumber: 2,
+                  firstVariableType: VariableType.NUMBER,
+                  firstVariable: 2,
                   operator: FormulaOpertor.MULTIPLY_BY,
-                  secondNumber: {
+                  secondVariableType: VariableType.FORMULA,
+                  secondVariable: {
                     rounding: Rounding.NONE,
-                    firstNumber: 3,
+                    firstVariableType: VariableType.NUMBER,
+                    firstVariable: 3,
                     operator: FormulaOpertor.DIVIDE_BY,
-                    secondNumber: 1000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 1000,
                   },
                 },
               },
               operator: FormulaOpertor.MULTIPLY_BY,
-              secondNumber: {
+              secondVariableType: VariableType.FORMULA,
+              secondVariable: {
                 rounding: Rounding.NONE,
-                firstNumber: ComponentDependencyType.PROJECTION,
+                firstVariableType: VariableType.DEPENDENCY,
+                firstVariable: ComponentDependencyType.PROJECTION,
                 operator: FormulaOpertor.DIVIDE_BY,
-                secondNumber: 1000,
+                secondVariableType: VariableType.NUMBER,
+                secondVariable: 1000,
               },
             },
           },
@@ -778,50 +954,64 @@ export const TestProductList: ProductGroup[] = [
                 binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: ComponentDependencyType.WIDTH,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.WIDTH,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 3000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 3000,
                   },
                   {
-                    subject: ComponentDependencyType.PROJECTION,
+                    firstVariableType: VariableType.DEPENDENCY,
+                    firstVariable: ComponentDependencyType.PROJECTION,
                     comparisionType: ComparisionType.LESS_THAN,
-                    comparative: 4000,
+                    secondVariableType: VariableType.NUMBER,
+                    secondVariable: 4000,
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.CONDITION,
               ifFalse: {
                 test: {
                   binder: ConditionBinder.AND,
                   conditions: [
                     {
-                      subject: ComponentDependencyType.WIDTH,
+                      firstVariableType: VariableType.DEPENDENCY,
+                      firstVariable: ComponentDependencyType.WIDTH,
                       comparisionType: ComparisionType.LESS_THAN,
-                      comparative: 4500,
+                      secondVariableType: VariableType.NUMBER,
+                      secondVariable: 4500,
                     },
                     {
-                      subject: ComponentDependencyType.PROJECTION,
+                      firstVariableType: VariableType.DEPENDENCY,
+                      firstVariable: ComponentDependencyType.PROJECTION,
                       comparisionType: ComparisionType.LESS_THAN,
-                      comparative: 3000,
+                      secondVariableType: VariableType.NUMBER,
+                      secondVariable: 3000,
                     },
                   ],
                 },
+                ifTrueType: VariableType.NUMBER,
                 ifTrue: 0,
+                ifFalseType: VariableType.NUMBER,
                 ifFalse: 1,
               },
             },
           },
           {
             component: {
-              componentGroup: 'Chromedek',
+              componentGroup: 'Aluminium',
               componentName: 'gutter',
             },
             componentRuleType: ComponentRuleType.FORMULA,
             componentRuleFormula: {
               rounding: Rounding.NONE,
-              firstNumber: ComponentDependencyType.PERIMETER,
+              firstVariableType: VariableType.DEPENDENCY,
+              firstVariable: ComponentDependencyType.PERIMETER,
               operator: FormulaOpertor.ADD,
-              secondNumber: 0.8,
+              secondVariableType: VariableType.NUMBER,
+              secondVariable: 0.8,
             },
           },
           {
@@ -832,27 +1022,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 1,
+              ifFalseType: VariableType.NUMBER,
               ifFalse: 0,
             },
           },
@@ -864,27 +1060,33 @@ export const TestProductList: ProductGroup[] = [
             componentRuleType: ComponentRuleType.CONDITION,
             componentRuleCondition: {
               test: {
-                binder: ConditionBinder.NONE,
+                binder: ConditionBinder.AND,
                 conditions: [
                   {
-                    subject: {
+                    firstVariableType: VariableType.COMPONENT,
+                    firstVariable: {
                       componentGroup: 'Labour',
                       componentName: 'labourMinimum',
                     },
                     comparisionType: ComparisionType.GREATER_THAN,
-                    comparative: {
+                    secondVariableType: VariableType.FORMULA,
+                    secondVariable: {
                       rounding: Rounding.NONE,
-                      firstNumber: {
+                      firstVariableType: VariableType.COMPONENT,
+                      firstVariable: {
                         componentGroup: 'Labour',
                         componentName: 'labourHourRate',
                       },
                       operator: FormulaOpertor.MULTIPLY_BY,
-                      secondNumber: ComponentDependencyType.AREA,
+                      secondVariableType: VariableType.DEPENDENCY,
+                      secondVariable: ComponentDependencyType.AREA,
                     },
                   },
                 ],
               },
+              ifTrueType: VariableType.NUMBER,
               ifTrue: 0,
+              ifFalseType: VariableType.DEPENDENCY,
               ifFalse: ComponentDependencyType.AREA,
             },
           },

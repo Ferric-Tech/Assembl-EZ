@@ -169,15 +169,23 @@ export class QuotesPage implements OnInit {
     Object.keys(formValue).forEach((key) => {
       measurements[key] = formValue[key];
     });
-    measurements['squareMeters'] = this.calcSqm(formValue).toString();
+    measurements['area'] = this.calcArea(formValue).toString();
+    measurements['perimeter'] = this.calcPerimeter(formValue).toString();
     this.quoteParams = { ...this.quoteParams, ...measurements };
     this.quotesService.generateQuote(this.quoteParams);
-    this.setQuoteSpecs(formValue, measurements['squareMeters']);
+    this.setQuoteSpecs(formValue, measurements['area']);
     this.setExpansionPanelsConfigs();
     this.currentViewState = ViewState.RESULTS;
   }
 
-  private calcSqm(formValue: { [key: string]: string }) {
+  private calcPerimeter(formValue: { [key: string]: string }) {
+    return (
+      ((parseInt(formValue['projection']) + parseInt(formValue['width'])) * 2) /
+      1000
+    );
+  }
+
+  private calcArea(formValue: { [key: string]: string }) {
     return (
       (parseInt(formValue['projection']) * parseInt(formValue['width'])) /
       1000000
