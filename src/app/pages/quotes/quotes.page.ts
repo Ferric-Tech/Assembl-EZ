@@ -14,7 +14,7 @@ import {
   ProductGroup,
   TestProductList,
 } from 'src/app/test-data/products.data';
-import { QuotesService } from 'src/app/services/quotes.service';
+import { QuoteResponse, QuotesService } from 'src/app/services/quotes.service';
 
 @Component({
   selector: 'app-quotes-page',
@@ -172,9 +172,11 @@ export class QuotesPage implements OnInit {
     measurements['area'] = this.calcArea(formValue).toString();
     measurements['perimeter'] = this.calcPerimeter(formValue).toString();
     this.quoteParams = { ...this.quoteParams, ...measurements };
-    this.quotesService.generateQuote(this.quoteParams);
-    this.setQuoteSpecs(formValue, measurements['area']);
-    this.setExpansionPanelsConfigs();
+    let quoteResponse: QuoteResponse = this.quotesService.generateQuote(
+      this.quoteParams
+    );
+    this.setQuoteSpecs(measurements);
+    this.setExpansionPanelsConfigs(quoteResponse);
     this.currentViewState = ViewState.RESULTS;
   }
 
@@ -192,30 +194,39 @@ export class QuotesPage implements OnInit {
     );
   }
 
-  private setQuoteSpecs(
-    formValue: { [key: string]: string },
-    squareMeters: string
-  ) {
+  private setQuoteSpecs(measurements: { [key: string]: string }) {
     this.quoteSpecs = {
       isInExpansionTable: false,
       title: 'Quote specs',
       headers: [],
       lines: [
-        ['Width', formValue['width']],
-        ['Projection', formValue['projection']],
+        ['Width (mm)', measurements['width']],
+        ['Projection (mm)', measurements['projection']],
         [
-          'Square meters',
-          parseInt(squareMeters).toFixed(2).toString() + ' sqm',
+          'Area (Sqm)',
+          parseInt(measurements['area']).toFixed(2).toString() + ' sqm',
+        ],
+        [
+          'Perimeter (m)',
+          parseInt(measurements['perimeter']).toFixed(2).toString() + ' sqm',
         ],
       ],
     };
   }
 
-  private setExpansionPanelsConfigs() {
-    this.expansionPanelConfig = [
-      {
-        title: 'Alu Lourve',
-        description: 'R22500',
+  private setExpansionPanelsConfigs(quoteResponse: QuoteResponse) {
+    console.log(quoteResponse);
+    quoteResponse.quotedProducts.forEach((product) => {
+      let listOfComponents: string[][] = [];
+      product.components.forEach((component) => {
+        listOfComponents.push([
+          component.componentName,
+          component.componentQuantity.toString(),
+        ]);
+      });
+      this.expansionPanelConfig.push({
+        title: product.productName,
+        description: 'R0',
         contentType: ExpansionPanelContentType.LIST,
         listContent: {
           isInExpansionTable: true,
@@ -224,32 +235,9 @@ export class QuotesPage implements OnInit {
             { widthFactor: 3, content: 'Component' },
             { widthFactor: 1, content: 'Qty' },
           ],
-          lines: [
-            ['Lourve panels', '8'],
-            ['Lourve carriers', '1'],
-            ['Lourve beams', '4'],
-            ['Gearbox', '1'],
-            ['Gearbox  crankhandel', '1'],
-          ],
+          lines: listOfComponents,
         },
-      },
-      {
-        title: 'Alu IBR',
-        description: 'R12500',
-        contentType: ExpansionPanelContentType.LIST,
-        listContent: {
-          isInExpansionTable: true,
-          title: 'Bill of materials',
-          headers: [
-            { widthFactor: 3, content: 'Component' },
-            { widthFactor: 1, content: 'Qty' },
-          ],
-          lines: [
-            ['IBR sheets', '5'],
-            ['IBR beams', '2'],
-          ],
-        },
-      },
-    ];
+      });
+    });
   }
 }

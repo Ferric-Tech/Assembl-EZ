@@ -103,7 +103,6 @@ export class QuotesService {
       quoteResponse.quotedProducts.push(quotedProduct);
     });
 
-    console.log(quoteResponse);
     return quoteResponse;
   }
 
