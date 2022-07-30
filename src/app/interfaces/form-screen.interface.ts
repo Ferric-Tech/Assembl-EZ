@@ -13,7 +13,7 @@ export interface FormFieldConfig {
   fieldName: string;
   fieldDisplay: string;
   fieldType: FormFieldType;
-  defaultValue?: number;
+  defaultValue?: number | boolean;
   options?: FormFieldOption[];
 }
 

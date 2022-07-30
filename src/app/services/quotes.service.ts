@@ -26,6 +26,7 @@ export interface QuoteParams {
   productGroup: string;
   productRange: string;
   productSelect: string | null;
+  presentNonRequiredComponents: boolean;
   projection?: string;
   area?: string;
   width?: string;
@@ -90,17 +91,19 @@ export class QuotesService {
       product.components.forEach((component) => {
         const margin = product.margin;
         const quantity = this.calculateComponentQuantatiesRequired(component);
-        const totalPrice = this.calculateComponentTotalPrice(
-          component,
-          quantity,
-          margin
-        );
-        components.push({
-          componentGroup: component.component.componentGroup,
-          componentName: component.component.componentName,
-          componentQuantity: quantity,
-          componentTotalPrice: totalPrice,
-        });
+        if (quoteParams.presentNonRequiredComponents || !!quantity) {
+          const totalPrice = this.calculateComponentTotalPrice(
+            component,
+            quantity,
+            margin
+          );
+          components.push({
+            componentGroup: component.component.componentGroup,
+            componentName: component.component.componentName,
+            componentQuantity: quantity,
+            componentTotalPrice: totalPrice,
+          });
+        }
       });
 
       // Calc product price

@@ -33,15 +33,22 @@
   background-color: white;
 }
 
+.field-radio-group {
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+}
+
 .field-radio {
   display: flex;
   flex-direction: row;
 }
 
-.field-radio-group {
+.field-checkbox {
   display: flex;
-  flex-direction: column;
-  justify-content: left;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
 }
 
 input {

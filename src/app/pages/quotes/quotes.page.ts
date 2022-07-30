@@ -64,7 +64,7 @@ export class QuotesPage implements OnInit {
     proceedText: 'Proceed',
   };
 
-  productParamsFormConfig: FormConfig = {
+  productMeasurementFormConfig: FormConfig = {
     formTitle: 'Provide product measurements',
     isInExpansionTable: false,
     isDynamic: false,
@@ -81,6 +81,22 @@ export class QuotesPage implements OnInit {
         fieldName: 'projection',
         fieldType: FormFieldType.INPUT_WHOLE_NUMBER,
         defaultValue: 0,
+      },
+    ],
+    proceedText: 'Proceed',
+  };
+
+  quoteParametersFormConfig: FormConfig = {
+    formTitle: 'Quote parameters',
+    isInExpansionTable: false,
+    isDynamic: false,
+    canProceed: true,
+    fields: [
+      {
+        fieldDisplay: 'Present non-required components',
+        fieldName: 'presentNonRequiredComponents',
+        fieldType: FormFieldType.CHECKBOX,
+        defaultValue: false,
       },
     ],
     proceedText: 'Generate quotes',
@@ -172,10 +188,16 @@ export class QuotesPage implements OnInit {
     measurements['area'] = this.calcArea(formValue).toString();
     measurements['perimeter'] = this.calcPerimeter(formValue).toString();
     this.quoteParams = { ...this.quoteParams, ...measurements };
+    this.currentViewState = ViewState.QUOTE_PARAMETERS;
+  }
+
+  onQuoteParametersFormSubmitted(formValue: { [key: string]: string }) {
+    this.quoteParams = { ...this.quoteParams, ...formValue };
+    console.log(this.quoteParams);
     let quoteResponse: QuoteResponse = this.quotesService.generateQuote(
       this.quoteParams
     );
-    this.setQuoteSpecs(measurements);
+    this.setQuoteSpecs(this.quoteParams);
     this.setExpansionPanelsConfigs(quoteResponse);
     this.currentViewState = ViewState.RESULTS;
   }
@@ -218,7 +240,6 @@ export class QuotesPage implements OnInit {
   }
 
   private setExpansionPanelsConfigs(quoteResponse: QuoteResponse) {
-    console.log(quoteResponse);
     quoteResponse.quotedProducts.forEach((product) => {
       let listOfComponents: string[][] = [];
       product.components.forEach((component) => {

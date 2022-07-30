@@ -70,6 +70,12 @@
         </mat-radio-group>
         <div class="right-spacer-gap"></div>
       </div>
+      <div class="field-checkbox" *ngSwitchCase="fieldType.CHECKBOX">
+        <mat-checkbox
+          class="example-margin"
+          formControlName="{{field.fieldName}}"
+        ></mat-checkbox>
+      </div>
     </div>
   </div>
   <div *ngIf="validForm" class="form-button-container">
