@@ -198,7 +198,10 @@ export class QuotesPage implements OnInit {
     this.quoteSpecs = {
       isInExpansionTable: false,
       title: 'Quote specs',
-      headers: [],
+      headers: [
+        { widthFactor: 4, content: '' },
+        { widthFactor: 2, content: '' },
+      ],
       lines: [
         ['Width (mm)', measurements['width']],
         ['Projection (mm)', measurements['projection']],
