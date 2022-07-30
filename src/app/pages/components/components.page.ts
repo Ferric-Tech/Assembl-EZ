@@ -13,9 +13,9 @@ import {
 } from 'src/app/test-data/components.data';
 
 @Component({
-  selector: 'app-price-inputs-page',
-  templateUrl: './price-inputs.page.html',
-  styleUrls: ['./price-inputs.page.scss'],
+  selector: 'app-components-page',
+  templateUrl: './components.page.html',
+  styleUrls: ['./components.page.scss'],
 })
 export class PriceInputsPage {
   expansionPanelConfig: ExpansionPanelConfig[] = [];
