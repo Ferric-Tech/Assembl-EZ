@@ -348,11 +348,7 @@ export class QuotesService {
   ): string {
     const componentList: ComponentGroup = TestComponentList;
     let displayName = '';
-    console.log('Looking for: ' + componentName);
     componentList[groupName].forEach((component) => {
-      console.log(
-        'Test: ' + component.name + ' = ' + (component.name === componentName)
-      );
       if (component.name === componentName) {
         displayName = component.displayQuotes
           ? component.displayQuotes

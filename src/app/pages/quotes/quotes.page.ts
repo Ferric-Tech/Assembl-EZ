@@ -193,7 +193,6 @@ export class QuotesPage implements OnInit {
 
   onQuoteParametersFormSubmitted(formValue: { [key: string]: string }) {
     this.quoteParams = { ...this.quoteParams, ...formValue };
-    console.log(this.quoteParams);
     let quoteResponse: QuoteResponse = this.quotesService.generateQuote(
       this.quoteParams
     );
