@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { MainPage } from './pages/main/main.page';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { PriceInputsPage } from './pages/components/components.page';
+import { ComponentsPage } from './pages/components/components.page';
 import { QuotesPage } from './pages/quotes/quotes.page';
 import { MenuScreen } from './screens/menu/menu.screen';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
@@ -19,12 +19,13 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProductsPage } from './pages/products/products.page';
+import { LeadsComponent } from './pages/leads/leads.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     MainPage,
-    PriceInputsPage,
+    ComponentsPage,
     QuotesPage,
     MenuScreen,
     PageHeaderComponent,
@@ -32,6 +33,7 @@ import { ProductsPage } from './pages/products/products.page';
     ExpansionTableScreen,
     ListScreen,
     ProductsPage,
+    LeadsComponent,
   ],
   imports: [
     BrowserModule,

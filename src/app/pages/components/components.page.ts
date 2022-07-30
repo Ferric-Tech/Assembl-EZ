@@ -17,7 +17,7 @@ import {
   templateUrl: './components.page.html',
   styleUrls: ['./components.page.scss'],
 })
-export class PriceInputsPage {
+export class ComponentsPage {
   expansionPanelConfig: ExpansionPanelConfig[] = [];
   menuOptions = [{ display: 'Back', link: '' }];
 
