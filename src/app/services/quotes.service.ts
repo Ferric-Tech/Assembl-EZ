@@ -97,9 +97,13 @@ export class QuotesService {
             quantity,
             margin
           );
+          const displayname = this.getComponentQuoteDisplayName(
+            component.component.componentGroup,
+            component.component.componentName
+          );
           components.push({
             componentGroup: component.component.componentGroup,
-            componentName: component.component.componentName,
+            componentName: displayname,
             componentQuantity: quantity,
             componentTotalPrice: totalPrice,
           });
@@ -336,6 +340,26 @@ export class QuotesService {
         return firstValue / secondValue;
       }
     }
+  }
+
+  private getComponentQuoteDisplayName(
+    groupName: string,
+    componentName: string
+  ): string {
+    const componentList: ComponentGroup = TestComponentList;
+    let displayName = '';
+    console.log('Looking for: ' + componentName);
+    componentList[groupName].forEach((component) => {
+      console.log(
+        'Test: ' + component.name + ' = ' + (component.name === componentName)
+      );
+      if (component.name === componentName) {
+        displayName = component.displayQuotes
+          ? component.displayQuotes
+          : component.displayGeneral;
+      }
+    });
+    return displayName;
   }
 
   private calculateComponentTotalPrice(

@@ -28,7 +28,7 @@ export class PriceInputsPage {
       let fields: FormFieldConfig[] = [];
       testData[productGroup].forEach((product) => {
         fields.push({
-          fieldDisplay: product.display,
+          fieldDisplay: product.displayGeneral,
           fieldName: product.name,
           fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
           defaultValue: product.price,

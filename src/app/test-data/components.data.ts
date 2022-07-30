@@ -4,7 +4,8 @@ export interface ComponentGroup {
 
 export interface ComponentItem {
   name: string;
-  display: string;
+  displayGeneral: string;
+  displayQuotes?: string;
   price: number;
   incVAT: boolean;
 }
@@ -13,37 +14,37 @@ export const TestComponentList: ComponentGroup = {
   Aluminium: [
     {
       name: 'lourvePanel',
-      display: 'Lourve Panel',
+      displayGeneral: 'Lourve Panels (units)',
       price: 82.8,
       incVAT: false,
     },
     {
       name: 'lourveCarrier',
-      display: 'Lourve Carrier',
+      displayGeneral: 'Lourve Carriers (units)',
       price: 460,
       incVAT: false,
     },
     {
       name: 'lourveBeam',
-      display: 'Lourve Beam',
+      displayGeneral: 'Lourve Beams (units)',
       price: 1300,
       incVAT: false,
     },
     {
       name: 'ibrSheet',
-      display: 'IBR Sheet',
+      displayGeneral: 'IBR Sheets (meters)',
       price: 241.5,
       incVAT: false,
     },
     {
       name: 'ibrBeam',
-      display: 'IBR Beam',
+      displayGeneral: 'IBR Beam',
       price: 1300,
       incVAT: false,
     },
     {
       name: 'gutter',
-      display: 'Gutter',
+      displayGeneral: 'Gutters (meters)',
       price: 175.95,
       incVAT: false,
     },
@@ -51,37 +52,37 @@ export const TestComponentList: ComponentGroup = {
   Chromedek: [
     {
       name: 'lourvePanel',
-      display: 'Lourve Panel',
+      displayGeneral: 'Lourve Panels (units)',
       price: 66.57,
       incVAT: false,
     },
     {
       name: 'lourveCarrier',
-      display: 'Lourve Carrier',
+      displayGeneral: 'Lourve Carriers (units)',
       price: 460,
       incVAT: false,
     },
     {
       name: 'lourveBeam',
-      display: 'Lourve Beam',
+      displayGeneral: 'Lourve Beams (units)',
       price: 1500,
       incVAT: false,
     },
     {
       name: 'ibrSheet',
-      display: 'IBR Sheet',
+      displayGeneral: 'IBR Sheets (meters)',
       price: 170,
       incVAT: false,
     },
     {
       name: 'ibrBeam',
-      display: 'IBR Beam',
+      displayGeneral: 'IBR Beams (units)',
       price: 1500,
       incVAT: false,
     },
     {
       name: 'gutter',
-      display: 'Gutter',
+      displayGeneral: 'Gutters (meters)',
       price: 137.31,
       incVAT: false,
     },
@@ -89,13 +90,13 @@ export const TestComponentList: ComponentGroup = {
   Gearboxes: [
     {
       name: 'gearbox',
-      display: 'Gearbox',
+      displayGeneral: 'Gearboxs (units)',
       price: 351.21,
       incVAT: false,
     },
     {
       name: 'crankHandle',
-      display: 'Crank handle',
+      displayGeneral: 'Crank handles (units)',
       price: 141.45,
       incVAT: false,
     },
@@ -103,13 +104,15 @@ export const TestComponentList: ComponentGroup = {
   Labour: [
     {
       name: 'labourMinimum',
-      display: 'Labour minimum',
+      displayGeneral: 'Labour minimum',
+      displayQuotes: 'Labour',
       price: 1500,
       incVAT: false,
     },
     {
       name: 'labourHourRate',
-      display: 'Labour hourly rate',
+      displayGeneral: 'Labour hourly rate',
+      displayQuotes: 'Labour',
       price: 180,
       incVAT: false,
     },
