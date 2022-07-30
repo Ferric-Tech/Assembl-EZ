@@ -1,17 +1,14 @@
 <app-page-header [header]="'Quotes'"></app-page-header>
 <div [ngSwitch]="currentViewState">
-  <app-form-screen
+  <app-product-select-screen
     *ngSwitchCase="viewState.PRODUCT_SELECT"
-    [formConfig]="productSelectFormConfig"
-    (formChanged)="onProductSelectFormChange($event)"
     (formSubmitted)="onProductSelectFormSubmitted($event)"
-  ></app-form-screen>
+  ></app-product-select-screen>
 
-  <app-form-screen
+  <app-product-measurements-screen
     *ngSwitchCase="viewState.PRODUCT_MEASUREMENTS"
-    [formConfig]="productMeasurementFormConfig"
     (formSubmitted)="onProductMeasurementFormSubmitted($event)"
-  ></app-form-screen>
+  ></app-product-measurements-screen>
 
   <app-form-screen
     *ngSwitchCase="viewState.QUOTE_PARAMETERS"
