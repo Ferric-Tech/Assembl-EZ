@@ -6,20 +6,20 @@ import { AppComponent } from './app.component';
 import { MainPage } from './pages/main/main.page';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { ComponentsPage } from './pages/components/components.page';
+import { ComponentsPage } from './screens/components/components.page';
 import { QuotesPage } from './pages/quotes/quotes.page';
-import { MenuScreen } from './screens/menu/menu.screen';
+import { MenuScreen } from './components/menu/menu.screen';
 import { PageHeaderComponent } from './components/page-header/page-header.component';
-import { FormScreen } from './screens/form/form.screen';
+import { FormScreen } from './components/form/form.screen';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { ExpansionTableScreen } from './screens/expansion-table/expansion-table.screen';
-import { ListScreen } from './screens/list/list.screen';
+import { ExpansionTableScreen } from './components/expansion-table/expansion-table.screen';
+import { ListScreen } from './components/list/list.screen';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProductsPage } from './pages/products/products.page';
-import { LeadsComponent } from './pages/leads/leads.component';
+import { LeadsPage } from './pages/leads/leads.page';
 
 @NgModule({
   declarations: [
@@ -33,7 +33,7 @@ import { LeadsComponent } from './pages/leads/leads.component';
     ExpansionTableScreen,
     ListScreen,
     ProductsPage,
-    LeadsComponent,
+    LeadsPage,
   ],
   imports: [
     BrowserModule,
