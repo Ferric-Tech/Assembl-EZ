@@ -233,9 +233,9 @@ export class QuotesPage implements OnInit {
           isInExpansionTable: true,
           title: 'Bill of materials',
           headers: [
-            { widthFactor: 3, content: 'Component' },
-            { widthFactor: 1, content: 'Qty' },
-            { widthFactor: 1, content: 'Price' },
+            { widthFactor: 9, content: 'Component' },
+            { widthFactor: 2, content: 'Qty' },
+            { widthFactor: 3, content: 'Total' },
           ],
           lines: listOfComponents,
         },
