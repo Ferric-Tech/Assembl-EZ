@@ -24,28 +24,28 @@ export class ComponentsPage {
   ];
 
   ngOnInit() {
+    this.setExpansionPanelsConfigs();
+  }
+
+  private setExpansionPanelsConfigs() {
     const testData: ComponentGroup = TestComponentList;
 
     Object.keys(testData).forEach((productGroup) => {
-      let fields: FormFieldConfig[] = [];
+      let fields: string[][] = [];
       testData[productGroup].forEach((product) => {
-        fields.push({
-          fieldDisplay: product.displayGeneral,
-          fieldName: product.name,
-          fieldType: FormFieldType.INPUT_DECIMAL_NUMBER,
-          defaultValue: product.price,
-        });
+        fields.push([product.displayGeneral, product.price.toString()]);
       });
       this.expansionPanelConfig.push({
         title: productGroup,
-        contentType: ExpansionPanelContentType.FORM,
-        formContent: {
-          formTitle: productGroup + ' components',
+        contentType: ExpansionPanelContentType.LIST,
+        listContent: {
           isInExpansionTable: true,
-          isDynamic: false,
-          canProceed: false,
-          fields: fields,
-          proceedText: 'Save',
+          title: '',
+          headers: [
+            { content: 'Component', widthFactor: 3 },
+            { content: 'Unit price', widthFactor: 2 },
+          ],
+          lines: fields,
         },
       });
     });
