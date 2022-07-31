@@ -21,7 +21,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { ProductsPage } from './pages/products/products.page';
 import { LeadsPage } from './pages/leads/leads.page';
 import { ProductSelectScreen } from './pages/quotes/presentationals/product-select/product-select.screen';
-import { ProductMeasurementsComponent } from './pages/quotes/presentationals/product-measurements/product-measurements.screen';
+import { ProductMeasurementsScreen } from './pages/quotes/presentationals/product-measurements/product-measurements.screen';
+import { QuoteParametersScreen } from './pages/quotes/presentationals/quote-parameters/quote-parameters.screen';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { ProductMeasurementsComponent } from './pages/quotes/presentationals/pro
     ProductsPage,
     LeadsPage,
     ProductSelectScreen,
-    ProductMeasurementsComponent,
+    ProductMeasurementsScreen,
+    QuoteParametersScreen,
   ],
   imports: [
     BrowserModule,

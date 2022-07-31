@@ -10,11 +10,10 @@
     (formSubmitted)="onProductMeasurementFormSubmitted($event)"
   ></app-product-measurements-screen>
 
-  <app-form-screen
+  <app-quote-parameters-screen
     *ngSwitchCase="viewState.QUOTE_PARAMETERS"
-    [formConfig]="quoteParametersFormConfig"
     (formSubmitted)="onQuoteParametersFormSubmitted($event)"
-  ></app-form-screen>
+  ></app-quote-parameters-screen>
 
   <div *ngSwitchCase="viewState.RESULTS">
     <app-list-screen

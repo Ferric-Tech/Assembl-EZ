@@ -7,7 +7,7 @@ import { FormConfig } from 'src/app/interfaces/form-screen.interface';
   templateUrl: './product-measurements.screen.html',
   styleUrls: ['./product-measurements.screen.scss'],
 })
-export class ProductMeasurementsComponent {
+export class ProductMeasurementsScreen {
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
 
   productMeasurementFormConfig: FormConfig = {

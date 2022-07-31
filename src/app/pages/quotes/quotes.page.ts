@@ -1,19 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { FormFieldType } from 'src/app/enums/form.eum';
-import {
-  FormConfig,
-  FormFieldConfig,
-  FormFieldOption,
-} from 'src/app/interfaces/form-screen.interface';
+import { Component } from '@angular/core';
 import { QuotePageViewState as ViewState } from 'src/app/enums/viewstates.enum';
 import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
 import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
 import { ListConfig } from 'src/app/interfaces/list-screen.interface';
-import {
-  Product,
-  ProductGroup,
-  TestProductList,
-} from 'src/app/test-data/products.data';
 import { QuoteResponse, QuotesService } from 'src/app/services/quotes.service';
 
 @Component({
@@ -27,22 +16,6 @@ export class QuotesPage {
   expansionPanelConfig: ExpansionPanelConfig[] = [];
   quoteSpecs: ListConfig | undefined;
   quoteParams = {} as any;
-
-  quoteParametersFormConfig: FormConfig = {
-    formTitle: 'Quote parameters',
-    isInExpansionTable: false,
-    isDynamic: false,
-    canProceed: true,
-    fields: [
-      {
-        fieldDisplay: 'Present non-required components',
-        fieldName: 'presentNonRequiredComponents',
-        fieldType: FormFieldType.CHECKBOX,
-        defaultValue: false,
-      },
-    ],
-    proceedText: 'Generate quotes',
-  };
 
   menuOptions = [{ display: 'Back', link: '' }];
   isSubmittable = false;
