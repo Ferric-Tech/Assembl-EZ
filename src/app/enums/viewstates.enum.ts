@@ -4,3 +4,9 @@ export enum QuotePageViewState {
   QUOTE_PARAMETERS,
   RESULTS,
 }
+
+export enum ProductsPageViewState {
+  MENU,
+  PRODUCTS,
+  COMPONENTS,
+}

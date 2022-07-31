@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { QuotePageViewState as ViewState } from 'src/app/enums/viewstates.enum';
-import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
-import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
-import { ListConfig } from 'src/app/interfaces/list-screen.interface';
+import {
+  MenuOption,
+  MenuOptionType,
+} from 'src/app/interfaces/menu-screen.interface';
 import { QuoteResponse, QuotesService } from 'src/app/services/quotes.service';
 
 @Component({
@@ -15,9 +16,9 @@ export class QuotesPage {
   currentViewState: ViewState = ViewState.PRODUCT_SELECT;
   quoteResponse: QuoteResponse | undefined;
   quoteParams = {} as any;
-
-  menuOptions = [{ display: 'Back', link: '' }];
-  isSubmittable = false;
+  menuOptions: MenuOption[] = [
+    { display: 'Back', optionType: MenuOptionType.URL, link: '' },
+  ];
 
   constructor(private quotesService: QuotesService) {}
 
@@ -28,6 +29,7 @@ export class QuotesPage {
 
   onProductMeasurementFormSubmitted(formValue: { [key: string]: string }) {
     this.quoteParams = { ...this.quoteParams, ...formValue };
+    this.setSecondaryDependacies();
     this.currentViewState = ViewState.QUOTE_PARAMETERS;
   }
 
@@ -35,5 +37,13 @@ export class QuotesPage {
     this.quoteParams = { ...this.quoteParams, ...formValue };
     this.quoteResponse = this.quotesService.generateQuote(this.quoteParams);
     this.currentViewState = ViewState.RESULTS;
+  }
+
+  private setSecondaryDependacies() {
+    let projection = parseInt(this.quoteParams['projection']) / 1000;
+    let width = parseInt(this.quoteParams['width']) / 1000;
+
+    this.quoteParams['area'] = (projection * width).toString();
+    this.quoteParams['perimeter'] = ((projection + width) * 2).toString();
   }
 }

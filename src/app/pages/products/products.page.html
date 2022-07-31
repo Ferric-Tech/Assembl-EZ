@@ -1,1 +1,14 @@
-<p>products works!</p>
+<div [ngSwitch]="currentViewState">
+  <div *ngSwitchCase="viewState.MENU">
+    <app-page-header [header]="'Products menu'"></app-page-header>
+    <app-menu-screen
+      [menuOptions]="menuOptions"
+      (viewStateSelected)="onViewStateSelected($event)"
+    ></app-menu-screen>
+  </div>
+
+  <div *ngSwitchCase="viewState.COMPONENTS">
+    <app-page-header [header]="'Components'"></app-page-header>
+    <app-components-screen></app-components-screen>
+  </div>
+</div>

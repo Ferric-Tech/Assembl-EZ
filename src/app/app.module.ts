@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { MainPage } from './pages/main/main.page';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { ComponentsPage } from './pages/products/presentationals/components/components.page';
+import { ComponentsPage } from './pages/products/presentationals/components/components.screen';
 import { QuotesPage } from './pages/quotes/quotes.page';
 import { MenuScreen } from './components/menu/menu.screen';
 import { PageHeaderComponent } from './components/page-header/page-header.component';

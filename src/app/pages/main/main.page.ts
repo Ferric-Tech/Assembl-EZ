@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import {
+  MenuOption,
+  MenuOptionType,
+} from 'src/app/interfaces/menu-screen.interface';
 
 @Component({
   selector: 'app-main-page',
   templateUrl: './main.page.html',
   styleUrls: ['./main.page.scss'],
 })
-export class MainPage implements OnInit {
-  menuOptions = [
-    { display: 'Price Inputs', link: 'price-inputs' },
-    { display: 'Quotes', link: 'quotes' },
+export class MainPage {
+  menuOptions: MenuOption[] = [
+    { display: 'Leads', optionType: MenuOptionType.URL, link: 'leads' },
+    { display: 'Quotes', optionType: MenuOptionType.URL, link: 'quotes' },
+    { display: 'Products', optionType: MenuOptionType.URL, link: 'products' },
   ];
-  constructor() {}
-
-  ngOnInit(): void {}
 }

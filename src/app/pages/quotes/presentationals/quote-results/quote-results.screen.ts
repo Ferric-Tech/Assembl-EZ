@@ -17,17 +17,8 @@ export class QuoteResultsScreen implements OnInit {
   expansionPanelConfig: ExpansionPanelConfig[] = [];
 
   ngOnInit(): void {
-    this.setSecondaryDependacies();
     this.setQuoteSpecs();
     this.setExpansionPanelsConfigs();
-  }
-
-  private setSecondaryDependacies() {
-    let projection = parseInt(this.quoteParams['projection']) / 1000;
-    let width = parseInt(this.quoteParams['width']) / 1000;
-
-    this.quoteParams['area'] = (projection * width).toString();
-    this.quoteParams['perimeter'] = ((projection + width) * 2).toString();
   }
 
   private setQuoteSpecs() {
