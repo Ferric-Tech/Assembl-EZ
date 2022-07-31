@@ -15,15 +15,11 @@
     (formSubmitted)="onQuoteParametersFormSubmitted($event)"
   ></app-quote-parameters-screen>
 
-  <div *ngSwitchCase="viewState.RESULTS">
-    <app-list-screen
-      *ngIf="quoteSpecs"
-      [listConfig]="quoteSpecs"
-    ></app-list-screen>
-    <app-expansion-table-screen
-      [expansionPanelConfig]="expansionPanelConfig"
-    ></app-expansion-table-screen>
-  </div>
+  <app-quote-results-screen
+    *ngSwitchCase="viewState.RESULTS"
+    [quoteParams]="quoteParams"
+    [quoteResponse]="quoteResponse"
+  ></app-quote-results-screen>
 </div>
 
 <app-menu-screen [menuOptions]="menuOptions"></app-menu-screen>

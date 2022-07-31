@@ -23,6 +23,7 @@ import { LeadsPage } from './pages/leads/leads.page';
 import { ProductSelectScreen } from './pages/quotes/presentationals/product-select/product-select.screen';
 import { ProductMeasurementsScreen } from './pages/quotes/presentationals/product-measurements/product-measurements.screen';
 import { QuoteParametersScreen } from './pages/quotes/presentationals/quote-parameters/quote-parameters.screen';
+import { QuoteResultsScreen } from './pages/quotes/presentationals/quote-results/quote-results.screen';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import { QuoteParametersScreen } from './pages/quotes/presentationals/quote-para
     ProductSelectScreen,
     ProductMeasurementsScreen,
     QuoteParametersScreen,
+    QuoteResultsScreen,
   ],
   imports: [
     BrowserModule,

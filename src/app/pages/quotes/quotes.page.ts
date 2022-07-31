@@ -13,8 +13,7 @@ import { QuoteResponse, QuotesService } from 'src/app/services/quotes.service';
 export class QuotesPage {
   viewState = ViewState;
   currentViewState: ViewState = ViewState.PRODUCT_SELECT;
-  expansionPanelConfig: ExpansionPanelConfig[] = [];
-  quoteSpecs: ListConfig | undefined;
+  quoteResponse: QuoteResponse | undefined;
   quoteParams = {} as any;
 
   menuOptions = [{ display: 'Back', link: '' }];
@@ -29,80 +28,12 @@ export class QuotesPage {
 
   onProductMeasurementFormSubmitted(formValue: { [key: string]: string }) {
     this.quoteParams = { ...this.quoteParams, ...formValue };
-    this.quoteParams['area'] = this.calcArea(formValue).toString();
-    this.quoteParams['perimeter'] = this.calcPerimeter(formValue).toString();
     this.currentViewState = ViewState.QUOTE_PARAMETERS;
   }
 
   onQuoteParametersFormSubmitted(formValue: { [key: string]: string }) {
     this.quoteParams = { ...this.quoteParams, ...formValue };
-    let quoteResponse: QuoteResponse = this.quotesService.generateQuote(
-      this.quoteParams
-    );
-    this.setQuoteSpecs(this.quoteParams);
-    this.setExpansionPanelsConfigs(quoteResponse);
+    this.quoteResponse = this.quotesService.generateQuote(this.quoteParams);
     this.currentViewState = ViewState.RESULTS;
-  }
-
-  private calcPerimeter(formValue: { [key: string]: string }) {
-    return (
-      ((parseInt(formValue['projection']) + parseInt(formValue['width'])) * 2) /
-      1000
-    );
-  }
-
-  private calcArea(formValue: { [key: string]: string }) {
-    return (
-      (parseInt(formValue['projection']) * parseInt(formValue['width'])) /
-      1000000
-    );
-  }
-
-  private setQuoteSpecs(measurements: { [key: string]: string }) {
-    this.quoteSpecs = {
-      isInExpansionTable: false,
-      title: 'Quote specs',
-      headers: [
-        { widthFactor: 4, content: '' },
-        { widthFactor: 2, content: '' },
-      ],
-      lines: [
-        ['Width (mm)', measurements['width']],
-        ['Projection (mm)', measurements['projection']],
-        ['Area (Sqm)', parseInt(measurements['area']).toFixed(2).toString()],
-        [
-          'Perimeter (m)',
-          parseInt(measurements['perimeter']).toFixed(2).toString(),
-        ],
-      ],
-    };
-  }
-
-  private setExpansionPanelsConfigs(quoteResponse: QuoteResponse) {
-    quoteResponse.quotedProducts.forEach((product) => {
-      let listOfComponents: string[][] = [];
-      product.components.forEach((component) => {
-        listOfComponents.push([
-          component.componentName,
-          component.componentQuantity.toFixed(2).toString(),
-          component.componentTotalPrice.toFixed(2).toString(),
-        ]);
-      });
-      this.expansionPanelConfig.push({
-        title: product.productName,
-        description: product.price.toFixed(2).toString(),
-        contentType: ExpansionPanelContentType.LIST,
-        listContent: {
-          isInExpansionTable: true,
-          title: 'Bill of materials',
-          headers: [
-            { widthFactor: 9, content: 'Component' },
-            { widthFactor: 3, content: 'Qty' },
-            { widthFactor: 4, content: 'Total' },
-          ],
-          lines: listOfComponents,
-        },
-      });
-    });
   }
 }
