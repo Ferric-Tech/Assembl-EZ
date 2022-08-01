@@ -1,4 +1,7 @@
 <app-expansion-table-screen
   [expansionPanelConfig]="expansionPanelConfig"
 ></app-expansion-table-screen>
-<app-menu-screen [menuOptions]="menuOptions"></app-menu-screen>
+<app-menu-screen
+  [menuOptions]="menuOptions"
+  (viewStateSelected)="onViewStateSelected($event)"
+></app-menu-screen>

@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
-import { FormFieldType } from 'src/app/enums/form.eum';
 import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
-import { FormFieldConfig } from 'src/app/interfaces/form-screen.interface';
+import { ProductsPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
 import {
   MenuOption,
+  MenuOptionStyle,
   MenuOptionType,
 } from 'src/app/interfaces/menu-screen.interface';
 import {
@@ -18,13 +18,29 @@ import {
   styleUrls: ['./components.screen.scss'],
 })
 export class ComponentsPage {
+  @Output() viewStateSelected = new EventEmitter<number>();
+
   expansionPanelConfig: ExpansionPanelConfig[] = [];
   menuOptions: MenuOption[] = [
-    { display: 'Back', optionType: MenuOptionType.URL, link: '' },
+    {
+      style: MenuOptionStyle.PRIMARY,
+      display: 'Back to product menu',
+      optionType: MenuOptionType.VIEWSTATE,
+      viewState: ViewState.MENU,
+    },
+    {
+      style: MenuOptionStyle.SECONDARY,
+      display: 'Back to main menu',
+      optionType: MenuOptionType.HOME,
+    },
   ];
 
   ngOnInit() {
     this.setExpansionPanelsConfigs();
+  }
+
+  onViewStateSelected(viewState: ViewState) {
+    this.viewStateSelected.emit(viewState);
   }
 
   private setExpansionPanelsConfigs() {

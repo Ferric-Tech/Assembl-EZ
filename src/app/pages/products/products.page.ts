@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ProductsPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
 import {
   MenuOption,
+  MenuOptionStyle,
   MenuOptionType,
 } from 'src/app/interfaces/menu-screen.interface';
 
@@ -15,9 +16,16 @@ export class ProductsPage {
   currentViewState: ViewState = ViewState.MENU;
   menuOptions: MenuOption[] = [
     {
+      style: MenuOptionStyle.PRIMARY,
+
       display: 'Components',
       optionType: MenuOptionType.VIEWSTATE,
       viewState: ViewState.COMPONENTS,
+    },
+    {
+      style: MenuOptionStyle.SECONDARY,
+      display: 'Back to main menu',
+      optionType: MenuOptionType.HOME,
     },
   ];
 

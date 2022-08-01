@@ -18,6 +18,10 @@ export class MenuScreen {
 
   onOptionClicked(option: MenuOption) {
     switch (option.optionType) {
+      case MenuOptionType.HOME: {
+        this.router.navigateByUrl('');
+        break;
+      }
       case MenuOptionType.URL: {
         if (!option.link) return;
         this.router.navigateByUrl(option.link);

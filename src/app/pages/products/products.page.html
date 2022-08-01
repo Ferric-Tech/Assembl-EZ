@@ -9,6 +9,8 @@
 
   <div *ngSwitchCase="viewState.COMPONENTS">
     <app-page-header [header]="'Components'"></app-page-header>
-    <app-components-screen></app-components-screen>
+    <app-components-screen
+      (viewStateSelected)="onViewStateSelected($event)"
+    ></app-components-screen>
   </div>
 </div>

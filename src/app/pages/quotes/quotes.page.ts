@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { QuotePageViewState as ViewState } from 'src/app/enums/viewstates.enum';
 import {
   MenuOption,
+  MenuOptionStyle,
   MenuOptionType,
 } from 'src/app/interfaces/menu-screen.interface';
 import { QuoteResponse, QuotesService } from 'src/app/services/quotes.service';
@@ -17,7 +18,12 @@ export class QuotesPage {
   quoteResponse: QuoteResponse | undefined;
   quoteParams = {} as any;
   menuOptions: MenuOption[] = [
-    { display: 'Back', optionType: MenuOptionType.URL, link: '' },
+    {
+      style: MenuOptionStyle.PRIMARY,
+      display: 'Back',
+      optionType: MenuOptionType.URL,
+      link: '',
+    },
   ];
 
   constructor(private quotesService: QuotesService) {}
