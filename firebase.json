@@ -1,11 +1,8 @@
 {
   "hosting": {
+    "site": "assembl-ez",
     "public": "dist/assembl-ez",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
+    "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
     "rewrites": [
       {
         "source": "**",
