@@ -19,10 +19,9 @@ export class QuotesPage {
   quoteParams = {} as any;
   menuOptions: MenuOption[] = [
     {
-      style: MenuOptionStyle.PRIMARY,
-      display: 'Back',
-      optionType: MenuOptionType.URL,
-      link: '',
+      style: MenuOptionStyle.SECONDARY,
+      display: 'Back to main menu',
+      optionType: MenuOptionType.HOME,
     },
   ];
 
