@@ -21,7 +21,7 @@ export class SignInPage implements OnInit {
       .isAuthenticated()
       .then((isAuthenticated) => {
         if (isAuthenticated) {
-          this.router.navigate(['home']);
+          this.router.navigate(['']);
           return;
         }
       });

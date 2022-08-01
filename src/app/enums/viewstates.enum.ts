@@ -10,3 +10,7 @@ export enum ProductsPageViewState {
   PRODUCTS = 2,
   COMPONENTS = 3,
 }
+
+export enum MainPageViewState {
+  SIGN_OUT = 1,
+}

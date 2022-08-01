@@ -42,7 +42,7 @@ export class AuthenticationService {
     this.angularFireAuth
       .signInWithEmailAndPassword(signInDetails.email, signInDetails.password)
       .then((res: any) => {
-        this.router.navigate(['home']);
+        this.router.navigate(['']);
       })
       .catch((err: any) => {
         console.log('Something went wrong:', err.message);
