@@ -12,11 +12,11 @@ import { FormFieldType } from 'src/app/enums/form.eum';
 import { FormConfig } from 'src/app/interfaces/form-screen.interface';
 
 @Component({
-  selector: 'app-form-screen',
-  templateUrl: './form.screen.html',
-  styleUrls: ['./form.screen.scss'],
+  selector: 'app-form-component',
+  templateUrl: './form.component.html',
+  styleUrls: ['./form.component.scss'],
 })
-export class FormScreen implements OnInit {
+export class FormComponent implements OnInit {
   @Input() formConfig: FormConfig = {
     formTitle: '',
     isInExpansionTable: false,

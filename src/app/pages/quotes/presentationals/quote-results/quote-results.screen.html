@@ -1,4 +1,7 @@
-<app-list-screen *ngIf="quoteSpecs" [listConfig]="quoteSpecs"></app-list-screen>
-<app-expansion-table-screen
+<app-list-component
+  *ngIf="quoteSpecs"
+  [listConfig]="quoteSpecs"
+></app-list-component>
+<app-expansion-table-component
   [expansionPanelConfig]="expansionPanelConfig"
-></app-expansion-table-screen>
+></app-expansion-table-component>

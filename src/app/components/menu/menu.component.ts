@@ -6,11 +6,11 @@ import {
 } from 'src/app/interfaces/menu-screen.interface';
 
 @Component({
-  selector: 'app-menu-screen',
-  templateUrl: './menu.screen.html',
-  styleUrls: ['./menu.screen.scss'],
+  selector: 'app-menu-component',
+  templateUrl: './menu.component.html',
+  styleUrls: ['./menu.component.scss'],
 })
-export class MenuScreen {
+export class MenuComponent {
   @Input() menuOptions: MenuOption[] = [];
   @Output() viewStateSelected = new EventEmitter<number>();
 

@@ -2,11 +2,11 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ListConfig } from 'src/app/interfaces/list-screen.interface';
 
 @Component({
-  selector: 'app-list-screen',
-  templateUrl: './list.screen.html',
-  styleUrls: ['./list.screen.scss'],
+  selector: 'app-list-component',
+  templateUrl: './list.component.html',
+  styleUrls: ['./list.component.scss'],
 })
-export class ListScreen implements OnInit {
+export class ListComponent implements OnInit {
   @Input() listConfig: ListConfig = {
     isInExpansionTable: false,
     title: '',

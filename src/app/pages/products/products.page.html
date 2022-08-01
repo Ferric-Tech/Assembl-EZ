@@ -1,14 +1,18 @@
 <div [ngSwitch]="currentViewState">
   <div *ngSwitchCase="viewState.MENU">
-    <app-page-header [header]="'Products menu'"></app-page-header>
-    <app-menu-screen
+    <app-page-header-component
+      [header]="'Products menu'"
+    ></app-page-header-component>
+    <app-menu-component
       [menuOptions]="menuOptions"
       (viewStateSelected)="onViewStateSelected($event)"
-    ></app-menu-screen>
+    ></app-menu-component>
   </div>
 
   <div *ngSwitchCase="viewState.COMPONENTS">
-    <app-page-header [header]="'Components'"></app-page-header>
+    <app-page-header-component
+      [header]="'Components'"
+    ></app-page-header-component>
     <app-components-screen
       (viewStateSelected)="onViewStateSelected($event)"
     ></app-components-screen>

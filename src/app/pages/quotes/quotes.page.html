@@ -1,4 +1,4 @@
-<app-page-header [header]="'Quotes'"></app-page-header>
+<app-page-header-component [header]="'Quotes'"></app-page-header-component>
 <div [ngSwitch]="currentViewState">
   <app-product-select-screen
     *ngSwitchCase="viewState.PRODUCT_SELECT"
@@ -22,4 +22,4 @@
   ></app-quote-results-screen>
 </div>
 
-<app-menu-screen [menuOptions]="menuOptions"></app-menu-screen>
+<app-menu-component [menuOptions]="menuOptions"></app-menu-component>

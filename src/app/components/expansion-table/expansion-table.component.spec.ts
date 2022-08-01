@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ExpansionTableScreen } from './expansion-table.screen';
+import { ExpansionTableComponent } from './expansion-table.component';
 
 describe('ExpansionTableComponent', () => {
-  let component: ExpansionTableScreen;
-  let fixture: ComponentFixture<ExpansionTableScreen>;
+  let component: ExpansionTableComponent;
+  let fixture: ComponentFixture<ExpansionTableComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ExpansionTableScreen],
+      declarations: [ExpansionTableComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ExpansionTableScreen);
+    fixture = TestBed.createComponent(ExpansionTableComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
