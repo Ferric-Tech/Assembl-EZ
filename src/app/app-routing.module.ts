@@ -5,12 +5,19 @@ import { MainPage } from './pages/main/main.page';
 import { ComponentsPage } from './pages/products/presentationals/components/components.screen';
 import { ProductsPage } from './pages/products/products.page';
 import { QuotesPage } from './pages/quotes/quotes.page';
+import { SignInPage } from './pages/sign-in/sign-in.page';
+import { AuthGuardService } from './services/auth-guard.service';
 
 const routes: Routes = [
-  { path: '', component: MainPage },
-  { path: 'leads', component: LeadsPage },
-  { path: 'quotes', component: QuotesPage },
-  { path: 'products', component: ProductsPage },
+  { path: 'sign-in', component: SignInPage },
+  { path: '', canActivate: [AuthGuardService], component: MainPage },
+  { path: 'leads', canActivate: [AuthGuardService], component: LeadsPage },
+  { path: 'quotes', canActivate: [AuthGuardService], component: QuotesPage },
+  {
+    path: 'products',
+    canActivate: [AuthGuardService],
+    component: ProductsPage,
+  },
 ];
 
 @NgModule({
