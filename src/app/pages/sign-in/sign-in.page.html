@@ -1,4 +1,24 @@
-<app-sign-in-modal
-  (signin)="signin($event)"
-  (register)="register($event)"
-></app-sign-in-modal>
+<div [ngSwitch]="currentViewState">
+  <div>
+    <app-page-header-component [header]="'Sign in'"></app-page-header-component>
+    <app-sign-in-screen
+      *ngSwitchCase="viewState.SIGN_IN"
+      (formSubmitted)="onSignIn($event)"
+    ></app-sign-in-screen>
+  </div>
+
+  <div>
+    <app-page-header-component
+      [header]="'Register'"
+    ></app-page-header-component>
+    <app-register-screen
+      *ngSwitchCase="viewState.REGISTER"
+      (formSubmitted)="onSignIn($event)"
+    ></app-register-screen>
+  </div>
+</div>
+
+<app-menu-component
+  [menuOptions]="menuOptions"
+  (viewStateSelected)="onViewStateSelected($event)"
+></app-menu-component>

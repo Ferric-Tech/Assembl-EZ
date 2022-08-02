@@ -14,3 +14,8 @@ export enum ProductsPageViewState {
 export enum MainPageViewState {
   SIGN_OUT = 1,
 }
+
+export enum SignInPageViewState {
+  SIGN_IN = 1,
+  REGISTER = 2,
+}

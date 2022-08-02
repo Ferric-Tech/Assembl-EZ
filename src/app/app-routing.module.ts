@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { AgentsPage } from './pages/agents/agents.page';
 import { LeadsPage } from './pages/leads/leads.page';
 import { MainPage } from './pages/main/main.page';
 import { ComponentsPage } from './pages/products/presentationals/components/components.screen';
@@ -17,6 +18,11 @@ const routes: Routes = [
     path: 'products',
     canActivate: [AuthGuardService],
     component: ProductsPage,
+  },
+  {
+    path: 'agents',
+    canActivate: [AuthGuardService],
+    component: AgentsPage,
   },
 ];
 

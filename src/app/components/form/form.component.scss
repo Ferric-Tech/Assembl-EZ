@@ -25,12 +25,12 @@
   align-items: flex-end;
 }
 
-.field-select {
+.field-select,
+.large-field-input {
   margin: 5px 0;
   justify-content: end;
   align-items: flex-end;
   width: 150px;
-  background-color: white;
 }
 
 .field-radio-group {
@@ -51,8 +51,16 @@
   justify-content: center;
 }
 
-input {
+.field-input input {
   width: 80px;
+  height: 20px;
+  text-align: end;
+  align-items: center;
+  font-size: smaller;
+}
+
+.large-field-input input {
+  width: 100%;
   height: 20px;
   text-align: end;
   align-items: center;

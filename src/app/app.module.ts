@@ -31,6 +31,9 @@ import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { SignInPage } from './pages/sign-in/sign-in.page';
 import { SignInModal } from './modals/sign-in/sign-in.modal';
 import { HttpClientModule } from '@angular/common/http';
+import { AgentsPage } from './pages/agents/agents.page';
+import { SignInScreen } from './pages/sign-in/presentationals/sign-in/sign-in.screen';
+import { RegisterScreen } from './pages/sign-in/presentationals/register/register.screen';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -41,6 +44,7 @@ const firebaseConfig = {
   appId: '1:784618520751:web:db23f981d1a70b867f145a',
   measurementId: 'G-51G0C91VTB',
 };
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -60,6 +64,9 @@ const firebaseConfig = {
     QuoteResultsScreen,
     SignInPage,
     SignInModal,
+    AgentsPage,
+    SignInScreen,
+    RegisterScreen,
   ],
   imports: [
     BrowserModule,

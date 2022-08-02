@@ -34,6 +34,12 @@ export class MainPage {
       link: 'products',
     },
     {
+      style: MenuOptionStyle.PRIMARY,
+      display: 'Agents',
+      optionType: MenuOptionType.URL,
+      link: 'agents',
+    },
+    {
       style: MenuOptionStyle.SECONDARY,
       display: 'Sign out',
       optionType: MenuOptionType.VIEWSTATE,
