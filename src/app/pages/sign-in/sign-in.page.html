@@ -1,18 +1,14 @@
 <div [ngSwitch]="currentViewState">
-  <div>
+  <div *ngSwitchCase="viewState.SIGN_IN">
     <app-page-header-component [header]="'Sign in'"></app-page-header-component>
-    <app-sign-in-screen
-      *ngSwitchCase="viewState.SIGN_IN"
-      (formSubmitted)="onSignIn($event)"
-    ></app-sign-in-screen>
+    <app-sign-in-screen (formSubmitted)="onSignIn($event)"></app-sign-in-screen>
   </div>
 
-  <div>
+  <div *ngSwitchCase="viewState.REGISTER">
     <app-page-header-component
       [header]="'Register'"
     ></app-page-header-component>
     <app-register-screen
-      *ngSwitchCase="viewState.REGISTER"
       (formSubmitted)="onSignIn($event)"
     ></app-register-screen>
   </div>
