@@ -43,11 +43,16 @@ export class SignInPage implements OnInit {
       email: formValue['email'],
       password: formValue['password'],
     };
-    this.authenticationService.UserSignIn(signInDetails);
+    this.authenticationService.userSignIn(signInDetails);
   }
 
-  register(signInDetails: SignInDetails) {
-    this.authenticationService.UserRegistration(signInDetails);
+  onRegister(formValue: { [key: string]: string }) {
+    const signInDetails: SignInDetails = {
+      email: formValue['email'],
+      password: formValue['password'],
+    };
+    this.authenticationService.userRegistration(signInDetails);
+    this.authenticationService.updateUserProfile(formValue);
   }
 
   onViewStateSelected(viewState: ViewState) {

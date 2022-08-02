@@ -55,7 +55,7 @@ export class MainPage {
   onViewStateSelected(viewState: number) {
     switch (viewState) {
       case ViewState.SIGN_OUT: {
-        this.authenticationService.SignOut();
+        this.authenticationService.signOut();
         this.router.navigate(['sign-in']);
       }
     }

@@ -3,6 +3,7 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 
 export interface SignInDetails {
   email: string;
@@ -17,13 +18,21 @@ export class AuthenticationService {
 
   constructor(
     private angularFireAuth: AngularFireAuth,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) {
     this.userData = angularFireAuth.authState as unknown as Observable<User>;
   }
 
+  get userID(): string {
+    this.angularFireAuth.currentUser.then((user) => {
+      return user?.uid;
+    });
+    return '';
+  }
+
   /* Sign up */
-  UserRegistration(signInDetails: SignInDetails) {
+  userRegistration(signInDetails: SignInDetails) {
     this.angularFireAuth
       .createUserWithEmailAndPassword(
         signInDetails.email,
@@ -38,7 +47,7 @@ export class AuthenticationService {
   }
 
   /* Sign in */
-  UserSignIn(signInDetails: SignInDetails) {
+  userSignIn(signInDetails: SignInDetails) {
     this.angularFireAuth
       .signInWithEmailAndPassword(signInDetails.email, signInDetails.password)
       .then((res: any) => {
@@ -50,7 +59,7 @@ export class AuthenticationService {
   }
 
   /* Sign out */
-  SignOut() {
+  signOut() {
     this.angularFireAuth.signOut();
   }
 
@@ -59,6 +68,27 @@ export class AuthenticationService {
       await this.angularFireAuth.onAuthStateChanged((user) => {
         user ? resolve(true) : resolve(false);
       });
+    });
+  }
+
+  updateUserProfile(formValue: { [key: string]: string }) {
+    // Test with DKNQuGGHVGMG5FX1eeqrMp5jZ9P2
+    const url =
+      'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
+    const body = formValue;
+    const options = {
+      headers: this.getHeaders(),
+      params: new HttpParams().set('userID', this.userID),
+    };
+
+    this.http.post(url, body, options).subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  private getHeaders() {
+    return new HttpHeaders({
+      'Content-Type': 'application/json',
     });
   }
 }
