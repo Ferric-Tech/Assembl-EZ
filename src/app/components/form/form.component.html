@@ -1,29 +1,36 @@
 <form
-  [ngStyle]="{'padding': formConfig.isInExpansionTable ? '0' : '0 10%' }"
+  [ngStyle]="{ padding: formConfig.isInExpansionTable ? '0' : '0 10%' }"
   [formGroup]="form"
   (change)="onFormChange()"
   (ngSubmit)="onSubmit()"
 >
-  <div class="form-title">{{formConfig.formTitle}}</div>
+  <div class="form-title">{{ formConfig.formTitle }}</div>
   <div *ngFor="let field of formConfig.fields">
     <div class="fields-container" [ngSwitch]="field.fieldType">
-      <p class="field-title">{{field.fieldDisplay}}</p>
+      <p class="field-title">{{ field.fieldDisplay }}</p>
       <div
         class="center-spacer-gap"
-        *ngIf="field.fieldType !=  fieldType.RADIO"
+        *ngIf="field.fieldType != fieldType.RADIO"
       ></div>
+      <div class="field-input" *ngSwitchCase="fieldType.INPUT_GENERAL">
+        <input
+          type="text"
+          formControlName="{{ field.fieldName }}"
+          [ngModel]="form.controls[field.fieldName].value"
+        />
+      </div>
       <div class="field-input" *ngSwitchCase="fieldType.INPUT_DECIMAL_NUMBER">
         <input
           type="text"
-          formControlName="{{field.fieldName}}"
-          [ngModel]="form.controls[field.fieldName].value "
+          formControlName="{{ field.fieldName }}"
+          [ngModel]="form.controls[field.fieldName].value"
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
         />
       </div>
       <div class="field-input" *ngSwitchCase="fieldType.INPUT_WHOLE_NUMBER">
         <input
           type="text"
-          formControlName="{{field.fieldName}}"
+          formControlName="{{ field.fieldName }}"
           [ngModel]="form.controls[field.fieldName].value"
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
         />
@@ -31,41 +38,41 @@
       <div class="field-select" *ngSwitchCase="fieldType.SELECT">
         <mat-select
           class="field-select"
-          formControlName="{{field.fieldName}}"
+          formControlName="{{ field.fieldName }}"
           (selectionChange)="onFormChange()"
         >
           <mat-option
             *ngFor="let option of field.options"
-            value="{{option.value}}"
+            value="{{ option.value }}"
           >
-            {{option.display}}
+            {{ option.display }}
           </mat-option>
         </mat-select>
       </div>
       <div class="field-select" *ngSwitchCase="fieldType.MULTI_SELECT">
         <mat-select
           class="field-select"
-          formControlName="{{field.fieldName}}"
+          formControlName="{{ field.fieldName }}"
           (selectionChange)="onFormChange()"
           multiple
         >
           <mat-option
             *ngFor="let option of field.options"
-            value="{{option.value}}"
-            >{{option.display}}</mat-option
+            value="{{ option.value }}"
+            >{{ option.display }}</mat-option
           >
         </mat-select>
       </div>
       <div class="field-radio" *ngSwitchCase="fieldType.RADIO">
         <mat-radio-group
           class="field-radio-group"
-          formControlName="{{field.fieldName}}"
+          formControlName="{{ field.fieldName }}"
           (change)="onFormChange()"
         >
           <mat-radio-button
             *ngFor="let option of field.options"
-            value="{{option.value}}"
-            >{{option.display}}</mat-radio-button
+            value="{{ option.value }}"
+            >{{ option.display }}</mat-radio-button
           >
         </mat-radio-group>
         <div class="right-spacer-gap"></div>
@@ -73,14 +80,14 @@
       <div class="field-checkbox" *ngSwitchCase="fieldType.CHECKBOX">
         <mat-checkbox
           class="example-margin"
-          formControlName="{{field.fieldName}}"
+          formControlName="{{ field.fieldName }}"
         ></mat-checkbox>
       </div>
     </div>
   </div>
   <div *ngIf="validForm" class="form-button-container">
     <button class="primary-menu-button" type="submit">
-      {{formConfig.proceedText}}
+      {{ formConfig.proceedText }}
     </button>
   </div>
 </form>

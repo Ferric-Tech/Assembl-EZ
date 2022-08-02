@@ -30,6 +30,7 @@ import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { SignInPage } from './pages/sign-in/sign-in.page';
 import { SignInModal } from './modals/sign-in/sign-in.modal';
+import { HttpClientModule } from '@angular/common/http';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -74,6 +75,7 @@ const firebaseConfig = {
     AngularFirestoreModule, // firestore
     AngularFireAuthModule, // auth
     AngularFireStorageModule, // storage
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
