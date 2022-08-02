@@ -19,7 +19,13 @@ export class LeadsPage {
   viewState = ViewState;
   currentViewState = ViewState.MENU;
 
+  leads: any;
+
   constructor(private leadService: LeadsService) {}
+
+  async ngOnInit() {
+    this.getLeads();
+  }
 
   onLeadAdded(formValue: { [key: string]: string }) {
     this.leadService.addLead(formValue);
@@ -27,5 +33,9 @@ export class LeadsPage {
 
   onViewStateSelected(viewState: number) {
     this.currentViewState = viewState;
+  }
+
+  private async getLeads() {
+    this.leads = await this.leadService.getLeads();
   }
 }

@@ -37,7 +37,7 @@ import { RegisterScreen } from './pages/sign-in/presentationals/register/registe
 import { AddLeadScreen } from './pages/leads/presentationals/add-lead/add-lead.screen';
 import { LeadMenuScreen } from './pages/leads/presentationals/lead-menu/lead-menu.screen';
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
   authDomain: 'assembl-ez.firebaseapp.com',
   projectId: 'assembl-ez',

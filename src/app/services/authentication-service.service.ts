@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { resolve } from 'dns';
-import { rejects } from 'assert';
 
 export interface SignInDetails {
   email: string;
@@ -20,7 +17,6 @@ export class AuthenticationService {
 
   constructor(
     private angularFireAuth: AngularFireAuth,
-    private router: Router,
     private http: HttpClient
   ) {
     this.userData = angularFireAuth.authState as unknown as Observable<User>;
