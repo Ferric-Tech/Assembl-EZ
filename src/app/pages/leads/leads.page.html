@@ -1,4 +1,12 @@
-<app-form-component
-  [formConfig]="productMeasurementFormConfig"
-  (formSubmitted)="onLeadTestSubmitted($event)"
-></app-form-component>
+<div [ngSwitch]="currentViewState">
+  <app-lead-menu-screen
+    *ngSwitchCase="viewState.MENU"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-lead-menu-screen>
+
+  <app-add-lead-screen
+    *ngSwitchCase="viewState.ADD"
+    (leadAdded)="onLeadAdded($event)"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-add-lead-screen>
+</div>

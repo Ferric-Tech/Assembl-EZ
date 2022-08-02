@@ -2,6 +2,13 @@ import { Component } from '@angular/core';
 import { FormFieldType } from 'src/app/enums/form.eum';
 import { FormConfig } from 'src/app/interfaces/form-screen.interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import {
+  MenuOption,
+  MenuOptionStyle,
+  MenuOptionType,
+} from 'src/app/interfaces/menu-screen.interface';
+import { LeadsPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
+import { LeadsService } from 'src/app/services/leads.service';
 
 @Component({
   selector: 'app-leads-page',
@@ -9,47 +16,16 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
   styleUrls: ['./leads.page.scss'],
 })
 export class LeadsPage {
-  productMeasurementFormConfig: FormConfig = {
-    formTitle: 'Test leads',
-    isInExpansionTable: false,
-    isDynamic: false,
-    canProceed: false,
-    fields: [
-      {
-        fieldDisplay: 'Name',
-        fieldName: 'name',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
-      },
-      {
-        fieldDisplay: 'Email',
-        fieldName: 'email',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
-      },
-    ],
-    proceedText: 'Proceed',
-  };
+  viewState = ViewState;
+  currentViewState = ViewState.MENU;
 
-  constructor(private http: HttpClient) {}
+  constructor(private leadService: LeadsService) {}
 
-  onLeadTestSubmitted(formValue: { [key: string]: string }) {
-    // Test with DKNQuGGHVGMG5FX1eeqrMp5jZ9P2
-    const url = 'https://us-central1-assembl-ez.cloudfunctions.net/addLead';
-    const body = formValue;
-    const options = {
-      headers: this.getHeaders(),
-      params: new HttpParams().set('userID', 'DKNQuGGHVGMG5FX1eeqrMp5jZ9P2'),
-    };
-
-    this.http.post(url, body, options).subscribe((res) => {
-      console.log(res);
-    });
+  onLeadAdded(formValue: { [key: string]: string }) {
+    this.leadService.addLead(formValue);
   }
 
-  private getHeaders() {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
+  onViewStateSelected(viewState: number) {
+    this.currentViewState = viewState;
   }
 }

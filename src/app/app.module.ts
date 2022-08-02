@@ -34,6 +34,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AgentsPage } from './pages/agents/agents.page';
 import { SignInScreen } from './pages/sign-in/presentationals/sign-in/sign-in.screen';
 import { RegisterScreen } from './pages/sign-in/presentationals/register/register.screen';
+import { AddLeadScreen } from './pages/leads/presentationals/add-lead/add-lead.screen';
+import { LeadMenuScreen } from './pages/leads/presentationals/lead-menu/lead-menu.screen';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -67,6 +69,8 @@ const firebaseConfig = {
     AgentsPage,
     SignInScreen,
     RegisterScreen,
+    AddLeadScreen,
+    LeadMenuScreen,
   ],
   imports: [
     BrowserModule,

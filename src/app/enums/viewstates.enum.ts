@@ -19,3 +19,9 @@ export enum SignInPageViewState {
   SIGN_IN = 1,
   REGISTER = 2,
 }
+
+export enum LeadsPageViewState {
+  MENU = 1,
+  ADD = 2,
+  VIEW = 3,
+}

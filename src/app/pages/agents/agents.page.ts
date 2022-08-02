@@ -10,7 +10,7 @@ import {
   templateUrl: './agents.page.html',
   styleUrls: ['./agents.page.scss'],
 })
-export class AgentsPage implements OnInit {
+export class AgentsPage {
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.SECONDARY,
@@ -19,8 +19,4 @@ export class AgentsPage implements OnInit {
       link: '',
     },
   ];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }
