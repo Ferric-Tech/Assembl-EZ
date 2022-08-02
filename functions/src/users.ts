@@ -1,16 +1,22 @@
+import * as functions from 'firebase-functions';
+import * as cors from 'cors';
+import * as admin from 'firebase-admin';
+
+const corsHandler = cors({ origin: true });
+
 exports.updateUserProfile = functions.https.onRequest(
   async (req: any, res: any) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    cors(req, res, async () => {
+    corsHandler(req, res, async () => {
       const userID = req.query.userID;
       try {
         const db = admin.firestore();
         var docRef = db.collection('client-profiles').doc(userID);
         docRef.set(req.body, { merge: true });
+        res.send(docRef);
       } catch (err) {
         res.send(JSON.stringify('This is a mess' + err));
       }
-      res.send(docRef);
     });
   }
 );

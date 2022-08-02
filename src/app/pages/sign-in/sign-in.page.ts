@@ -10,6 +10,7 @@ import {
   MenuOptionStyle,
   MenuOptionType,
 } from 'src/app/interfaces/menu-screen.interface';
+import { ErrorHandlingService } from 'src/app/services/error-handling.service';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -23,7 +24,8 @@ export class SignInPage implements OnInit {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private errorHandlingService: ErrorHandlingService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -38,21 +40,29 @@ export class SignInPage implements OnInit {
     this.setMenuOptions();
   }
 
-  onSignIn(formValue: { [key: string]: string }) {
+  async onSignIn(formValue: { [key: string]: string }) {
     const signInDetails: SignInDetails = {
       email: formValue['email'],
       password: formValue['password'],
     };
-    this.authenticationService.userSignIn(signInDetails);
+    await this.authenticationService.userSignIn(signInDetails).then(
+      (success) => this.router.navigate(['']),
+      (error) => this.errorHandlingService.handleError(error)
+    );
   }
 
-  onRegister(formValue: { [key: string]: string }) {
+  async onRegister(formValue: { [key: string]: string }) {
     const signInDetails: SignInDetails = {
       email: formValue['email'],
       password: formValue['password'],
     };
-    this.authenticationService.userRegistration(signInDetails);
-    this.authenticationService.updateUserProfile(formValue);
+    await this.authenticationService.userRegistration(signInDetails).then(
+      (success) => {
+        this.authenticationService.updateUserProfile(formValue);
+        this.router.navigate(['']);
+      },
+      (error) => this.errorHandlingService.handleError(error)
+    );
   }
 
   onViewStateSelected(viewState: ViewState) {

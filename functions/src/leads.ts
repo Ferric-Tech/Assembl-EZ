@@ -1,3 +1,9 @@
+import * as functions from 'firebase-functions';
+import * as cors from 'cors';
+import * as admin from 'firebase-admin';
+
+const corsHandler = cors({ origin: true });
+
 /*
 addLead (POST only)
 url: https://us-central1-assembl-ez.cloudfunctions.net/addLead
@@ -5,7 +11,7 @@ params: userID
 */
 exports.addLead = functions.https.onRequest(async (req: any, res: any) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
-  cors(req, res, async () => {
+  corsHandler(req, res, async () => {
     const userID = req.query.userID;
     const docRefID = generateDateBaseDocRefID();
     try {
@@ -16,10 +22,10 @@ exports.addLead = functions.https.onRequest(async (req: any, res: any) => {
         .collection('leads')
         .doc(docRefID);
       docRef.set(req.body, { merge: true });
+      res.send(docRef);
     } catch (err) {
       res.send(JSON.stringify('This is a mess' + err));
     }
-    res.send(docRef);
   });
 });
 

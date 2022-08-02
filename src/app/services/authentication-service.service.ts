@@ -4,6 +4,8 @@ import { User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
+import { resolve } from 'dns';
+import { rejects } from 'assert';
 
 export interface SignInDetails {
   email: string;
@@ -24,38 +26,47 @@ export class AuthenticationService {
     this.userData = angularFireAuth.authState as unknown as Observable<User>;
   }
 
-  get userID(): string {
-    this.angularFireAuth.currentUser.then((user) => {
-      return user?.uid;
+  get userID(): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      this.angularFireAuth.currentUser
+        .then((user) => {
+          resolve(user?.uid as string);
+        })
+        .catch(() => {
+          reject('');
+        });
     });
-    return '';
   }
 
   /* Sign up */
-  userRegistration(signInDetails: SignInDetails) {
-    this.angularFireAuth
-      .createUserWithEmailAndPassword(
-        signInDetails.email,
-        signInDetails.password
-      )
-      .then((res: any) => {
-        console.log('You are Successfully signed up!', res);
-      })
-      .catch((error: any) => {
-        console.log('Something is wrong:', error.message);
-      });
+  userRegistration(signInDetails: SignInDetails): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      this.angularFireAuth
+        .createUserWithEmailAndPassword(
+          signInDetails.email,
+          signInDetails.password
+        )
+        .then((res: any) => {
+          resolve({ response: 'auth/successful' });
+        })
+        .catch((err: any) => {
+          reject(err.message);
+        });
+    });
   }
 
   /* Sign in */
-  userSignIn(signInDetails: SignInDetails) {
-    this.angularFireAuth
-      .signInWithEmailAndPassword(signInDetails.email, signInDetails.password)
-      .then((res: any) => {
-        this.router.navigate(['']);
-      })
-      .catch((err: any) => {
-        console.log('Something went wrong:', err.message);
-      });
+  userSignIn(signInDetails: SignInDetails): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      this.angularFireAuth
+        .signInWithEmailAndPassword(signInDetails.email, signInDetails.password)
+        .then((res: any) => {
+          resolve({ response: 'auth/successful' });
+        })
+        .catch((err: any) => {
+          reject(err.message);
+        });
+    });
   }
 
   /* Sign out */
@@ -71,14 +82,13 @@ export class AuthenticationService {
     });
   }
 
-  updateUserProfile(formValue: { [key: string]: string }) {
-    // Test with DKNQuGGHVGMG5FX1eeqrMp5jZ9P2
+  async updateUserProfile(formValue: { [key: string]: string }) {
     const url =
       'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
     const body = formValue;
     const options = {
       headers: this.getHeaders(),
-      params: new HttpParams().set('userID', this.userID),
+      params: new HttpParams().set('userID', await this.userID),
     };
 
     this.http.post(url, body, options).subscribe((res) => {
