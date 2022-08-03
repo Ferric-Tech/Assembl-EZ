@@ -99,6 +99,7 @@ export class SignInPage implements OnInit {
         };
         this.isNotifying = true;
         this.currentViewState = ViewState.SIGN_IN;
+        this.setMenuOptions();
       },
       (error) => {
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
