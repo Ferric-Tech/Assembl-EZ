@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
-import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
-import { ListConfig } from 'src/app/interfaces/list-screen.interface';
-import { QuoteResponse } from 'src/app/services/quotes.service';
+import { ExpansionPanelContentType } from 'app/enums/expansion-table.enum';
+import { ExpansionPanelConfig } from 'app/interfaces/expansion-table.interface';
+import { ListConfig } from 'app/interfaces/list-screen.interface';
+import { QuoteResponse } from 'app/services/quotes.service';
 
 @Component({
   selector: 'app-quote-results-screen',

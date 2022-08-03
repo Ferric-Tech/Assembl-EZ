@@ -33,16 +33,23 @@ exports.getLeads = functions.https.onRequest(async (req: any, res: any) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
   corsHandler(req, res, async () => {
     const userID = req.query.userID;
-    const docRefID = generateDateBaseDocRefID();
     try {
       const db = admin.firestore();
-      var docRef = db
+      const docRef = db
         .collection('client-data')
         .doc(userID)
-        .collection('leads')
-        .doc(docRefID);
-      const doc = docRef.get();
-      res.send(doc);
+        .collection('leads');
+      let leads: any[] = [];
+      docRef.get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          var lead = {
+            id: doc.id,
+            data: doc.data(),
+          };
+          leads = leads.concat(lead);
+        });
+        res.send(leads);
+      });
     } catch (err) {
       res.send(JSON.stringify('This is a mess' + err));
     }

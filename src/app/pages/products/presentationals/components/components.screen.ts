@@ -1,16 +1,16 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { ExpansionPanelContentType } from 'src/app/enums/expansion-table.enum';
-import { ExpansionPanelConfig } from 'src/app/interfaces/expansion-table.interface';
-import { ProductsPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
+import { ExpansionPanelContentType } from 'app/enums/expansion-table.enum';
+import { ExpansionPanelConfig } from 'app/interfaces/expansion-table.interface';
+import { ProductsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
+} from 'app/interfaces/menu-screen.interface';
 import {
   ComponentGroup,
   TestComponentList,
-} from 'src/app/test-data/components.data';
+} from 'app/test-data/components.data';
 
 @Component({
   selector: 'app-components-screen',

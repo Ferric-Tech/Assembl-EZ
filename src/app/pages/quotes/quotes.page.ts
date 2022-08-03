@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { QuotePageViewState as ViewState } from 'src/app/enums/viewstates.enum';
+import { QuotePageViewState as ViewState } from 'app/enums/viewstates.enum';
 import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
-import { QuoteResponse, QuotesService } from 'src/app/services/quotes.service';
+} from 'app/interfaces/menu-screen.interface';
+import { QuoteResponse, QuotesService } from 'app/services/quotes.service';
 
 @Component({
   selector: 'app-quotes-page',

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormFieldType } from 'src/app/enums/form.eum';
-import { FormConfig } from 'src/app/interfaces/form-screen.interface';
+import { FormFieldType } from 'app/enums/form.eum';
+import { FormConfig } from 'app/interfaces/form-screen.interface';
 
 @Component({
   selector: 'app-register-screen',

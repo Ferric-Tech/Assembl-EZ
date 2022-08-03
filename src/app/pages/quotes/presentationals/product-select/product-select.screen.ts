@@ -1,14 +1,14 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { FormFieldType } from 'src/app/enums/form.eum';
+import { FormFieldType } from 'app/enums/form.eum';
 import {
   FormConfig,
   FormFieldOption,
-} from 'src/app/interfaces/form-screen.interface';
+} from 'app/interfaces/form-screen.interface';
 import {
   Product,
   ProductGroup,
   TestProductList,
-} from 'src/app/test-data/products.data';
+} from 'app/test-data/products.data';
 
 @Component({
   selector: 'app-product-select-screen',

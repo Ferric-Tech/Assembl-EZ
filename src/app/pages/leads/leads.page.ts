@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
-import { FormFieldType } from 'src/app/enums/form.eum';
-import { FormConfig } from 'src/app/interfaces/form-screen.interface';
+import { FormFieldType } from 'app/enums/form.eum';
+import { FormConfig } from 'app/interfaces/form-screen.interface';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
-import { LeadsPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
-import { LeadsService } from 'src/app/services/leads.service';
+} from 'app/interfaces/menu-screen.interface';
+import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
+import { LeadsService } from 'app/services/leads.service';
 
 @Component({
   selector: 'app-leads-page',
@@ -35,7 +35,7 @@ export class LeadsPage {
     this.currentViewState = viewState;
   }
 
-  private async getLeads() {
+  private async getLeads(): Promise<void> {
     this.leads = await this.leadService.getLeads();
   }
 }

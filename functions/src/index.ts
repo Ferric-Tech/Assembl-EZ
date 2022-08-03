@@ -10,4 +10,5 @@ const leadsModule = require('./leads');
 const usersModule = require('./users');
 
 exports.addLead = leadsModule.addLead;
+exports.getLeads = leadsModule.getLeads;
 exports.updateUserProfile = usersModule.updateUserProfile;

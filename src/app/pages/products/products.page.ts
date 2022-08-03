@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { ProductsPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
+import { ProductsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
+} from 'app/interfaces/menu-screen.interface';
 
 @Component({
   selector: 'app-products-page',

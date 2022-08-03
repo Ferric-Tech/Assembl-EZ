@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
-import { MainPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
-import { AuthenticationService } from 'src/app/services/authentication-service.service';
-import { Router } from '@angular/router';
+} from 'app/interfaces/menu-screen.interface';
+import { AuthenticationService } from 'app/services/authentication-service.service';
+import { MainPageViewState as ViewState } from 'app/enums/viewstates.enum';
 
 @Component({
   selector: 'app-main-page',

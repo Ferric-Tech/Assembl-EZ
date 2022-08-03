@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import {
   MenuOption,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
+} from 'app/interfaces/menu-screen.interface';
 
 @Component({
   selector: 'app-menu-component',

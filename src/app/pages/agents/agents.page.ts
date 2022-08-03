@@ -3,7 +3,7 @@ import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
+} from 'app/interfaces/menu-screen.interface';
 
 @Component({
   selector: 'app-agents-page',

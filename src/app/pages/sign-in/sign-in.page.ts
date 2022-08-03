@@ -3,14 +3,14 @@ import { Router } from '@angular/router';
 import {
   AuthenticationService,
   SignInDetails,
-} from 'src/app/services/authentication-service.service';
-import { SignInPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
+} from 'app/services/authentication-service.service';
+import { SignInPageViewState as ViewState } from 'app/enums/viewstates.enum';
 import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
-import { ErrorHandlingService } from 'src/app/services/error-handling.service';
+} from 'app/interfaces/menu-screen.interface';
+import { ErrorHandlingService } from 'app/services/error-handling.service';
 
 @Component({
   selector: 'app-sign-in-page',

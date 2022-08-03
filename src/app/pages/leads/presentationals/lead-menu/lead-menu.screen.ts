@@ -3,8 +3,8 @@ import {
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
-} from 'src/app/interfaces/menu-screen.interface';
-import { LeadsPageViewState as ViewState } from 'src/app/enums/viewstates.enum';
+} from 'app/interfaces/menu-screen.interface';
+import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 
 @Component({
   selector: 'app-lead-menu-screen',

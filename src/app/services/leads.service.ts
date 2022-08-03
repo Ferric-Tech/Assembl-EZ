@@ -14,37 +14,42 @@ export class LeadsService {
     private afs: AngularFirestore
   ) {}
 
-  async getLeads() {
-    const docRef = this.afs
-      .collection('client-data')
-      .doc((await this.authenticationService.userID).toString())
-      .collection('leads');
+  async getLeads(): Promise<Object> {
+    return new Promise(async (resolve) => {
+      const url = 'https://us-central1-assembl-ez.cloudfunctions.net/getLeads';
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        params: new HttpParams().set(
+          'userID',
+          await this.authenticationService.userID
+        ),
+      };
 
-    docRef.get().subscribe((doc: any) => {
-      if (doc) {
-        console.log('Document data:', doc.data());
-      } else {
-        // doc.data() will be undefined in this case
-        console.log('No such document!');
-      }
+      this.http.get(url, options).subscribe((response) => {
+        resolve(response);
+      });
     });
   }
 
-  async addLead(formValue: { [key: string]: string }) {
-    const url = 'https://us-central1-assembl-ez.cloudfunctions.net/addLead';
-    const body = formValue;
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      params: new HttpParams().set(
-        'userID',
-        await this.authenticationService.userID
-      ),
-    };
+  async addLead(formValue: { [key: string]: string }): Promise<Object> {
+    return new Promise(async (resolve) => {
+      const url = 'https://us-central1-assembl-ez.cloudfunctions.net/addLead';
+      const body = formValue;
+      const options = {
+        headers: new HttpHeaders({
+          'Content-Type': 'application/json',
+        }),
+        params: new HttpParams().set(
+          'userID',
+          await this.authenticationService.userID
+        ),
+      };
 
-    this.http.post(url, body, options).subscribe((response) => {
-      console.log(response);
+      this.http.post(url, body, options).subscribe((response) => {
+        resolve(response);
+      });
     });
   }
 }
