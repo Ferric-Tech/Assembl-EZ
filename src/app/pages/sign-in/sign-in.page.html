@@ -14,6 +14,12 @@
   </div>
 </div>
 
+<app-warning-modal
+  *ngIf="isWarning"
+  [warningConfig]="warnigConfig"
+  (proceed)="isWarning = false"
+></app-warning-modal>
+
 <app-menu-component
   [menuOptions]="menuOptions"
   (viewStateSelected)="onViewStateSelected($event)"

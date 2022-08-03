@@ -37,6 +37,7 @@ import { RegisterScreen } from './pages/sign-in/presentationals/register/registe
 import { AddLeadScreen } from './pages/leads/presentationals/add-lead/add-lead.screen';
 import { LeadMenuScreen } from './pages/leads/presentationals/lead-menu/lead-menu.screen';
 import { ViewLeadsScreen } from './pages/leads/presentationals/view-leads/view-leads.screen';
+import { WarningsModal } from './modals/warning/warning.modal';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -73,6 +74,7 @@ export const firebaseConfig = {
     AddLeadScreen,
     LeadMenuScreen,
     ViewLeadsScreen,
+    WarningsModal,
   ],
   imports: [
     BrowserModule,

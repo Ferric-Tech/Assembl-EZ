@@ -11,6 +11,11 @@ import {
   MenuOptionType,
 } from 'app/interfaces/menu-screen.interface';
 import { ErrorHandlingService } from 'app/services/error-handling.service';
+import {
+  Warning,
+  WarningConfig,
+  WarningType,
+} from 'app/modals/warning/warning.modal';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -21,6 +26,9 @@ export class SignInPage implements OnInit {
   viewState = ViewState;
   currentViewState = ViewState.SIGN_IN;
   menuOptions: MenuOption[] = [];
+
+  isWarning = false;
+  warnigConfig: WarningConfig | undefined;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -47,7 +55,10 @@ export class SignInPage implements OnInit {
     };
     await this.authenticationService.userSignIn(signInDetails).then(
       (success) => this.router.navigate(['']),
-      (error) => this.errorHandlingService.handleError(error)
+      (error) => {
+        this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
+        this.isWarning = true;
+      }
     );
   }
 
@@ -61,7 +72,13 @@ export class SignInPage implements OnInit {
         this.authenticationService.updateUserProfile(formValue);
         this.router.navigate(['']);
       },
-      (error) => this.errorHandlingService.handleError(error)
+      (error) => {
+        this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
+        if (this.warnigConfig.warning === Warning.INVALID_EMAIL) {
+          this.warnigConfig.type = WarningType.REGISTER;
+        }
+        this.isWarning = true;
+      }
     );
   }
 
@@ -76,7 +93,7 @@ export class SignInPage implements OnInit {
         this.menuOptions = [
           {
             style: MenuOptionStyle.SECONDARY,
-            display: 'Register',
+            display: `I'm a new user`,
             optionType: MenuOptionType.VIEWSTATE,
             viewState: ViewState.REGISTER,
           },

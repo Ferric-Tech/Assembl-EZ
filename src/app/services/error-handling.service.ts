@@ -1,5 +1,10 @@
-import { ConditionalExpr } from '@angular/compiler';
 import { Injectable } from '@angular/core';
+import {
+  Warning,
+  WarningButtonOption,
+  WarningConfig,
+  WarningType,
+} from 'app/modals/warning/warning.modal';
 
 @Injectable({
   providedIn: 'root',
@@ -7,19 +12,39 @@ import { Injectable } from '@angular/core';
 export class ErrorHandlingService {
   constructor() {}
 
-  handleError(error: string) {
+  getWarningConfig(error: string): WarningConfig {
+    let warningConfig = {} as WarningConfig;
     if (error.includes('auth/invalid-email')) {
-      console.log('invalid-email');
+      warningConfig = {
+        type: WarningType.SIGN_IN,
+        warning: Warning.INVALID_EMAIL,
+      };
     }
     if (error.includes('auth/user-not-found')) {
-      console.log('user-not-found');
+      warningConfig = {
+        type: WarningType.SIGN_IN,
+        warning: Warning.USER_NOT_FOUND,
+      };
     }
     if (error.includes('auth/wrong-password')) {
-      console.log('wrong-password');
+      warningConfig = {
+        type: WarningType.SIGN_IN,
+        warning: Warning.WRONG_PASSWORD,
+      };
     }
-    if (error.includes('auth/email-already-exists')) {
-      console.log('email-already-exists');
+    if (error.includes('auth/email-already-in-use')) {
+      warningConfig = {
+        type: WarningType.REGISTER,
+        warning: Warning.EMAIL_ALREADY_EXISTS,
+      };
     }
+    if (error.includes('auth/weak-password')) {
+      warningConfig = {
+        type: WarningType.REGISTER,
+        warning: Warning.WEAK_PASSWORD,
+      };
+    }
+    return warningConfig;
   }
 }
 
