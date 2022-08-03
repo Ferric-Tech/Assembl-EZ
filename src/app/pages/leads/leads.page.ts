@@ -12,7 +12,7 @@ export class LeadsPage {
   currentViewState = ViewState.MENU;
 
   leads: any;
-  selectedLeadIndex = 0;
+  lead: { [key: string]: string } = {};
 
   constructor(private leadService: LeadsService) {}
 
@@ -25,7 +25,7 @@ export class LeadsPage {
   }
 
   onLeadClicked(index: number) {
-    this.selectedLeadIndex = index;
+    this.lead = this.leads[index]['data'];
     this.currentViewState = ViewState.VIEW_LEAD;
   }
 

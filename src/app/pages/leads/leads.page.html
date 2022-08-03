@@ -19,6 +19,7 @@
 
   <app-view-lead-detail-screen
     *ngSwitchCase="viewState.VIEW_LEAD"
+    [lead]="lead"
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-view-lead-detail-screen>
 </div>
