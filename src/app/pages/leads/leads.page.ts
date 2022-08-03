@@ -1,12 +1,4 @@
 import { Component } from '@angular/core';
-import { FormFieldType } from 'app/enums/form.eum';
-import { FormConfig } from 'app/interfaces/form-screen.interface';
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import {
-  MenuOption,
-  MenuOptionStyle,
-  MenuOptionType,
-} from 'app/interfaces/menu-screen.interface';
 import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 import { LeadsService } from 'app/services/leads.service';
 
@@ -20,6 +12,7 @@ export class LeadsPage {
   currentViewState = ViewState.MENU;
 
   leads: any;
+  selectedLeadIndex = 0;
 
   constructor(private leadService: LeadsService) {}
 
@@ -29,6 +22,11 @@ export class LeadsPage {
 
   onLeadAdded(formValue: { [key: string]: string }) {
     this.leadService.addLead(formValue);
+  }
+
+  onLeadClicked(index: number) {
+    this.selectedLeadIndex = index;
+    this.currentViewState = ViewState.VIEW_LEAD;
   }
 
   onViewStateSelected(viewState: number) {

@@ -40,6 +40,7 @@ import { WarningsModal } from './modals/warning/warning.modal';
 import { ForgotPasswordScreen } from './pages/sign-in/presentationals/forgot-password/forgot-password.screen';
 import { NotificationsModal } from './modals/notifications/notifications.modal';
 import { MatIconModule } from '@angular/material/icon';
+import { ViewLeadDetailScreen } from './pages/leads/presentationals/view-lead-detail/view-lead-detail.screen';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -78,6 +79,7 @@ export const firebaseConfig = {
     WarningsModal,
     ForgotPasswordScreen,
     NotificationsModal,
+    ViewLeadDetailScreen,
   ],
   imports: [
     BrowserModule,

@@ -24,5 +24,6 @@ export enum SignInPageViewState {
 export enum LeadsPageViewState {
   MENU = 1,
   ADD = 2,
-  VIEW = 3,
+  VIEW_ALL = 3,
+  VIEW_LEAD = 4,
 }

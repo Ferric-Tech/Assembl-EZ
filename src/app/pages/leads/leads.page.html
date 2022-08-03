@@ -11,8 +11,14 @@
   ></app-add-lead-screen>
 
   <app-view-leads-screen
-    *ngSwitchCase="viewState.VIEW"
+    *ngSwitchCase="viewState.VIEW_ALL"
     [leads]="leads"
     (viewStateSelected)="onViewStateSelected($event)"
+    (leadClicked)="onLeadClicked($event)"
   ></app-view-leads-screen>
+
+  <app-view-lead-detail-screen
+    *ngSwitchCase="viewState.VIEW_LEAD"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-view-lead-detail-screen>
 </div>

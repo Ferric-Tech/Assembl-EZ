@@ -24,7 +24,7 @@ export class LeadMenuScreen {
       style: MenuOptionStyle.PRIMARY,
       display: 'View Leads',
       optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.VIEW,
+      viewState: ViewState.VIEW_ALL,
     },
   ];
 

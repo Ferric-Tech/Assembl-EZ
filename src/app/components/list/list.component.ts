@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ListConfig } from 'app/interfaces/list-screen.interface';
 
 @Component({
@@ -13,11 +13,16 @@ export class ListComponent implements OnInit {
     headers: [],
     lines: [],
   };
+  @Output() itemClicked = new EventEmitter<number>();
 
   columnWidths: number[] = [];
 
   ngOnInit() {
     this.setColumnWidths();
+  }
+
+  onItemClicked(index: number) {
+    this.itemClicked.emit(index);
   }
 
   private setColumnWidths() {
