@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import {
   Warning,
-  WarningButtonOption,
   WarningConfig,
   WarningType,
 } from 'app/modals/warning/warning.modal';

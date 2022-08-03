@@ -13,13 +13,6 @@ export enum Warning {
   WEAK_PASSWORD,
 }
 
-export enum WarningButtonOption {
-  NONE,
-  BOTH,
-  ONLY_PROCEED,
-  ONLY_CANCEL,
-}
-
 export interface WarningConfig {
   type: WarningType;
   warning: Warning;
@@ -46,7 +39,6 @@ export class WarningsModal implements OnInit {
     this.setButtons();
   }
 
-  // Callbacks for call to actions
   onConfirmClick() {
     this.proceed.emit();
   }
@@ -86,8 +78,8 @@ export class WarningsModal implements OnInit {
       }
       case Warning.USER_NOT_FOUND: {
         this.body =
-          'It seems the email you have entered does not exsist \
-        on our systems, please re-check the email you have entered. If \
+          'It seems the email you have entered does not exist \
+        on our system, please re-check the email you have entered. If \
         you are a new user, please click on the register option below \
         to register for a new account';
         return;

@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SignInModal } from './sign-in.modal';
+import { NotificationsModal } from './notifications.modal';
 
-describe('SignInComponent', () => {
-  let component: SignInModal;
-  let fixture: ComponentFixture<SignInModal>;
+describe('WarningsModal', () => {
+  let component: NotificationsModal;
+  let fixture: ComponentFixture<NotificationsModal>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [SignInModal],
+      declarations: [NotificationsModal],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SignInModal);
+    fixture = TestBed.createComponent(NotificationsModal);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

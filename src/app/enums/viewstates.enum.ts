@@ -18,6 +18,7 @@ export enum MainPageViewState {
 export enum SignInPageViewState {
   SIGN_IN = 1,
   REGISTER = 2,
+  FORGOT_PASSWORD = 3,
 }
 
 export enum LeadsPageViewState {

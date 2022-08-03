@@ -1,17 +1,18 @@
 <div [ngSwitch]="currentViewState">
-  <div *ngSwitchCase="viewState.SIGN_IN">
-    <app-page-header-component [header]="'Sign in'"></app-page-header-component>
-    <app-sign-in-screen (formSubmitted)="onSignIn($event)"></app-sign-in-screen>
-  </div>
+  <app-sign-in-screen
+    *ngSwitchCase="viewState.SIGN_IN"
+    (formSubmitted)="onSignIn($event)"
+  ></app-sign-in-screen>
 
-  <div *ngSwitchCase="viewState.REGISTER">
-    <app-page-header-component
-      [header]="'Register'"
-    ></app-page-header-component>
-    <app-register-screen
-      (formSubmitted)="onRegister($event)"
-    ></app-register-screen>
-  </div>
+  <app-register-screen
+    *ngSwitchCase="viewState.REGISTER"
+    (formSubmitted)="onRegister($event)"
+  ></app-register-screen>
+
+  <app-forgot-password-screen
+    *ngSwitchCase="viewState.FORGOT_PASSWORD"
+    (formSubmitted)="onForgotPasswordSubmit($event)"
+  ></app-forgot-password-screen>
 </div>
 
 <app-warning-modal
@@ -19,6 +20,12 @@
   [warningConfig]="warnigConfig"
   (proceed)="isWarning = false"
 ></app-warning-modal>
+
+<app-notifications-modal
+  *ngIf="isNotifying"
+  [notificationConfig]="notificationConfig"
+  (proceed)="isNotifying = false"
+></app-notifications-modal>
 
 <app-menu-component
   [menuOptions]="menuOptions"

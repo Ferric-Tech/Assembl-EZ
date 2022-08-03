@@ -16,6 +16,11 @@ import {
   WarningConfig,
   WarningType,
 } from 'app/modals/warning/warning.modal';
+import {
+  Notification,
+  NotificationConfig,
+  NotificationType,
+} from 'app/modals/notifications/notifications.modal';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -29,6 +34,8 @@ export class SignInPage implements OnInit {
 
   isWarning = false;
   warnigConfig: WarningConfig | undefined;
+  isNotifying = false;
+  notificationConfig: NotificationConfig | undefined;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -82,6 +89,24 @@ export class SignInPage implements OnInit {
     );
   }
 
+  async onForgotPasswordSubmit(formValue: { [key: string]: string }) {
+    let email = formValue['email'];
+    await this.authenticationService.resetPassword(email).then(
+      (success) => {
+        this.notificationConfig = {
+          type: NotificationType.FORGOT_PASSWORD,
+          notification: Notification.RESET_PASSWORD_EMAIL_SENT,
+        };
+        this.isNotifying = true;
+        this.currentViewState = ViewState.SIGN_IN;
+      },
+      (error) => {
+        this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
+        this.isWarning = true;
+      }
+    );
+  }
+
   onViewStateSelected(viewState: ViewState) {
     this.currentViewState = viewState;
     this.setMenuOptions();
@@ -97,10 +122,17 @@ export class SignInPage implements OnInit {
             optionType: MenuOptionType.VIEWSTATE,
             viewState: ViewState.REGISTER,
           },
+          {
+            style: MenuOptionStyle.SECONDARY,
+            display: `Forgot password`,
+            optionType: MenuOptionType.VIEWSTATE,
+            viewState: ViewState.FORGOT_PASSWORD,
+          },
         ];
         break;
       }
-      case ViewState.REGISTER: {
+      case ViewState.REGISTER:
+      case ViewState.FORGOT_PASSWORD: {
         this.menuOptions = [
           {
             style: MenuOptionStyle.SECONDARY,

@@ -29,7 +29,6 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFireAuthModule } from '@angular/fire/compat/auth';
 import { SignInPage } from './pages/sign-in/sign-in.page';
-import { SignInModal } from './modals/sign-in/sign-in.modal';
 import { HttpClientModule } from '@angular/common/http';
 import { AgentsPage } from './pages/agents/agents.page';
 import { SignInScreen } from './pages/sign-in/presentationals/sign-in/sign-in.screen';
@@ -38,6 +37,8 @@ import { AddLeadScreen } from './pages/leads/presentationals/add-lead/add-lead.s
 import { LeadMenuScreen } from './pages/leads/presentationals/lead-menu/lead-menu.screen';
 import { ViewLeadsScreen } from './pages/leads/presentationals/view-leads/view-leads.screen';
 import { WarningsModal } from './modals/warning/warning.modal';
+import { ForgotPasswordScreen } from './pages/sign-in/presentationals/forgot-password/forgot-password.screen';
+import { NotificationsModal } from './modals/notifications/notifications.modal';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -67,7 +68,6 @@ export const firebaseConfig = {
     QuoteParametersScreen,
     QuoteResultsScreen,
     SignInPage,
-    SignInModal,
     AgentsPage,
     SignInScreen,
     RegisterScreen,
@@ -75,6 +75,8 @@ export const firebaseConfig = {
     LeadMenuScreen,
     ViewLeadsScreen,
     WarningsModal,
+    ForgotPasswordScreen,
+    NotificationsModal,
   ],
   imports: [
     BrowserModule,

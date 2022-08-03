@@ -34,7 +34,6 @@ export class AuthenticationService {
     });
   }
 
-  /* Sign up */
   userRegistration(signInDetails: SignInDetails): Promise<any> {
     return new Promise(async (resolve, reject) => {
       this.angularFireAuth
@@ -51,7 +50,6 @@ export class AuthenticationService {
     });
   }
 
-  /* Sign in */
   userSignIn(signInDetails: SignInDetails): Promise<any> {
     return new Promise(async (resolve, reject) => {
       this.angularFireAuth
@@ -65,9 +63,21 @@ export class AuthenticationService {
     });
   }
 
-  /* Sign out */
   signOut() {
     this.angularFireAuth.signOut();
+  }
+
+  resetPassword(email: string): Promise<any> {
+    return new Promise(async (resolve, reject) => {
+      this.angularFireAuth
+        .sendPasswordResetEmail(email)
+        .then(() => {
+          resolve({ response: 'password-reset/successful' });
+        })
+        .catch((err: any) => {
+          reject(err.message);
+        });
+    });
   }
 
   async isAuthenticated(): Promise<boolean> {
