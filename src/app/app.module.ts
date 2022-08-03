@@ -39,6 +39,7 @@ import { ViewLeadsScreen } from './pages/leads/presentationals/view-leads/view-l
 import { WarningsModal } from './modals/warning/warning.modal';
 import { ForgotPasswordScreen } from './pages/sign-in/presentationals/forgot-password/forgot-password.screen';
 import { NotificationsModal } from './modals/notifications/notifications.modal';
+import { MatIconModule } from '@angular/material/icon';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -93,6 +94,7 @@ export const firebaseConfig = {
     AngularFireAuthModule, // auth
     AngularFireStorageModule, // storage
     HttpClientModule,
+    MatIconModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

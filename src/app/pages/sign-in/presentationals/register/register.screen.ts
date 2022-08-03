@@ -37,13 +37,13 @@ export class RegisterScreen {
       {
         fieldDisplay: 'Password',
         fieldName: 'password',
-        fieldType: FormFieldType.INPUT_GENERAL,
+        fieldType: FormFieldType.PASSWORD,
         defaultValue: '',
       },
       {
         fieldDisplay: 'Confirm password',
         fieldName: 'confirmPassword',
-        fieldType: FormFieldType.INPUT_GENERAL,
+        fieldType: FormFieldType.PASSWORD,
         defaultValue: '',
       },
     ],

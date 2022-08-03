@@ -5,7 +5,7 @@
   (ngSubmit)="onSubmit()"
 >
   <div class="form-title">{{ formConfig.formTitle }}</div>
-  <div *ngFor="let field of formConfig.fields">
+  <div *ngFor="let field of formConfig.fields; let index = index">
     <div class="fields-container" [ngSwitch]="field.fieldType">
       <p class="field-title">{{ field.fieldDisplay }}</p>
       <div
@@ -14,6 +14,21 @@
       ></div>
       <div class="large-field-input" *ngSwitchCase="fieldType.INPUT_GENERAL">
         <input
+          type="text"
+          formControlName="{{ field.fieldName }}"
+          [ngModel]="form.controls[field.fieldName].value"
+        />
+      </div>
+      <div class="password-input" *ngSwitchCase="fieldType.PASSWORD">
+        <mat-icon (click)="toggleField(index)">remove_red_eye</mat-icon>
+        <input
+          *ngIf="hiddenFields[index]"
+          type="password"
+          formControlName="{{ field.fieldName }}"
+          [ngModel]="form.controls[field.fieldName].value"
+        />
+        <input
+          *ngIf="!hiddenFields[index]"
           type="text"
           formControlName="{{ field.fieldName }}"
           [ngModel]="form.controls[field.fieldName].value"

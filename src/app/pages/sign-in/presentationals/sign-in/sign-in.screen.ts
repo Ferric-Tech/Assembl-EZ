@@ -25,7 +25,7 @@ export class SignInScreen {
       {
         fieldDisplay: 'Password',
         fieldName: 'password',
-        fieldType: FormFieldType.INPUT_GENERAL,
+        fieldType: FormFieldType.PASSWORD,
         defaultValue: '',
       },
     ],

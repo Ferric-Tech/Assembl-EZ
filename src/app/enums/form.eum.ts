@@ -6,4 +6,5 @@ export enum FormFieldType {
   MULTI_SELECT,
   RADIO,
   CHECKBOX,
+  PASSWORD,
 }

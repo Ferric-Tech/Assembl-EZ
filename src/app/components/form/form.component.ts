@@ -30,6 +30,7 @@ export class FormComponent implements OnInit {
 
   fieldType = FormFieldType;
   form = this.fb.group({});
+  hiddenFields = {} as { [key: number]: boolean };
 
   get validForm() {
     let formValid = true;
@@ -58,13 +59,16 @@ export class FormComponent implements OnInit {
   }
 
   private setForm() {
-    this.formConfig.fields.forEach((field) => {
+    this.formConfig.fields.forEach((field, fieldIndex) => {
       this.form.addControl(
         field.fieldName,
         new FormControl(field.defaultValue, Validators.required)
       );
       this.form.controls[field.fieldName].setValidators([Validators.required]);
       this.form.controls[field.fieldName].setValidators([Validators.min(1)]);
+      if (field.fieldType === FormFieldType.PASSWORD) {
+        this.hiddenFields[fieldIndex] = true;
+      }
     });
     this.cd.detectChanges();
   }
@@ -78,5 +82,9 @@ export class FormComponent implements OnInit {
       this.formChanged.emit(this.form.value);
       this.setForm();
     }
+  }
+
+  toggleField(index: number) {
+    this.hiddenFields[index] = !this.hiddenFields[index];
   }
 }

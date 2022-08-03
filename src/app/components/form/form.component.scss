@@ -26,11 +26,14 @@
 }
 
 .field-select,
-.large-field-input {
+.large-field-input,
+.password-input {
+  display: flex;
   margin: 5px 0;
   justify-content: end;
   align-items: flex-end;
   width: 150px;
+  flex-direction: row;
 }
 
 .field-radio-group {
@@ -67,6 +70,14 @@
   font-size: smaller;
 }
 
+.password-input input {
+  width: 95%;
+  height: 20px;
+  text-align: end;
+  align-items: center;
+  font-size: smaller;
+}
+
 select {
   width: 150px;
   height: 25px;
@@ -78,6 +89,10 @@ select {
 
 mat-radio-button {
   margin: 5px 0;
+}
+
+mat-icon {
+  margin: 0 5px;
 }
 
 .right-spacer-gap {
