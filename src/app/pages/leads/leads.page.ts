@@ -24,7 +24,7 @@ export class LeadsPage {
   constructor(private leadService: LeadsService) {}
 
   async ngOnInit() {
-    this.getLeads();
+    await this.getLeads();
   }
 
   onLeadAdded(formValue: { [key: string]: string }) {

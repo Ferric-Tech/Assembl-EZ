@@ -9,4 +9,10 @@
     (leadAdded)="onLeadAdded($event)"
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-add-lead-screen>
+
+  <app-view-leads-screen
+    *ngSwitchCase="viewState.VIEW"
+    [leads]="leads"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-view-leads-screen>
 </div>
