@@ -27,3 +27,10 @@ export enum LeadsPageViewState {
   VIEW_ALL = 3,
   VIEW_LEAD = 4,
 }
+
+export enum RegisterScreenViewState {
+  BASIC = 1,
+  BUSINESS = 2,
+  CONTACT = 3,
+  SUCCESS = 4,
+}

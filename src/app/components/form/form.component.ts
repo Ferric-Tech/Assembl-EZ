@@ -34,7 +34,7 @@ export class FormComponent implements OnInit {
 
   get validForm() {
     let formValid = true;
-    Object.keys(this.form.controls).forEach((key) => {
+    Object.keys(this.form.controls).forEach((key, index) => {
       // Complex logic required to test if multi-selector is empty
       if (typeof this.form.controls[key].value === 'object') {
         if (this.form.controls[key].value != null) {
@@ -44,8 +44,10 @@ export class FormComponent implements OnInit {
         }
       }
 
-      if (!this.form.controls[key].value) {
-        formValid = false;
+      if (this.formConfig.fields[index]?.fieldType != FormFieldType.CHECKBOX) {
+        if (!this.form.controls[key].value) {
+          formValid = false;
+        }
       }
     });
     // canProceed allows the parent to over-ride

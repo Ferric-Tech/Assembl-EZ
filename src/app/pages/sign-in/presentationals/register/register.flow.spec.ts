@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RegisterScreen } from './register.screen';
+import { RegisterFlow } from './register.flow';
 
 describe('RegisterComponent', () => {
-  let component: RegisterScreen;
-  let fixture: ComponentFixture<RegisterScreen>;
+  let component: RegisterFlow;
+  let fixture: ComponentFixture<RegisterFlow>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [RegisterScreen],
+      declarations: [RegisterFlow],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RegisterScreen);
+    fixture = TestBed.createComponent(RegisterFlow);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

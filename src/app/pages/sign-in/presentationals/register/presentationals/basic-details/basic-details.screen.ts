@@ -1,18 +1,20 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormFieldType } from 'app/enums/form.eum';
 import { FormConfig } from 'app/interfaces/form-screen.interface';
 
 @Component({
-  selector: 'app-register-screen',
-  templateUrl: './register.screen.html',
-  styleUrls: ['./register.screen.scss'],
+  selector: 'app-basic-details-screen',
+  templateUrl: './basic-details.screen.html',
+  styleUrls: ['./basic-details.screen.scss'],
 })
-export class RegisterScreen {
+export class BasicDetailsComponent {
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
   @Output() isPasswordMismatched = new EventEmitter<void>();
 
   registerFormConfig: FormConfig = {
-    formTitle: '',
+    formTitle:
+      'Regisering is a quick easy three-step process, \
+      lets start by gettig your basic details',
     isInExpansionTable: false,
     isDynamic: false,
     canProceed: false,
@@ -48,7 +50,7 @@ export class RegisterScreen {
         defaultValue: '',
       },
     ],
-    proceedText: 'Register',
+    proceedText: 'Proceed',
   };
 
   onRegisterFormSubmitted(formValue: { [key: string]: string }) {

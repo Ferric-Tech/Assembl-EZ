@@ -76,15 +76,16 @@ export class SignInPage implements OnInit {
     );
   }
 
-  async onRegister(formValue: { [key: string]: string }) {
+  async registerUser(formValue: { [key: string]: string }) {
     const signInDetails: SignInDetails = {
       email: formValue['email'],
       password: formValue['password'],
     };
     await this.authenticationService.userRegistration(signInDetails).then(
       (success) => {
+        delete formValue['password'];
+        delete formValue['confirmPassword'];
         this.authenticationService.updateUserProfile(formValue);
-        this.router.navigate(['']);
       },
       (error) => {
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);

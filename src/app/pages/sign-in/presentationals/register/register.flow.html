@@ -1,0 +1,13 @@
+<app-page-header-component [header]="'Register'"></app-page-header-component>
+<div [ngSwitch]="currentViewState">
+  <app-basic-details-screen
+    *ngSwitchCase="viewState.BASIC"
+    (formSubmitted)="onBasicDetailsSubmitted($event)"
+    (isPasswordMismatched)="onPasswordMismatch()"
+  ></app-basic-details-screen>
+
+  <app-business-details
+    *ngSwitchCase="viewState.BUSINESS"
+    (formSubmitted)="onBusinessDetailsSubmitted($event)"
+  ></app-business-details>
+</div>

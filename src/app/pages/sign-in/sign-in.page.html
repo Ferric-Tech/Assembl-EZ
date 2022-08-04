@@ -4,11 +4,11 @@
     (formSubmitted)="onSignIn($event)"
   ></app-sign-in-screen>
 
-  <app-register-screen
+  <app-register-flow
     *ngSwitchCase="viewState.REGISTER"
-    (formSubmitted)="onRegister($event)"
+    (basicDetailsFormSubmitted)="registerUser($event)"
     (isPasswordMismatched)="onRegisterPasswordMismatch()"
-  ></app-register-screen>
+  ></app-register-flow>
 
   <app-forgot-password-screen
     *ngSwitchCase="viewState.FORGOT_PASSWORD"

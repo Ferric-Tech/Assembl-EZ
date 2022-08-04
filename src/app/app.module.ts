@@ -32,7 +32,7 @@ import { SignInPage } from './pages/sign-in/sign-in.page';
 import { HttpClientModule } from '@angular/common/http';
 import { AgentsPage } from './pages/agents/agents.page';
 import { SignInScreen } from './pages/sign-in/presentationals/sign-in/sign-in.screen';
-import { RegisterScreen } from './pages/sign-in/presentationals/register/register.screen';
+import { RegisterFlow } from './pages/sign-in/presentationals/register/register.flow';
 import { AddLeadScreen } from './pages/leads/presentationals/add-lead/add-lead.screen';
 import { LeadMenuScreen } from './pages/leads/presentationals/lead-menu/lead-menu.screen';
 import { ViewLeadsScreen } from './pages/leads/presentationals/view-leads/view-leads.screen';
@@ -41,7 +41,9 @@ import { ForgotPasswordScreen } from './pages/sign-in/presentationals/forgot-pas
 import { NotificationsModal } from './modals/notifications/notifications.modal';
 import { MatIconModule } from '@angular/material/icon';
 import { ViewLeadDetailScreen } from './pages/leads/presentationals/view-lead-detail/view-lead-detail.screen';
-import { MoooComponent } from './mooo/mooo.component';
+import { BasicDetailsComponent } from './pages/sign-in/presentationals/register/presentationals/basic-details/basic-details.screen';
+import { BusinessDetailsComponent } from './pages/sign-in/presentationals/register/presentationals/business-details/business-details.component';
+import { ContactDetailsComponent } from './pages/sign-in/presentationals/register/presentationals/contact-details/contact-details.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -73,7 +75,7 @@ export const firebaseConfig = {
     SignInPage,
     AgentsPage,
     SignInScreen,
-    RegisterScreen,
+    RegisterFlow,
     AddLeadScreen,
     LeadMenuScreen,
     ViewLeadsScreen,
@@ -81,7 +83,9 @@ export const firebaseConfig = {
     ForgotPasswordScreen,
     NotificationsModal,
     ViewLeadDetailScreen,
-    MoooComponent,
+    BasicDetailsComponent,
+    BusinessDetailsComponent,
+    ContactDetailsComponent,
   ],
   imports: [
     BrowserModule,
