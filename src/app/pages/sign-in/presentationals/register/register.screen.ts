@@ -9,6 +9,7 @@ import { FormConfig } from 'app/interfaces/form-screen.interface';
 })
 export class RegisterScreen {
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
+  @Output() isPasswordMismatched = new EventEmitter<void>();
 
   registerFormConfig: FormConfig = {
     formTitle: '',
@@ -51,6 +52,8 @@ export class RegisterScreen {
   };
 
   onRegisterFormSubmitted(formValue: { [key: string]: string }) {
-    this.formSubmitted.emit(formValue);
+    formValue['password'] === formValue['confirmPassword']
+      ? this.formSubmitted.emit(formValue)
+      : this.isPasswordMismatched.emit();
   }
 }

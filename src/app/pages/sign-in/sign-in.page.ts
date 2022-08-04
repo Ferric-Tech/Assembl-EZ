@@ -96,6 +96,14 @@ export class SignInPage implements OnInit {
     );
   }
 
+  onRegisterPasswordMismatch() {
+    this.warnigConfig = {
+      type: WarningType.REGISTER,
+      warning: Warning.MISMATCHED_PASSWORD,
+    };
+    this.isWarning = true;
+  }
+
   async onForgotPasswordSubmit(formValue: { [key: string]: string }) {
     let email = formValue['email'];
     await this.authenticationService.resetPassword(email).then(

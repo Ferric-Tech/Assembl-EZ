@@ -7,6 +7,7 @@
   <app-register-screen
     *ngSwitchCase="viewState.REGISTER"
     (formSubmitted)="onRegister($event)"
+    (isPasswordMismatched)="onRegisterPasswordMismatch()"
   ></app-register-screen>
 
   <app-forgot-password-screen

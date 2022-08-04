@@ -11,7 +11,7 @@ exports.updateUserProfile = functions.https.onRequest(
       const userID = req.query.userID;
       try {
         const db = admin.firestore();
-        var docRef = db.collection('client-profiles').doc(userID);
+        var docRef = db.collection('client-data').doc(userID);
         docRef.set(req.body, { merge: true });
         res.send(docRef);
       } catch (err) {

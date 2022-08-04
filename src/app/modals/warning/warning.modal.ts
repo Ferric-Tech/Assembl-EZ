@@ -3,6 +3,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 export enum WarningType {
   SIGN_IN,
   REGISTER,
+  LEADS,
 }
 
 export enum Warning {
@@ -11,6 +12,8 @@ export enum Warning {
   WRONG_PASSWORD,
   EMAIL_ALREADY_EXISTS,
   WEAK_PASSWORD,
+  MISMATCHED_PASSWORD,
+  UNABLE_TO_ADD,
 }
 
 export interface WarningConfig {
@@ -57,6 +60,14 @@ export class WarningsModal implements OnInit {
         this.header = 'Unable to register user';
         return;
       }
+      case WarningType.LEADS: {
+        switch (this.warningConfig?.warning) {
+          case Warning.UNABLE_TO_ADD: {
+            this.header = 'Unable to add lead';
+            return;
+          }
+        }
+      }
     }
   }
 
@@ -95,6 +106,20 @@ export class WarningsModal implements OnInit {
           'The password you have entered is considered week, please enter \
           a stronger password at least 6 charaters log';
         return;
+      }
+      case Warning.MISMATCHED_PASSWORD: {
+        this.body =
+          'The passwords you have entered do not match each other. Please correct and click "Register" again';
+        return;
+      }
+      case Warning.UNABLE_TO_ADD: {
+        switch (this.warningConfig?.type) {
+          case WarningType.LEADS: {
+            this.body =
+              'We were uable to add your lead at this time. Please retry';
+            return;
+          }
+        }
       }
     }
   }

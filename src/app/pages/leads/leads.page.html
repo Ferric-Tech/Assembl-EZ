@@ -22,4 +22,16 @@
     [lead]="lead"
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-view-lead-detail-screen>
+
+  <app-warning-modal
+    *ngIf="isWarning"
+    [warningConfig]="warnigConfig"
+    (proceed)="isWarning = false"
+  ></app-warning-modal>
+
+  <app-notifications-modal
+    *ngIf="isNotifying"
+    [notificationConfig]="notificationConfig"
+    (proceed)="isNotifying = false"
+  ></app-notifications-modal>
 </div>

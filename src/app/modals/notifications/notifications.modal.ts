@@ -2,10 +2,12 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 export enum NotificationType {
   FORGOT_PASSWORD,
+  LEAD,
 }
 
 export enum Notification {
   RESET_PASSWORD_EMAIL_SENT,
+  LEAD_ADDED,
 }
 
 export interface NotificationConfig {
@@ -42,6 +44,10 @@ export class NotificationsModal implements OnInit {
         this.header = 'Password reset email sent';
         return;
       }
+      case NotificationType.LEAD: {
+        this.header = 'Lead added';
+        return;
+      }
     }
   }
 
@@ -54,12 +60,17 @@ export class NotificationsModal implements OnInit {
           email reset';
         return;
       }
+      case Notification.LEAD_ADDED: {
+        this.body = '';
+        return;
+      }
     }
   }
 
   private setButtons() {
     switch (this.notificationConfig?.type) {
-      case NotificationType.FORGOT_PASSWORD: {
+      case NotificationType.FORGOT_PASSWORD:
+      case NotificationType.LEAD: {
         this.proceedButtonText = 'Understood';
         return;
       }
