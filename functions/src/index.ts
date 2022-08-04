@@ -6,9 +6,11 @@ const cors = require('cors')({ origin: true });
 const functions = require('firebase-functions');
 admin.initializeApp(functions.config().firebase);
 
-const leadsModule = require('./leads');
-const usersModule = require('./users');
+const leadsModule = require('./modules/leads');
+const usersModule = require('./modules/users');
+const clientDataModule = require('./modules/client-data');
 
 exports.addLead = leadsModule.addLead;
 exports.getLeads = leadsModule.getLeads;
 exports.updateUserProfile = usersModule.updateUserProfile;
+exports.getClientData = clientDataModule.getClientData;

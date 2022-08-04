@@ -23,8 +23,8 @@ exports.addLead = functions.https.onRequest(async (req: any, res: any) => {
         .doc(docRefID);
       docRef.set(req.body, { merge: true });
       res.send(docRef);
-    } catch (err) {
-      res.send(JSON.stringify('This is a mess' + err));
+    } catch (error) {
+      res.send(error);
     }
   });
 });
@@ -50,8 +50,8 @@ exports.getLeads = functions.https.onRequest(async (req: any, res: any) => {
         });
         res.send(leads);
       });
-    } catch (err) {
-      res.send(JSON.stringify('This is a mess' + err));
+    } catch (error) {
+      res.send(error);
     }
   });
 });

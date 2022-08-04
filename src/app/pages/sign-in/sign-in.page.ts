@@ -21,6 +21,7 @@ import {
   NotificationConfig,
   NotificationType,
 } from 'app/modals/notifications/notifications.modal';
+import { DataManagementService } from 'app/services/data-management.service';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -40,7 +41,8 @@ export class SignInPage implements OnInit {
   constructor(
     private authenticationService: AuthenticationService,
     private router: Router,
-    private errorHandlingService: ErrorHandlingService
+    private errorHandlingService: ErrorHandlingService,
+    private dataManagementService: DataManagementService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -61,7 +63,12 @@ export class SignInPage implements OnInit {
       password: formValue['password'],
     };
     await this.authenticationService.userSignIn(signInDetails).then(
-      (success) => this.router.navigate(['']),
+      (success) => {
+        this.router.navigate(['']);
+        this.dataManagementService.getClientData().then((response) => {
+          console.log(response);
+        });
+      },
       (error) => {
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
         this.isWarning = true;

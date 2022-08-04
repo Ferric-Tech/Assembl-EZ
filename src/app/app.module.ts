@@ -41,6 +41,7 @@ import { ForgotPasswordScreen } from './pages/sign-in/presentationals/forgot-pas
 import { NotificationsModal } from './modals/notifications/notifications.modal';
 import { MatIconModule } from '@angular/material/icon';
 import { ViewLeadDetailScreen } from './pages/leads/presentationals/view-lead-detail/view-lead-detail.screen';
+import { MoooComponent } from './mooo/mooo.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -80,6 +81,7 @@ export const firebaseConfig = {
     ForgotPasswordScreen,
     NotificationsModal,
     ViewLeadDetailScreen,
+    MoooComponent,
   ],
   imports: [
     BrowserModule,
