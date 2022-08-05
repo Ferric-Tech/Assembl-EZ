@@ -96,8 +96,8 @@ export class SignInPage implements OnInit {
   onRegistrationComplete(formValue: { [key: string]: string }) {
     this.updateProfile(formValue);
     this.notificationConfig = {
-      type: NotificationType.FORGOT_PASSWORD,
-      notification: Notification.RESET_PASSWORD_EMAIL_SENT,
+      type: NotificationType.REGISTER,
+      notification: Notification.REGISTRATION_COMPLETE,
     };
     this.isNotifying = true;
   }
