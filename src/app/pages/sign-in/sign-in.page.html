@@ -8,6 +8,7 @@
     *ngSwitchCase="viewState.REGISTER"
     (basicDetailsFormSubmitted)="registerUser($event)"
     (isPasswordMismatched)="onRegisterPasswordMismatch()"
+    (registrationComplete)="onRegistrationComplete($event)"
   ></app-register-flow>
 
   <app-forgot-password-screen
@@ -25,7 +26,7 @@
 <app-notifications-modal
   *ngIf="isNotifying"
   [notificationConfig]="notificationConfig"
-  (proceed)="isNotifying = false"
+  (proceed)="onNotificationProceed()"
 ></app-notifications-modal>
 
 <app-menu-component

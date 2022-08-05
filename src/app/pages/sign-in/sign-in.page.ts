@@ -82,11 +82,7 @@ export class SignInPage implements OnInit {
       password: formValue['password'],
     };
     await this.authenticationService.userRegistration(signInDetails).then(
-      (success) => {
-        delete formValue['password'];
-        delete formValue['confirmPassword'];
-        this.authenticationService.updateUserProfile(formValue);
-      },
+      (success) => this.updateProfile(formValue),
       (error) => {
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
         if (this.warnigConfig.warning === Warning.INVALID_EMAIL) {
@@ -95,6 +91,21 @@ export class SignInPage implements OnInit {
         this.isWarning = true;
       }
     );
+  }
+
+  onRegistrationComplete(formValue: { [key: string]: string }) {
+    this.updateProfile(formValue);
+    this.notificationConfig = {
+      type: NotificationType.FORGOT_PASSWORD,
+      notification: Notification.RESET_PASSWORD_EMAIL_SENT,
+    };
+    this.isNotifying = true;
+  }
+
+  private updateProfile(formValue: { [key: string]: string }) {
+    delete formValue['password'];
+    delete formValue['confirmPassword'];
+    this.authenticationService.updateUserProfile(formValue);
   }
 
   onRegisterPasswordMismatch() {
@@ -127,6 +138,13 @@ export class SignInPage implements OnInit {
   onViewStateSelected(viewState: ViewState) {
     this.currentViewState = viewState;
     this.setMenuOptions();
+  }
+
+  onNotificationProceed() {
+    this.isNotifying = false;
+    if (this.currentViewState === ViewState.REGISTER) {
+      this.router.navigate(['']);
+    }
   }
 
   private setMenuOptions() {

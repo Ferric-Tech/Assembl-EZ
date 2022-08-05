@@ -80,6 +80,11 @@ export class FormComponent implements OnInit {
     this.hiddenFields[index] = !this.hiddenFields[index];
   }
 
+  toggleOptOut(field: string) {
+    this.form.controls[field].setValue(!this.form.controls[field].value);
+    this.onFormChange();
+  }
+
   private setForm() {
     this.addFormFields();
     this.removeFormFields();

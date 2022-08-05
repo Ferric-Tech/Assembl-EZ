@@ -8,14 +8,18 @@
   <div *ngFor="let field of formConfig.fields; let index = index">
     <div class="fields-container" [ngSwitch]="field.fieldType">
       <p
-        *ngIf="field.fieldType != fieldType.FIELD_GROUP_TITLE"
+        *ngIf="
+          ![fieldType.OPT_OUT, fieldType.FIELD_GROUP_TITLE].includes(
+            field.fieldType
+          )
+        "
         class="field-title"
       >
         {{ field.fieldDisplay }}
       </p>
       <div
         class="center-spacer-gap"
-        *ngIf="field.fieldType != fieldType.RADIO"
+        *ngIf="![fieldType.OPT_OUT, fieldType.RADIO].includes(field.fieldType)"
       ></div>
 
       <div class="large-field-input" *ngSwitchCase="fieldType.INPUT_GENERAL">
@@ -107,7 +111,6 @@
 
       <div class="field-checkbox" *ngSwitchCase="fieldType.CHECKBOX">
         <mat-checkbox
-          class="example-margin"
           formControlName="{{ field.fieldName }}"
           (change)="onFormChange()"
         ></mat-checkbox>
@@ -118,6 +121,28 @@
         *ngSwitchCase="fieldType.FIELD_GROUP_TITLE"
       >
         <p>{{ field.fieldDisplay }}</p>
+      </div>
+
+      <div *ngSwitchCase="fieldType.OPT_OUT" class="field-opt-out">
+        <div *ngIf="form.value[field.fieldName]" class="field-opt-out-major">
+          <mat-checkbox
+            formControlName="{{ field.fieldName }}"
+            (change)="onFormChange()"
+          ></mat-checkbox>
+          <p (click)="toggleOptOut(field.fieldName)">
+            {{ field.fieldDisplay }}
+          </p>
+        </div>
+        <div *ngIf="!form.value[field.fieldName]" class="field-opt-out-minor">
+          <div class="left-spacer-gap"></div>
+          <mat-checkbox
+            formControlName="{{ field.fieldName }}"
+            (change)="onFormChange()"
+          ></mat-checkbox>
+          <p (click)="toggleOptOut(field.fieldName)">
+            {{ field.fieldDisplay }}
+          </p>
+        </div>
       </div>
     </div>
   </div>

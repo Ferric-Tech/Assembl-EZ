@@ -60,6 +60,36 @@
   font-weight: bolder;
 }
 
+.field-opt-out,
+.field-opt-out-minor,
+.field-opt-out-major {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.field-opt-out-major {
+  margin: 3px 0;
+}
+
+.field-opt-out-minor mat-checkbox,
+.field-opt-out-major mat-checkbox {
+  margin: 0 5px;
+}
+
+.field-opt-out-minor p {
+  display: flex;
+  flex-grow: 1;
+  width: 45%;
+  font-size: small;
+}
+
+.field-opt-out-major p {
+  display: flex;
+  flex-grow: 1;
+  width: 45%;
+}
+
 .field-input input {
   width: 80px;
   height: 20px;
@@ -104,6 +134,10 @@ mat-icon {
 .right-spacer-gap {
   display: flex;
   flex-grow: 10;
+}
+
+.left-spacer-gap {
+  width: 50%;
 }
 
 .center-spacer-gap {

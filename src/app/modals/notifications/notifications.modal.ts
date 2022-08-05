@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 export enum NotificationType {
+  REGISTER,
   FORGOT_PASSWORD,
   LEAD,
 }
@@ -8,6 +9,7 @@ export enum NotificationType {
 export enum Notification {
   RESET_PASSWORD_EMAIL_SENT,
   LEAD_ADDED,
+  REGISTRATION_COMPLETE,
 }
 
 export interface NotificationConfig {
@@ -48,6 +50,10 @@ export class NotificationsModal implements OnInit {
         this.header = 'Lead added';
         return;
       }
+      case NotificationType.REGISTER: {
+        this.header = 'Registration complete';
+        return;
+      }
     }
   }
 
@@ -62,6 +68,13 @@ export class NotificationsModal implements OnInit {
       }
       case Notification.LEAD_ADDED: {
         this.body = '';
+        return;
+      }
+      case Notification.REGISTRATION_COMPLETE: {
+        this.body =
+          'Your account has been resgitered. \
+        Remember if you need to change any of the detail \
+        you have provided you do so in the Settings';
         return;
       }
     }

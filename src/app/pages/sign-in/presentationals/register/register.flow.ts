@@ -7,16 +7,16 @@ import { RegisterScreenViewState as ViewState } from 'app/enums/viewstates.enum'
   styleUrls: ['./register.flow.scss'],
 })
 export class RegisterFlow {
-  @Output() registrationComplete = new EventEmitter<{
-    [key: string]: string;
-  }>();
   @Output() basicDetailsFormSubmitted = new EventEmitter<{
     [key: string]: string;
   }>();
   @Output() isPasswordMismatched = new EventEmitter<void>();
+  @Output() registrationComplete = new EventEmitter<{
+    [key: string]: string;
+  }>();
 
   viewState = ViewState;
-  currentViewState = ViewState.BUSINESS;
+  currentViewState = ViewState.CONTACT;
   registrationFormValue = {};
 
   onPasswordMismatch() {
@@ -42,7 +42,7 @@ export class RegisterFlow {
       ...this.registrationFormValue,
       ...formValue,
     };
-    // this.registrationComplete.emit(this.registrationFormValue);
+    this.registrationComplete.emit(this.registrationFormValue);
     this.currentViewState = ViewState.SUCCESS;
   }
 }

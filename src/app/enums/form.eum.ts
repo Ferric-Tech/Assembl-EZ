@@ -8,4 +8,5 @@ export enum FormFieldType {
   CHECKBOX,
   PASSWORD,
   FIELD_GROUP_TITLE,
+  OPT_OUT,
 }

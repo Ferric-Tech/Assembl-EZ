@@ -13,8 +13,28 @@ import {
 export class ContactDetailsScreen {
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
 
-  contactDetailsFormConfig = {} as FormConfig;
-  private defaultContactDetailsFormConfig: FormConfig = {
+  private opttableFields: { [key: string]: FormFieldConfig } = {
+    companyEmail: {
+      fieldDisplay: 'Email',
+      fieldName: 'companyEmail',
+      fieldType: FormFieldType.INPUT_GENERAL,
+      defaultValue: '',
+    },
+    companyContactNumber: {
+      fieldDisplay: 'Contact number',
+      fieldName: 'companyContactNumber',
+      fieldType: FormFieldType.INPUT_GENERAL,
+      defaultValue: '',
+    },
+    companyWebsite: {
+      fieldDisplay: 'Website',
+      fieldName: 'companyWebsite',
+      fieldType: FormFieldType.INPUT_GENERAL,
+      defaultValue: '',
+    },
+  };
+
+  contactDetailsFormConfig: FormConfig = {
     formTitle:
       'Now that we know about your businsess, we need to get the contact details for your busiess',
     isInExpansionTable: false,
@@ -26,23 +46,29 @@ export class ContactDetailsScreen {
         fieldDisplay: 'Company contacts',
         fieldType: FormFieldType.FIELD_GROUP_TITLE,
       },
+      this.opttableFields['companyEmail'],
       {
-        fieldDisplay: 'Email',
-        fieldName: 'companyEmail',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
+        fieldDisplay: 'No email',
+        fieldName: 'noCompanyEmail',
+        fieldType: FormFieldType.OPT_OUT,
+        defaultValue: false,
+        optsOutOf: 'companyEmail',
       },
+      this.opttableFields['companyContactNumber'],
       {
-        fieldDisplay: 'Contact number',
-        fieldName: 'companyContactNumber',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
+        fieldDisplay: 'No contact number',
+        fieldName: 'noCompanyContactNumber',
+        fieldType: FormFieldType.OPT_OUT,
+        defaultValue: false,
+        optsOutOf: 'companyContactNumber',
       },
+      this.opttableFields['companyWebsite'],
       {
-        fieldDisplay: 'Website',
-        fieldName: 'companyWebsite',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
+        fieldDisplay: 'No Website',
+        fieldName: 'noCompanyWebsite',
+        fieldType: FormFieldType.OPT_OUT,
+        defaultValue: false,
+        optsOutOf: 'companyWebsite',
       },
       {
         fieldName: 'groupPrimaryContact',
@@ -86,24 +112,82 @@ export class ContactDetailsScreen {
     },
   ];
 
-  ngOnInit() {
-    this.contactDetailsFormConfig = this.defaultContactDetailsFormConfig;
-  }
-
-  onContacDetailsForChanged(formValue: { [key: string]: string }) {
-    let isDefaultForm = this.contactDetailsFormConfig.fields.length === 6;
-    if (isDefaultForm && !formValue['isPrimaryContact']) {
-      this.contactDetailsFormConfig.fields =
-        this.contactDetailsFormConfig.fields.concat(this.primaryContactFields);
-    }
-    if (!isDefaultForm && formValue['isPrimaryContact']) {
-      for (let i = 1; i < 5; i++) {
-        this.contactDetailsFormConfig.fields.pop();
-      }
-    }
-  }
+  isPrimaryContactSelected = true;
 
   onContactDetailsFormSubmitted(formValue: { [key: string]: string }) {
     this.formSubmitted.emit(formValue);
+  }
+
+  onContacDetailsForChanged(formValue: { [key: string]: string | boolean }) {
+    if (this.isPrimaryContactSelected != formValue['isPrimaryContact']) {
+      this.isPrimaryContactSelected = formValue['isPrimaryContact'] as boolean;
+      this.isPrimaryContactSelected
+        ? this.removePrimaryContactFields()
+        : this.addPrimaryContactFields();
+    }
+    this.removedOptedOutFields(formValue);
+    this.addOptedInFields(formValue);
+  }
+
+  private addPrimaryContactFields() {
+    this.contactDetailsFormConfig.fields =
+      this.contactDetailsFormConfig.fields.concat(this.primaryContactFields);
+  }
+
+  private removePrimaryContactFields() {
+    for (let i = 1; i < 5; i++) {
+      this.contactDetailsFormConfig.fields.pop();
+    }
+  }
+
+  private removedOptedOutFields(formValue: {
+    [key: string]: string | boolean;
+  }) {
+    let optedOutFields: string[] = [];
+    this.contactDetailsFormConfig.fields.forEach((field) => {
+      if (
+        field.fieldType === FormFieldType.OPT_OUT &&
+        formValue[field.fieldName] &&
+        field.optsOutOf
+      ) {
+        optedOutFields.push(field.optsOutOf);
+      }
+    });
+    this.contactDetailsFormConfig.fields.forEach((field, index) => {
+      if (optedOutFields.includes(field.fieldName)) {
+        this.contactDetailsFormConfig.fields.splice(index, 1);
+      }
+    });
+  }
+
+  private addOptedInFields(formValue: { [key: string]: string | boolean }) {
+    let listOfFieldInForm: string[] = [];
+    this.contactDetailsFormConfig.fields.forEach((field) => {
+      listOfFieldInForm.push(field.fieldName);
+    });
+
+    let missingOptedInFields: { fieldName: string; index: number }[] = [];
+    this.contactDetailsFormConfig.fields.forEach((field, index) => {
+      if (
+        field.fieldType === FormFieldType.OPT_OUT &&
+        !formValue[field.fieldName] &&
+        field.optsOutOf
+      ) {
+        if (!listOfFieldInForm.includes(field.optsOutOf)) {
+          missingOptedInFields.push({
+            fieldName: field.optsOutOf,
+            index: index,
+          });
+        }
+      }
+    });
+
+    missingOptedInFields.forEach((field) => {
+      this.contactDetailsFormConfig.fields.splice(
+        field.index,
+        0,
+        this.opttableFields[field.fieldName]
+      );
+    });
   }
 }
