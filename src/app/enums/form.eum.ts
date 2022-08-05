@@ -7,4 +7,5 @@ export enum FormFieldType {
   RADIO,
   CHECKBOX,
   PASSWORD,
+  FIELD_GROUP_TITLE,
 }

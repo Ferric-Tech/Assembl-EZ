@@ -6,11 +6,11 @@ import {
 } from 'app/interfaces/form-screen.interface';
 
 @Component({
-  selector: 'app-business-details',
-  templateUrl: './business-details.component.html',
-  styleUrls: ['./business-details.component.scss'],
+  selector: 'app-business-details-screen',
+  templateUrl: './business-details.screen.html',
+  styleUrls: ['./business-details.screen.scss'],
 })
-export class BusinessDetailsComponent {
+export class BusinessDetailsScreen {
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
 
   formStage = 1;
@@ -100,11 +100,11 @@ export class BusinessDetailsComponent {
     }
   }
 
-  isEntityTypeAsChanged(currentValue: string) {
+  private isEntityTypeAsChanged(currentValue: string) {
     return parseInt(currentValue) != this.selectedOpertateAs;
   }
 
-  setFormStage2(formValue: { [key: string]: string }) {
+  private setFormStage2(formValue: { [key: string]: string }) {
     this.selectedOpertateAs = parseInt(formValue['entityType']);
     this.businessDetailsFormConfig.fields = [this.opertateAsField];
     this.businessDetailsFormConfig.fields[0].defaultValue = parseInt(

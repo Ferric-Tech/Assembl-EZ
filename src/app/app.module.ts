@@ -42,8 +42,8 @@ import { NotificationsModal } from './modals/notifications/notifications.modal';
 import { MatIconModule } from '@angular/material/icon';
 import { ViewLeadDetailScreen } from './pages/leads/presentationals/view-lead-detail/view-lead-detail.screen';
 import { BasicDetailsComponent } from './pages/sign-in/presentationals/register/presentationals/basic-details/basic-details.screen';
-import { BusinessDetailsComponent } from './pages/sign-in/presentationals/register/presentationals/business-details/business-details.component';
-import { ContactDetailsComponent } from './pages/sign-in/presentationals/register/presentationals/contact-details/contact-details.component';
+import { BusinessDetailsScreen } from './pages/sign-in/presentationals/register/presentationals/business-details/business-details.screen';
+import { ContactDetailsScreen } from './pages/sign-in/presentationals/register/presentationals/contact-details/contact-details.screen';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -84,8 +84,8 @@ export const firebaseConfig = {
     NotificationsModal,
     ViewLeadDetailScreen,
     BasicDetailsComponent,
-    BusinessDetailsComponent,
-    ContactDetailsComponent,
+    BusinessDetailsScreen,
+    ContactDetailsScreen,
   ],
   imports: [
     BrowserModule,

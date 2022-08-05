@@ -44,7 +44,11 @@ export class FormComponent implements OnInit {
         }
       }
 
-      if (this.formConfig.fields[index]?.fieldType != FormFieldType.CHECKBOX) {
+      if (
+        ![FormFieldType.CHECKBOX, FormFieldType.FIELD_GROUP_TITLE].includes(
+          this.formConfig.fields[index]?.fieldType
+        )
+      ) {
         if (!this.form.controls[key].value) {
           formValid = false;
         }
@@ -61,6 +65,7 @@ export class FormComponent implements OnInit {
   }
 
   onSubmit() {
+    this.removeFromGroupTitles();
     this.formSubmitted.emit(this.form.value);
   }
 
@@ -103,6 +108,21 @@ export class FormComponent implements OnInit {
 
     Object.keys(this.form.controls).forEach((key) => {
       if (!listOfFieldNames.includes(key)) {
+        this.form.removeControl(key);
+      }
+    });
+  }
+
+  private removeFromGroupTitles() {
+    let listOfFormGroupTitles: string[] = [];
+    this.formConfig.fields.forEach((field) => {
+      if (field.fieldType === FormFieldType.FIELD_GROUP_TITLE) {
+        listOfFormGroupTitles.push(field.fieldName);
+      }
+    });
+
+    Object.keys(this.form.controls).forEach((key) => {
+      if (listOfFormGroupTitles.includes(key)) {
         this.form.removeControl(key);
       }
     });

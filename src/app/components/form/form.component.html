@@ -7,11 +7,17 @@
   <div class="form-title">{{ formConfig.formTitle }}</div>
   <div *ngFor="let field of formConfig.fields; let index = index">
     <div class="fields-container" [ngSwitch]="field.fieldType">
-      <p class="field-title">{{ field.fieldDisplay }}</p>
+      <p
+        *ngIf="field.fieldType != fieldType.FIELD_GROUP_TITLE"
+        class="field-title"
+      >
+        {{ field.fieldDisplay }}
+      </p>
       <div
         class="center-spacer-gap"
         *ngIf="field.fieldType != fieldType.RADIO"
       ></div>
+
       <div class="large-field-input" *ngSwitchCase="fieldType.INPUT_GENERAL">
         <input
           type="text"
@@ -19,6 +25,7 @@
           [ngModel]="form.controls[field.fieldName].value"
         />
       </div>
+
       <div class="password-input" *ngSwitchCase="fieldType.PASSWORD">
         <mat-icon (click)="toggleField(index)">remove_red_eye</mat-icon>
         <input
@@ -34,6 +41,7 @@
           [ngModel]="form.controls[field.fieldName].value"
         />
       </div>
+
       <div class="field-input" *ngSwitchCase="fieldType.INPUT_DECIMAL_NUMBER">
         <input
           type="text"
@@ -42,6 +50,7 @@
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
         />
       </div>
+
       <div class="field-input" *ngSwitchCase="fieldType.INPUT_WHOLE_NUMBER">
         <input
           type="text"
@@ -50,6 +59,7 @@
           oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');"
         />
       </div>
+
       <div class="field-select" *ngSwitchCase="fieldType.SELECT">
         <mat-select
           class="field-select"
@@ -64,6 +74,7 @@
           </mat-option>
         </mat-select>
       </div>
+
       <div class="field-select" *ngSwitchCase="fieldType.MULTI_SELECT">
         <mat-select
           class="field-select"
@@ -78,6 +89,7 @@
           >
         </mat-select>
       </div>
+
       <div class="field-radio" *ngSwitchCase="fieldType.RADIO">
         <mat-radio-group
           class="field-radio-group"
@@ -92,12 +104,20 @@
         </mat-radio-group>
         <div class="right-spacer-gap"></div>
       </div>
+
       <div class="field-checkbox" *ngSwitchCase="fieldType.CHECKBOX">
         <mat-checkbox
           class="example-margin"
           formControlName="{{ field.fieldName }}"
           (change)="onFormChange()"
         ></mat-checkbox>
+      </div>
+
+      <div
+        class="field-group-title"
+        *ngSwitchCase="fieldType.FIELD_GROUP_TITLE"
+      >
+        <p>{{ field.fieldDisplay }}</p>
       </div>
     </div>
   </div>

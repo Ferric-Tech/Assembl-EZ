@@ -6,8 +6,13 @@
     (isPasswordMismatched)="onPasswordMismatch()"
   ></app-basic-details-screen>
 
-  <app-business-details
+  <app-business-details-screen
     *ngSwitchCase="viewState.BUSINESS"
     (formSubmitted)="onBusinessDetailsSubmitted($event)"
-  ></app-business-details>
+  ></app-business-details-screen>
+
+  <app-contact-details-screen
+    *ngSwitchCase="viewState.CONTACT"
+    (formSubmitted)="onContactDetailsSubmitted($event)"
+  ></app-contact-details-screen>
 </div>

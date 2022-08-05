@@ -42,7 +42,7 @@ export class RegisterFlow {
       ...this.registrationFormValue,
       ...formValue,
     };
-    this.registrationComplete.emit(this.registrationFormValue);
+    // this.registrationComplete.emit(this.registrationFormValue);
     this.currentViewState = ViewState.SUCCESS;
   }
 }
