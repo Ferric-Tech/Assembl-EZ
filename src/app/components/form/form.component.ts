@@ -60,21 +60,6 @@ export class FormComponent implements OnInit {
     this.setForm();
   }
 
-  private setForm() {
-    this.formConfig.fields.forEach((field, fieldIndex) => {
-      this.form.addControl(
-        field.fieldName,
-        new FormControl(field.defaultValue, Validators.required)
-      );
-      this.form.controls[field.fieldName].setValidators([Validators.required]);
-      this.form.controls[field.fieldName].setValidators([Validators.min(1)]);
-      if (field.fieldType === FormFieldType.PASSWORD) {
-        this.hiddenFields[fieldIndex] = true;
-      }
-    });
-    this.cd.detectChanges();
-  }
-
   onSubmit() {
     this.formSubmitted.emit(this.form.value);
   }
@@ -88,5 +73,38 @@ export class FormComponent implements OnInit {
 
   toggleField(index: number) {
     this.hiddenFields[index] = !this.hiddenFields[index];
+  }
+
+  private setForm() {
+    this.addFormFields();
+    this.removeFormFields();
+    this.cd.detectChanges();
+  }
+
+  private addFormFields() {
+    this.formConfig.fields.forEach((field, fieldIndex) => {
+      this.form.addControl(
+        field.fieldName,
+        new FormControl(field.defaultValue, Validators.required)
+      );
+      this.form.controls[field.fieldName].setValidators([Validators.required]);
+      this.form.controls[field.fieldName].setValidators([Validators.min(1)]);
+      if (field.fieldType === FormFieldType.PASSWORD) {
+        this.hiddenFields[fieldIndex] = true;
+      }
+    });
+  }
+
+  private removeFormFields() {
+    let listOfFieldNames: string[] = [];
+    this.formConfig.fields.forEach((field) => {
+      listOfFieldNames.push(field.fieldName);
+    });
+
+    Object.keys(this.form.controls).forEach((key) => {
+      if (!listOfFieldNames.includes(key)) {
+        this.form.removeControl(key);
+      }
+    });
   }
 }

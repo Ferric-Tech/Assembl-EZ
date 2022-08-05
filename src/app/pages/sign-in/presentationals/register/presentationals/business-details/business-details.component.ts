@@ -18,7 +18,7 @@ export class BusinessDetailsComponent {
 
   opertateAsField: FormFieldConfig = {
     fieldDisplay: 'How do you operate',
-    fieldName: 'opertateAs',
+    fieldName: 'entityType',
     fieldType: FormFieldType.RADIO,
     options: [
       {
@@ -34,8 +34,8 @@ export class BusinessDetailsComponent {
   };
 
   tradingAsField: FormFieldConfig = {
-    fieldDisplay: 'Trading as',
-    fieldName: 'tradingAs',
+    fieldDisplay: 'Trading name',
+    fieldName: 'tradingName',
     fieldType: FormFieldType.INPUT_GENERAL,
     defaultValue: '',
   };
@@ -48,10 +48,10 @@ export class BusinessDetailsComponent {
   };
 
   tradingUnderLegalNameField: FormFieldConfig = {
-    fieldDisplay: 'Trading name same as legal"',
-    fieldName: 'tradingUnderLegalName',
+    fieldDisplay: 'Trading and legam names differ',
+    fieldName: 'tradingAndLegalNameDiffer',
     fieldType: FormFieldType.CHECKBOX,
-    defaultValue: true,
+    defaultValue: false,
   };
 
   businessDetailsFormConfig: FormConfig = {
@@ -75,46 +75,46 @@ export class BusinessDetailsComponent {
         return;
       }
       case 2: {
-        if (this.isOpertateAsChanged(formValue['opertateAs'])) {
+        if (this.isEntityTypeAsChanged(formValue['entityType'])) {
           this.setFormStage2(formValue);
         }
         return;
       }
       case 3: {
-        if (this.isOpertateAsChanged(formValue['opertateAs'])) {
+        if (this.isEntityTypeAsChanged(formValue['entityType'])) {
           this.setFormStage2(formValue);
         }
-        if (!formValue['tradingUnderLegalName']) {
+        if (formValue['tradingAndLegalNameDiffer']) {
           this.businessDetailsFormConfig.fields.push(this.tradingAsField);
         }
         return;
       }
       case 4: {
-        if (this.isOpertateAsChanged(formValue['opertateAs'])) {
+        if (this.isEntityTypeAsChanged(formValue['entityType'])) {
           this.setFormStage2(formValue);
         }
-        if (formValue['tradingUnderLegalName']) {
+        if (!formValue['tradingAndLegalNameDiffer']) {
           this.businessDetailsFormConfig.fields.pop();
         }
       }
     }
   }
 
-  isOpertateAsChanged(currentValue: string) {
+  isEntityTypeAsChanged(currentValue: string) {
     return parseInt(currentValue) != this.selectedOpertateAs;
   }
 
   setFormStage2(formValue: { [key: string]: string }) {
-    this.selectedOpertateAs = parseInt(formValue['opertateAs']);
+    this.selectedOpertateAs = parseInt(formValue['entityType']);
     this.businessDetailsFormConfig.fields = [this.opertateAsField];
     this.businessDetailsFormConfig.fields[0].defaultValue = parseInt(
-      formValue['opertateAs']
+      formValue['entityType']
     );
 
-    if (parseInt(formValue['opertateAs']) === 1) {
+    if (parseInt(formValue['entityType']) === 1) {
       this.businessDetailsFormConfig.fields.push(this.tradingAsField);
     }
-    if (parseInt(formValue['opertateAs']) === 2) {
+    if (parseInt(formValue['entityType']) === 2) {
       this.businessDetailsFormConfig.fields.push(
         this.legalNameField,
         this.tradingUnderLegalNameField
