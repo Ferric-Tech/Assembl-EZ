@@ -45,9 +45,11 @@ export class FormComponent implements OnInit {
       }
 
       if (
-        ![FormFieldType.CHECKBOX, FormFieldType.FIELD_GROUP_TITLE].includes(
-          this.formConfig.fields[index]?.fieldType
-        )
+        ![
+          FormFieldType.CHECKBOX,
+          FormFieldType.FIELD_GROUP_TITLE,
+          FormFieldType.OPT_OUT,
+        ].includes(this.formConfig.fields[index]?.fieldType)
       ) {
         if (!this.form.controls[key].value) {
           formValid = false;

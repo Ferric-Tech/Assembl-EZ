@@ -99,8 +99,6 @@ export class AuthenticationService {
         headers: this.getHeaders(),
         params: new HttpParams().set('userID', await this.userID),
       };
-
-      console.log('Here');
       this.http.post(url, body, options).subscribe((response) => {
         resolve(response);
       });
