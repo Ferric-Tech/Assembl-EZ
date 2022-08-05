@@ -130,6 +130,7 @@ export class SignInPage implements OnInit {
       },
       (error) => {
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
+        this.warnigConfig.type = WarningType.FORGOT_PASSWORD;
         this.isWarning = true;
       }
     );

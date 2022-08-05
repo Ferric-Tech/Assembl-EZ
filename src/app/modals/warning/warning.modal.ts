@@ -4,6 +4,7 @@ export enum WarningType {
   SIGN_IN,
   REGISTER,
   LEADS,
+  FORGOT_PASSWORD,
 }
 
 export enum Warning {
@@ -67,6 +68,11 @@ export class WarningsModal implements OnInit {
             return;
           }
         }
+        break;
+      }
+      case WarningType.FORGOT_PASSWORD: {
+        this.header = 'Unable to send';
+        return;
       }
     }
   }
@@ -127,7 +133,8 @@ export class WarningsModal implements OnInit {
   private setButtons() {
     switch (this.warningConfig?.type) {
       case WarningType.REGISTER:
-      case WarningType.SIGN_IN: {
+      case WarningType.SIGN_IN:
+      case WarningType.FORGOT_PASSWORD: {
         this.proceedButtonText = 'Understood';
         this.cancelButtonText = '';
         return;
