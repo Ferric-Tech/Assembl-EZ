@@ -1,5 +1,6 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { RegisterScreenViewState as ViewState } from 'app/enums/viewstates.enum';
+import { SignInPage } from '../../sign-in.page';
 
 @Component({
   selector: 'app-register-flow',
@@ -7,6 +8,7 @@ import { RegisterScreenViewState as ViewState } from 'app/enums/viewstates.enum'
   styleUrls: ['./register.flow.scss'],
 })
 export class RegisterFlow {
+  @Input() currentViewState: ViewState | undefined;
   @Output() basicDetailsFormSubmitted = new EventEmitter<{
     [key: string]: string;
   }>();
@@ -16,8 +18,21 @@ export class RegisterFlow {
   }>();
 
   viewState = ViewState;
-  currentViewState = ViewState.CONTACT;
   registrationFormValue = {};
+  constructor(private signInPage: SignInPage) {}
+
+  ngOnInit() {
+    this.currentViewState = ViewState.BASIC;
+    this.signInPage._permissionToProceed$.subscribe((permissionGiven) => {
+      if (permissionGiven) {
+        switch (this.currentViewState) {
+          case ViewState.BASIC: {
+            this.currentViewState = ViewState.BUSINESS;
+          }
+        }
+      }
+    });
+  }
 
   onPasswordMismatch() {
     this.isPasswordMismatched.emit();
@@ -26,7 +41,6 @@ export class RegisterFlow {
   onBasicDetailsSubmitted(formValue: { [key: string]: string }) {
     this.registrationFormValue = formValue;
     this.basicDetailsFormSubmitted.emit(formValue);
-    this.currentViewState = ViewState.BUSINESS;
   }
 
   onBusinessDetailsSubmitted(formValue: { [key: string]: string }) {

@@ -22,6 +22,7 @@ import {
   NotificationType,
 } from 'app/modals/notifications/notifications.modal';
 import { DataManagementService } from 'app/services/data-management.service';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -29,6 +30,9 @@ import { DataManagementService } from 'app/services/data-management.service';
   styleUrls: ['./sign-in.page.scss'],
 })
 export class SignInPage implements OnInit {
+  permissionToProceed$ = new BehaviorSubject<boolean>(false);
+  _permissionToProceed$ = this.permissionToProceed$.asObservable();
+
   viewState = ViewState;
   currentViewState = ViewState.SIGN_IN;
   menuOptions: MenuOption[] = [];
@@ -82,7 +86,10 @@ export class SignInPage implements OnInit {
       password: formValue['password'],
     };
     await this.authenticationService.userRegistration(signInDetails).then(
-      (success) => this.updateProfile(formValue),
+      (success) => {
+        this.updateProfile(formValue);
+        this.permissionToProceed$.next(true);
+      },
       (error) => {
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
         if (this.warnigConfig.warning === Warning.INVALID_EMAIL) {
