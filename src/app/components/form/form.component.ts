@@ -33,12 +33,20 @@ export class FormComponent implements OnInit {
   hiddenFields = {} as { [key: number]: boolean };
 
   get validForm() {
+    console.log(
+      '------------------ Assessing form validity ---------------------'
+    );
+    console.log(this.formConfig.fields);
+    console.log(this.form.controls);
+
     let formValid = true;
-    Object.keys(this.form.controls).forEach((key, index) => {
-      // Complex logic required to test if multi-selector is empty
-      if (typeof this.form.controls[key].value === 'object') {
-        if (this.form.controls[key].value != null) {
-          if (Object.keys(this.form.controls[key].value).length === 0) {
+    this.formConfig.fields.forEach((field, index) => {
+      if (typeof this.form.controls[field.fieldName].value === 'object') {
+        // Complex logic required to test if multi-selector is empty
+        if (this.form.controls[field.fieldName].value != null) {
+          if (
+            Object.keys(this.form.controls[field.fieldName].value).length === 0
+          ) {
             formValid = false;
           }
         }
@@ -51,7 +59,7 @@ export class FormComponent implements OnInit {
           FormFieldType.OPT_OUT,
         ].includes(this.formConfig.fields[index]?.fieldType)
       ) {
-        if (!this.form.controls[key].value) {
+        if (!this.form.controls[field.fieldName].value) {
           formValid = false;
         }
       }
