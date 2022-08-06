@@ -72,9 +72,10 @@ export class NotificationsModal implements OnInit {
       }
       case Notification.REGISTRATION_COMPLETE: {
         this.body =
-          'Your account has been resgitered. \
-        Remember if you need to change any of the detail \
-        you have provided you do so in the Settings';
+          'Your account has been registered. Remember \
+          if you need to change any of the detail you \
+          have provided here, you can do so in your Profile \
+          page';
         return;
       }
     }
@@ -83,7 +84,8 @@ export class NotificationsModal implements OnInit {
   private setButtons() {
     switch (this.notificationConfig?.type) {
       case NotificationType.FORGOT_PASSWORD:
-      case NotificationType.LEAD: {
+      case NotificationType.LEAD:
+      case NotificationType.REGISTER: {
         this.proceedButtonText = 'Understood';
         return;
       }
