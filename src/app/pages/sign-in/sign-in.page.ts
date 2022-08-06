@@ -41,6 +41,7 @@ export class SignInPage implements OnInit {
   warnigConfig: WarningConfig | undefined;
   isNotifying = false;
   notificationConfig: NotificationConfig | undefined;
+  isLoading = false;
 
   constructor(
     private authenticationService: AuthenticationService,
@@ -66,11 +67,13 @@ export class SignInPage implements OnInit {
       email: formValue['email'],
       password: formValue['password'],
     };
+    this.isLoading = true;
     await this.authenticationService.userSignIn(signInDetails).then(
-      (success) => {
-        this.router.navigate(['']);
+      async (success) => {
         this.dataManagementService.getClientData().then((response) => {
           console.log(response);
+          this.isLoading = false;
+          this.router.navigate(['']);
         });
       },
       (error) => {

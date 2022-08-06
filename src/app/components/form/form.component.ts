@@ -33,12 +33,6 @@ export class FormComponent implements OnInit {
   hiddenFields = {} as { [key: number]: boolean };
 
   get validForm() {
-    console.log(
-      '------------------ Assessing form validity ---------------------'
-    );
-    console.log(this.formConfig.fields);
-    console.log(this.form.controls);
-
     let formValid = true;
     this.formConfig.fields.forEach((field, index) => {
       if (typeof this.form.controls[field.fieldName].value === 'object') {

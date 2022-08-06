@@ -15,7 +15,8 @@ exports.getClientData = functions.https.onRequest(
 
         //Get client data
         const clientDataDocRef = db.collection('client-data').doc(userID);
-        const clientData = clientDataDocRef.get();
+        const clientDataDoc = await clientDataDocRef.get();
+        const clientData = clientDataDoc.data();
 
         //Get client leads
         let leads: { [key: string]: any } = {};
@@ -23,7 +24,7 @@ exports.getClientData = functions.https.onRequest(
           .collection('client-data')
           .doc(userID)
           .collection('leads');
-        leadsDocRef.get().then((snapshot) => {
+        await leadsDocRef.get().then((snapshot) => {
           snapshot.forEach((doc) => {
             leads[doc.id] = doc.data();
           });

@@ -22,7 +22,7 @@ export class RegisterFlow {
   constructor(private signInPage: SignInPage) {}
 
   ngOnInit() {
-    this.currentViewState = ViewState.CONTACT;
+    this.currentViewState = ViewState.BASIC;
     this.signInPage._permissionToProceed$.subscribe((permissionGiven) => {
       if (permissionGiven) {
         switch (this.currentViewState) {

@@ -44,6 +44,8 @@ import { ViewLeadDetailScreen } from './pages/leads/presentationals/view-lead-de
 import { BasicDetailsComponent } from './pages/sign-in/presentationals/register/presentationals/basic-details/basic-details.screen';
 import { BusinessDetailsScreen } from './pages/sign-in/presentationals/register/presentationals/business-details/business-details.screen';
 import { ContactDetailsScreen } from './pages/sign-in/presentationals/register/presentationals/contact-details/contact-details.screen';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -86,6 +88,7 @@ export const firebaseConfig = {
     BasicDetailsComponent,
     BusinessDetailsScreen,
     ContactDetailsScreen,
+    LoadingSpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -103,6 +106,7 @@ export const firebaseConfig = {
     AngularFireStorageModule, // storage
     HttpClientModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
