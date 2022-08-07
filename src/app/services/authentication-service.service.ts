@@ -7,6 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export interface SignInDetails {
   email: string;
   password: string;
+  parentProfile?: string;
 }
 
 @Injectable({

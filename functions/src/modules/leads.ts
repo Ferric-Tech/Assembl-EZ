@@ -29,33 +29,6 @@ exports.addLead = functions.https.onRequest(async (req: any, res: any) => {
   });
 });
 
-exports.getLeads = functions.https.onRequest(async (req: any, res: any) => {
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  corsHandler(req, res, async () => {
-    const userID = req.query.userID;
-    try {
-      const db = admin.firestore();
-      const docRef = db
-        .collection('client-data')
-        .doc(userID)
-        .collection('leads');
-      let leads: any[] = [];
-      docRef.get().then((snapshot) => {
-        snapshot.forEach((doc) => {
-          var lead = {
-            id: doc.id,
-            data: doc.data(),
-          };
-          leads = leads.concat(lead);
-        });
-        res.send(leads);
-      });
-    } catch (error) {
-      res.send(error);
-    }
-  });
-});
-
 function generateDateBaseDocRefID() {
   const randomElement = Math.floor(Math.random() * 100);
   const date = new Date();

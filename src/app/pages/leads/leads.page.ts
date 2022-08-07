@@ -49,6 +49,7 @@ export class LeadsPage {
         this.currentViewState = ViewState.VIEW_ALL;
       },
       (error) => {
+        this.loadingService.cancelLoading();
         this.warnigConfig = {
           type: WarningType.LEADS,
           warning: Warning.UNABLE_TO_ADD,

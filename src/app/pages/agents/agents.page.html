@@ -1,2 +1,11 @@
-<app-page-header-component [header]="'Agents'"></app-page-header-component>
-<app-menu-component [menuOptions]="menuOptions"></app-menu-component>
+<div [ngSwitch]="currentViewState">
+  <app-agent-menu
+    *ngSwitchCase="viewState.MENU"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-agent-menu>
+
+  <app-new-agent-screen
+    *ngSwitchCase="viewState.ADD"
+    (formSubmitted)="onNewAgentFormSubmitted($event)"
+  ></app-new-agent-screen>
+</div>

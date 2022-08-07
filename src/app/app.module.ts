@@ -46,6 +46,8 @@ import { BusinessDetailsScreen } from './pages/sign-in/presentationals/register/
 import { ContactDetailsScreen } from './pages/sign-in/presentationals/register/presentationals/contact-details/contact-details.screen';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
+import { NewAgentScreen } from './pages/agents/presentationals/new-agent/new-agent.screen';
+import { AgentMenuComponent } from './pages/agents/presentationals/agent-menu/agent-menu.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -89,6 +91,8 @@ export const firebaseConfig = {
     BusinessDetailsScreen,
     ContactDetailsScreen,
     LoadingSpinnerComponent,
+    NewAgentScreen,
+    AgentMenuComponent,
   ],
   imports: [
     BrowserModule,

@@ -9,8 +9,9 @@ admin.initializeApp(functions.config().firebase);
 const leadsModule = require('./modules/leads');
 const usersModule = require('./modules/users');
 const clientDataModule = require('./modules/client-data');
+const emailerModule = require('./modules/emailer');
 
 exports.addLead = leadsModule.addLead;
-exports.getLeads = leadsModule.getLeads;
 exports.updateUserProfile = usersModule.updateUserProfile;
 exports.getClientData = clientDataModule.getClientData;
+exports.email = emailerModule.email;

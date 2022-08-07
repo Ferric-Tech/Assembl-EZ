@@ -34,3 +34,8 @@ export enum RegisterScreenViewState {
   CONTACT = 3,
   SUCCESS = 4,
 }
+
+export enum AgentPageViewState {
+  MENU = 1,
+  ADD = 2,
+}

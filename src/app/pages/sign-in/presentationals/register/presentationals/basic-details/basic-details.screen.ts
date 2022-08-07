@@ -13,7 +13,7 @@ export class BasicDetailsComponent {
 
   registerFormConfig: FormConfig = {
     formTitle:
-      'Regisering is a quick easy three-step process, \
+      'Registering is a quick easy three-step process, \
       lets start by gettig your basic details',
     isInExpansionTable: false,
     isDynamic: false,
