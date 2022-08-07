@@ -1,5 +1,4 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormFieldType } from 'app/enums/form.eum';
 import { FormConfig } from 'app/interfaces/form-screen.interface';
 import {

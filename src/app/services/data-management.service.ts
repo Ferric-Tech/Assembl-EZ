@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ClientData } from 'app/interfaces/api.interface';
-import { AuthenticationService } from './authentication-service.service';
 
 export interface Options {
   headers: HttpHeaders;

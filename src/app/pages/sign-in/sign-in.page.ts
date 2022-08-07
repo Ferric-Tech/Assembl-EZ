@@ -21,9 +21,7 @@ import {
   NotificationConfig,
   NotificationType,
 } from 'app/modals/notifications/notifications.modal';
-import { DataManagementService } from 'app/services/data-management.service';
 import { BehaviorSubject } from 'rxjs';
-import { ClientData } from 'app/interfaces/api.interface';
 import { ClientProfileService } from 'app/services/client-profile.service';
 
 @Component({

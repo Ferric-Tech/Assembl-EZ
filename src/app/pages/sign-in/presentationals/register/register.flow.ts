@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { RegisterScreenViewState as ViewState } from 'app/enums/viewstates.enum';
 import { SignInPage } from '../../sign-in.page';
 
