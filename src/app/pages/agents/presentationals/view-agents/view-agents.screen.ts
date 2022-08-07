@@ -33,9 +33,8 @@ export class ViewAgentsComponent implements OnInit {
     },
     {
       style: MenuOptionStyle.SECONDARY,
-      display: 'Back to agent menu',
-      optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.MENU,
+      display: 'Back to main menu',
+      optionType: MenuOptionType.HOME,
     },
   ];
 
@@ -76,9 +75,13 @@ export class ViewAgentsComponent implements OnInit {
     );
 
     Object.keys(this.agents).forEach((agentRef) => {
-      let agent = this.agents[agentRef] as { name: string; email: string };
+      let agent = this.agents[agentRef] as {
+        firstName: string;
+        lastName: string;
+        email: string;
+      };
       let agentListItem: string[] = [];
-      agentListItem.push(agent.name);
+      agentListItem.push(agent.firstName + ' ' + agent.lastName);
       agentListItem.push(agent.email);
       this.agentsListConfig.lines.push(agentListItem);
     });

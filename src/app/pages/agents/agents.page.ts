@@ -19,9 +19,7 @@ export class AgentsPage {
     private emailsService: EmailsService,
     private agentService: AgentService,
     private loadingService: LoadingService
-  ) {}
-
-  ngOnInt() {
+  ) {
     this.getUpdatedAgents();
   }
 
@@ -36,7 +34,7 @@ export class AgentsPage {
       (error) => {}
     );
     this.loadingService.cancelLoading();
-    this.currentViewState = ViewState.MENU;
+    this.currentViewState = ViewState.VIEW;
   }
 
   onAgentClicked(index: number) {

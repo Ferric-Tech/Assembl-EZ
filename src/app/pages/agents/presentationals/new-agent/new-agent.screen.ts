@@ -20,9 +20,9 @@ export class NewAgentScreen {
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.SECONDARY,
-      display: 'Back to agent menu',
+      display: 'Back to agent list',
       optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.MENU,
+      viewState: ViewState.VIEW,
     },
   ];
 
