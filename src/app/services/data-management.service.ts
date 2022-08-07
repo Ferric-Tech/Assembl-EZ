@@ -9,6 +9,7 @@ export interface Options {
 
 export enum CollectionType {
   LEADS,
+  PROFILE,
 }
 
 @Injectable({
@@ -58,6 +59,10 @@ export class DataManagementService {
         let leads = JSON.parse(sessionStorage['leads']);
         leads[docRef] = body;
         sessionStorage.setItem('leads', JSON.stringify(leads));
+        return;
+      }
+      case CollectionType.PROFILE: {
+        sessionStorage.setItem('profile', JSON.stringify(body));
       }
     }
   }

@@ -13,12 +13,12 @@ export class AppComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private dataManagementService: DataManagementService
+    private clientProfileService: ClientProfileService
   ) {}
 
   async ngOnInit() {
     (await this.authService.isAuthenticated())
-      ? this.dataManagementService.getClientData()
+      ? this.clientProfileService.getClientData()
       : null;
   }
 }

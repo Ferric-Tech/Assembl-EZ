@@ -1,7 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from './authentication-service.service';
-import { DataManagementService } from './data-management.service';
+import {
+  CollectionType,
+  DataManagementService,
+} from './data-management.service';
 
 @Injectable({
   providedIn: 'root',
@@ -34,23 +37,25 @@ export class ClientProfileService {
     });
   }
 
-  async updateUserProfile(formValue: {
-    [key: string]: string;
-  }): Promise<Object> {
-    return new Promise(async (resolve) => {
-      const url =
-        'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
-      const body = formValue;
-      const options = {
-        headers: this.getHeaders(),
-        params: new HttpParams().set(
-          'userID',
-          await this.authenticationService.userID
-        ),
-      };
-      this.http.post(url, body, options).subscribe((response) => {
-        resolve(response);
-      });
+  async addUserProfile(formValue: { [key: string]: string }): Promise<void> {
+    const url =
+      'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
+    const body = formValue;
+    const options = {
+      headers: this.getHeaders(),
+      params: new HttpParams().set(
+        'userID',
+        await this.authenticationService.userID
+      ),
+    };
+
+    return new Promise(async (resolve, reject) => {
+      await this.dataManagementService
+        .postData(CollectionType.PROFILE, url, body, options)
+        .then(
+          async (success) => resolve(),
+          async (error) => reject()
+        );
     });
   }
 
