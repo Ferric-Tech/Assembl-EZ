@@ -48,7 +48,7 @@ export class SignInPage implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private clientProfileService: ClientProfileService,
+    private dataManagementService: DataManagementService,
     private errorHandlingService: ErrorHandlingService
   ) {}
 
@@ -72,7 +72,7 @@ export class SignInPage implements OnInit {
     this.isLoading = true;
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
-        this.clientProfileService.getClientData();
+        this.dataManagementService.getClientData();
         this.isLoading = false;
         this.router.navigate(['']);
       },
