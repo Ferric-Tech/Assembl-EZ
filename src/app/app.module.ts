@@ -47,7 +47,6 @@ import { ContactDetailsScreen } from './pages/sign-in/presentationals/register/p
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
 import { NewAgentScreen } from './pages/agents/presentationals/new-agent/new-agent.screen';
-import { AgentMenuComponent } from './pages/agents/presentationals/agent-menu/agent-menu.component';
 import { ViewAgentsComponent } from './pages/agents/presentationals/view-agents/view-agents.screen';
 
 export const firebaseConfig = {
@@ -93,7 +92,6 @@ export const firebaseConfig = {
     ContactDetailsScreen,
     LoadingSpinnerComponent,
     NewAgentScreen,
-    AgentMenuComponent,
     ViewAgentsComponent,
   ],
   imports: [

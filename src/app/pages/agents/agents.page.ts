@@ -11,7 +11,7 @@ import { LoadingService } from 'app/services/loading.service';
 })
 export class AgentsPage {
   viewState = ViewState;
-  currentViewState = ViewState.MENU;
+  currentViewState = ViewState.VIEW;
   agents: { [key: string]: any } = {};
   agent: { [key: string]: string } = {};
 
