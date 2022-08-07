@@ -23,6 +23,7 @@ import {
 } from 'app/modals/notifications/notifications.modal';
 import { DataManagementService } from 'app/services/data-management.service';
 import { BehaviorSubject } from 'rxjs';
+import { ClientData } from 'app/interfaces/api.interface';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -70,13 +71,13 @@ export class SignInPage implements OnInit {
     this.isLoading = true;
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
-        this.dataManagementService.getClientData().then((response) => {
-          console.log(response);
-          this.isLoading = false;
-          this.router.navigate(['']);
-        });
+        this.dataManagementService.getClientData();
+
+        this.isLoading = false;
+        this.router.navigate(['']);
       },
       (error) => {
+        this.isLoading = false;
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
         this.isWarning = true;
       }

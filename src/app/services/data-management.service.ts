@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ClientData } from 'app/interfaces/api.interface';
 import { AuthenticationService } from './authentication-service.service';
 
 @Injectable({
@@ -11,7 +12,7 @@ export class DataManagementService {
     private authenticationService: AuthenticationService
   ) {}
 
-  async getClientData(): Promise<Object> {
+  async getClientData(): Promise<void> {
     return new Promise(async (resolve) => {
       const url =
         'https://us-central1-assembl-ez.cloudfunctions.net/getClientData';
@@ -26,7 +27,10 @@ export class DataManagementService {
       };
 
       this.http.get(url, options).subscribe((response) => {
-        resolve(response);
+        const clientData = response as ClientData;
+        sessionStorage.setItem('profile', JSON.stringify(clientData.profile));
+        sessionStorage.setItem('leads', JSON.stringify(clientData.leads));
+        resolve();
       });
     });
   }

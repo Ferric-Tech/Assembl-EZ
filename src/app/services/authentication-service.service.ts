@@ -64,6 +64,7 @@ export class AuthenticationService {
   }
 
   signOut() {
+    sessionStorage.clear();
     this.angularFireAuth.signOut();
   }
 

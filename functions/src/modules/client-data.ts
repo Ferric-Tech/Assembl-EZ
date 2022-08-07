@@ -14,9 +14,9 @@ exports.getClientData = functions.https.onRequest(
         const db = admin.firestore();
 
         //Get client data
-        const clientDataDocRef = db.collection('client-data').doc(userID);
-        const clientDataDoc = await clientDataDocRef.get();
-        const clientData = clientDataDoc.data();
+        const profileDocDocRef = db.collection('client-data').doc(userID);
+        const profileDoc = await profileDocDocRef.get();
+        const profile = profileDoc.data();
 
         //Get client leads
         let leads: { [key: string]: any } = {};
@@ -29,7 +29,7 @@ exports.getClientData = functions.https.onRequest(
             leads[doc.id] = doc.data();
           });
         });
-        res.send({ clientData, leads });
+        res.send({ profile, leads });
       } catch (error) {
         res.send(error);
       }
