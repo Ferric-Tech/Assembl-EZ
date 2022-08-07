@@ -23,6 +23,7 @@ import {
 } from 'app/modals/notifications/notifications.modal';
 import { BehaviorSubject } from 'rxjs';
 import { ClientProfileService } from 'app/services/client-profile.service';
+import { LoadingService } from 'app/services/loading.service';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -41,13 +42,13 @@ export class SignInPage implements OnInit {
   warnigConfig: WarningConfig | undefined;
   isNotifying = false;
   notificationConfig: NotificationConfig | undefined;
-  isLoading = false;
 
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
     private clientProfileService: ClientProfileService,
-    private errorHandlingService: ErrorHandlingService
+    private errorHandlingService: ErrorHandlingService,
+    private loadingService: LoadingService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -67,15 +68,15 @@ export class SignInPage implements OnInit {
       email: formValue['email'],
       password: formValue['password'],
     };
-    this.isLoading = true;
+    this.loadingService.setLoading();
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
         this.clientProfileService.getClientData();
-        this.isLoading = false;
         this.router.navigate(['']);
+        this.loadingService.cancelLoading();
       },
       (error) => {
-        this.isLoading = false;
+        this.loadingService.cancelLoading();
         this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
         this.isWarning = true;
       }

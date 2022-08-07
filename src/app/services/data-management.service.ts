@@ -23,7 +23,6 @@ export class DataManagementService {
       try {
         this.http.get(url, options).subscribe((response) => {
           const clientData = response as ClientData;
-
           sessionStorage.setItem('profile', JSON.stringify(clientData.profile));
           sessionStorage.setItem('leads', JSON.stringify(clientData.leads));
           resolve();

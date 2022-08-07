@@ -11,6 +11,7 @@ import {
   WarningType,
 } from 'app/modals/warning/warning.modal';
 import { LeadsService } from 'app/services/leads.service';
+import { LoadingService } from 'app/services/loading.service';
 
 @Component({
   selector: 'app-leads-page',
@@ -29,17 +30,22 @@ export class LeadsPage {
   isNotifying = false;
   notificationConfig: NotificationConfig | undefined;
 
-  constructor(private leadService: LeadsService) {}
+  constructor(
+    private leadService: LeadsService,
+    private loadingService: LoadingService
+  ) {}
 
   onLeadAdded(formValue: { [key: string]: string }) {
+    this.loadingService.setLoading();
     this.leadService.addLead(formValue).then(
       async (success) => {
         this.notificationConfig = {
           type: NotificationType.LEAD,
           notification: Notification.LEAD_ADDED,
         };
+        this.loadingService.cancelLoading();
         this.isNotifying = true;
-        await this.geUpdatedLeads();
+        await this.getUpdatedLeads();
         this.currentViewState = ViewState.VIEW_ALL;
       },
       (error) => {
@@ -61,13 +67,13 @@ export class LeadsPage {
   async onViewStateSelected(viewState: number) {
     switch (viewState) {
       case ViewState.VIEW_ALL: {
-        await this.geUpdatedLeads();
+        await this.getUpdatedLeads();
       }
     }
     this.currentViewState = viewState;
   }
 
-  private async geUpdatedLeads(): Promise<void> {
+  private async getUpdatedLeads(): Promise<void> {
     await this.leadService.getLeads().then(
       async (success) => {
         this.leads = success;
