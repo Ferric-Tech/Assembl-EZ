@@ -11,4 +11,10 @@
     (formSubmitted)="onNewAgentFormSubmitted($event)"
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-new-agent-screen>
+
+  <app-view-agent-detail-screen
+    *ngSwitchCase="viewState.VIEW_AGENT"
+    [agent]="agent"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-view-agent-detail-screen>
 </div>

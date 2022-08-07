@@ -12,7 +12,7 @@ import { AgentPageViewState as ViewState } from 'app/enums/viewstates.enum';
   templateUrl: './view-agents.screen.html',
   styleUrls: ['./view-agents.screen.scss'],
 })
-export class ViewAgentsComponent implements OnInit {
+export class ViewAgentsScreen implements OnInit {
   @Input() agents: { [key: string]: any } = {};
   @Output() agentClicked = new EventEmitter<number>();
   @Output() viewStateSelected = new EventEmitter<number>();

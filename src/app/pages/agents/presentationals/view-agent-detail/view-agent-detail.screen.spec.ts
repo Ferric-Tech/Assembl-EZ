@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewAgentsScreen } from './view-agents.screen';
+import { ViewAgentDetailScreen } from './view-agent-detail.screen';
 
-describe('ViewAgentsComponent', () => {
-  let component: ViewAgentsScreen;
-  let fixture: ComponentFixture<ViewAgentsScreen>;
+describe('ViewAgentDetailScreen', () => {
+  let component: ViewAgentDetailScreen;
+  let fixture: ComponentFixture<ViewAgentDetailScreen>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ViewAgentsScreen],
+      declarations: [ViewAgentDetailScreen],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ViewAgentsScreen);
+    fixture = TestBed.createComponent(ViewAgentDetailScreen);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

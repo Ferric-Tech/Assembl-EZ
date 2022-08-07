@@ -1,0 +1,13 @@
+<app-page-header-component
+  [header]="'Agent profile'"
+></app-page-header-component>
+
+<div class="results-container" *ngFor="let detail of agent | keyvalue">
+  <div class="description-line">{{ detail.key }}</div>
+  <div>{{ detail.value }}</div>
+</div>
+
+<app-menu-component
+  [menuOptions]="menuOptions"
+  (viewStateSelected)="onViewStateSelected($event)"
+></app-menu-component>
