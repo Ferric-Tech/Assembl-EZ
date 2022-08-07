@@ -38,4 +38,6 @@ export enum RegisterScreenViewState {
 export enum AgentPageViewState {
   MENU = 1,
   ADD = 2,
+  VIEW = 3,
+  VIEW_AGENT = 4,
 }

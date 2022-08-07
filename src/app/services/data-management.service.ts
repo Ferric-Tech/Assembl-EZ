@@ -8,6 +8,7 @@ export interface Options {
 }
 
 export enum CollectionType {
+  USER,
   LEADS,
   PROFILE,
 }
@@ -43,7 +44,9 @@ export class DataManagementService {
       try {
         this.http.post(url, body, options).subscribe((docRef) => {
           let doc = docRef as { _path: { segments: string[] } };
-          this.sessionStorageAdd(collectionType, body, doc._path.segments[3]);
+          if (collectionType != CollectionType.USER) {
+            this.sessionStorageAdd(collectionType, body, doc._path.segments[3]);
+          }
           resolve();
         });
       } catch {

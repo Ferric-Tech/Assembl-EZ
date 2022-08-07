@@ -26,6 +26,12 @@ export class LeadMenuScreen {
       optionType: MenuOptionType.VIEWSTATE,
       viewState: ViewState.VIEW_ALL,
     },
+    {
+      style: MenuOptionStyle.SECONDARY,
+      display: 'Back to main menu',
+      optionType: MenuOptionType.HOME,
+      link: '',
+    },
   ];
 
   onViewStateSelected(viewState: number) {

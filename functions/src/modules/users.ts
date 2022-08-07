@@ -20,3 +20,42 @@ exports.updateUserProfile = functions.https.onRequest(
     });
   }
 );
+
+exports.addAgent = functions.https.onRequest(async (req: any, res: any) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  corsHandler(req, res, async () => {
+    admin
+      .auth()
+      .createUser({
+        // Start with...
+        // email: "user@example.com",
+        // emailVerified: false,
+        // phoneNumber: "+11234567890",
+        // password: "secretPassword",
+        // displayName: "John Doe",
+        // photoURL: "http://www.example.com/12345678/photo.png",
+        // disabled: false
+
+        // Aim for....
+        // phoneNumber: req.body.contactNumber,
+        // password: req.body.password,
+        // displayName: req.body.firstName + ' ' + req.body.lastName,
+        // photoURL: '',
+        // disabled: false,
+        email: req.body.email,
+        emailVerified: false,
+        phoneNumber: '+11234567890',
+        password: req.body.password,
+        displayName: 'John Doe',
+        photoURL: 'http://www.example.com/12345678/photo.png',
+        disabled: false,
+      })
+      .then((userRecord) => {
+        // See the UserRecord reference doc for the contents of userRecord.
+        res.send(userRecord);
+      })
+      .catch((error) => {
+        res.send(error);
+      });
+  });
+});

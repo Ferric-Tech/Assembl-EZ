@@ -76,8 +76,8 @@ export class LeadsPage {
 
   private async getUpdatedLeads(): Promise<void> {
     await this.leadService.getLeads().then(
-      async (success) => {
-        this.leads = success;
+      async (leads) => {
+        this.leads = leads;
       },
       (error) => {}
     );

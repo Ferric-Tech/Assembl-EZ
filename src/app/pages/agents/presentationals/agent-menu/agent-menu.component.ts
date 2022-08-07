@@ -17,14 +17,20 @@ export class AgentMenuComponent {
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.PRIMARY,
+      display: 'View agents',
+      optionType: MenuOptionType.VIEWSTATE,
+      viewState: ViewState.VIEW,
+    },
+    {
+      style: MenuOptionStyle.PRIMARY,
       display: 'Add agent',
       optionType: MenuOptionType.VIEWSTATE,
       viewState: ViewState.ADD,
     },
     {
       style: MenuOptionStyle.SECONDARY,
-      display: 'Back',
-      optionType: MenuOptionType.URL,
+      display: 'Back to main menu',
+      optionType: MenuOptionType.HOME,
       link: '',
     },
   ];
