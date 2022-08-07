@@ -46,7 +46,7 @@ export class AgentService {
     };
     return new Promise(async (resolve, reject) => {
       await this.dataManagementService
-        .postData(CollectionType.USER, url, agent, options)
+        .postData(CollectionType.AGENT, url, agent, options)
         .then(
           async (success) => {
             resolve();

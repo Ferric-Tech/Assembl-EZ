@@ -27,13 +27,15 @@ export class AgentsPage {
 
   async onNewAgentFormSubmitted(formValue: { [key: string]: string }) {
     const agent = formValue as unknown as Agent;
+    agent.contactNumber = '+27' + parseInt(agent.contactNumber).toString();
     this.loadingService.setLoading();
     await this.agentService.addAgent(agent).then(
-      (success) => {},
+      (success) => {
+        this.emailsService.newAgentEmail();
+      },
       (error) => {}
     );
     this.loadingService.cancelLoading();
-    this.emailsService.newAgentEmail();
     this.currentViewState = ViewState.MENU;
   }
 

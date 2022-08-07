@@ -29,7 +29,21 @@ exports.getClientData = functions.https.onRequest(
             leads[doc.id] = doc.data();
           });
         });
-        res.send({ profile, leads });
+
+        //Get client agents
+        let agents: { [key: string]: any } = {};
+        const agentsDocRef = db
+          .collection('client-data')
+          .doc(userID)
+          .collection('agents');
+        await agentsDocRef.get().then((snapshot) => {
+          snapshot.forEach((doc) => {
+            agents[doc.id] = doc.data();
+          });
+        });
+
+        // Send all data back
+        res.send({ profile, leads, agents });
       } catch (error) {
         res.send(error);
       }

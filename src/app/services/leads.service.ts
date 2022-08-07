@@ -38,7 +38,7 @@ export class LeadsService {
 
     return new Promise(async (resolve, reject) => {
       await this.dataManagementService
-        .postData(CollectionType.LEADS, url, body, options)
+        .postData(CollectionType.LEAD, url, body, options)
         .then(
           async (success) => resolve(),
           async (error) => reject()

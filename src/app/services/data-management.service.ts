@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ClientData } from 'app/interfaces/api.interface';
+import { ClientData, UserRecord } from 'app/interfaces/api.interface';
 
 export interface Options {
   headers: HttpHeaders;
@@ -8,8 +8,8 @@ export interface Options {
 }
 
 export enum CollectionType {
-  USER,
-  LEADS,
+  AGENT,
+  LEAD,
   PROFILE,
 }
 
@@ -26,6 +26,7 @@ export class DataManagementService {
           const clientData = response as ClientData;
           sessionStorage.setItem('profile', JSON.stringify(clientData.profile));
           sessionStorage.setItem('leads', JSON.stringify(clientData.leads));
+          sessionStorage.setItem('agents', JSON.stringify(clientData.agents));
           resolve();
         });
       } catch {
@@ -41,16 +42,51 @@ export class DataManagementService {
     options: Options
   ): Promise<void> {
     return new Promise(async (resolve, reject) => {
-      try {
-        this.http.post(url, body, options).subscribe((docRef) => {
-          let doc = docRef as { _path: { segments: string[] } };
-          if (collectionType != CollectionType.USER) {
-            this.sessionStorageAdd(collectionType, body, doc._path.segments[3]);
+      switch (collectionType) {
+        case CollectionType.AGENT: {
+          try {
+            this.http.post(url, body, options).subscribe((response) => {
+              let userRecord = response as UserRecord;
+              this.sessionStorageAdd(collectionType, body, userRecord.uid);
+              resolve();
+            });
+          } catch {
+            reject();
           }
-          resolve();
-        });
-      } catch {
-        reject();
+          return;
+        }
+        case CollectionType.LEAD: {
+          try {
+            this.http.post(url, body, options).subscribe((docRef) => {
+              let doc = docRef as { _path: { segments: string[] } };
+              this.sessionStorageAdd(
+                collectionType,
+                body,
+                doc._path.segments[3]
+              );
+              resolve();
+            });
+          } catch {
+            reject();
+          }
+          return;
+        }
+        case CollectionType.PROFILE: {
+          try {
+            this.http.post(url, body, options).subscribe((docRef) => {
+              let doc = docRef as { _path: { segments: string[] } };
+              this.sessionStorageAdd(
+                collectionType,
+                body,
+                doc._path.segments[1]
+              );
+              resolve();
+            });
+          } catch {
+            reject();
+          }
+          return;
+        }
       }
     });
   }
@@ -61,10 +97,19 @@ export class DataManagementService {
     docRef: string
   ) {
     switch (collectionType) {
-      case CollectionType.LEADS: {
+      case CollectionType.LEAD: {
         let leads = JSON.parse(sessionStorage['leads']);
         leads[docRef] = body;
         sessionStorage.setItem('leads', JSON.stringify(leads));
+        return;
+      }
+      case CollectionType.AGENT: {
+        let leads: { [key: string]: any } = {};
+        if (sessionStorage['agent']) {
+          leads = JSON.parse(sessionStorage['agent']);
+        }
+        leads[docRef] = body;
+        sessionStorage.setItem('agent', JSON.stringify(leads));
         return;
       }
       case CollectionType.PROFILE: {
