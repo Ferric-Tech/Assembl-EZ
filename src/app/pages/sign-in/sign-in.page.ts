@@ -48,7 +48,7 @@ export class SignInPage implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private dataManagementService: DataManagementService,
+    private clientProfileService: ClientProfileService,
     private errorHandlingService: ErrorHandlingService
   ) {}
 
@@ -72,7 +72,7 @@ export class SignInPage implements OnInit {
     this.isLoading = true;
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
-        this.dataManagementService.getClientData();
+        this.clientProfileService.getClientData();
         this.isLoading = false;
         this.router.navigate(['']);
       },
@@ -116,7 +116,7 @@ export class SignInPage implements OnInit {
   private updateProfile(formValue: { [key: string]: string }) {
     delete formValue['password'];
     delete formValue['confirmPassword'];
-    this.authenticationService.updateUserProfile(formValue);
+    this.clientProfileService.updateUserProfile(formValue);
   }
 
   onRegisterPasswordMismatch() {

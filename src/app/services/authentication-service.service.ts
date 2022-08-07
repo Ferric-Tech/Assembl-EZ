@@ -88,27 +88,4 @@ export class AuthenticationService {
       });
     });
   }
-
-  async updateUserProfile(formValue: {
-    [key: string]: string;
-  }): Promise<Object> {
-    return new Promise(async (resolve) => {
-      const url =
-        'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
-      const body = formValue;
-      const options = {
-        headers: this.getHeaders(),
-        params: new HttpParams().set('userID', await this.userID),
-      };
-      this.http.post(url, body, options).subscribe((response) => {
-        resolve(response);
-      });
-    });
-  }
-
-  private getHeaders() {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
-    });
-  }
 }
