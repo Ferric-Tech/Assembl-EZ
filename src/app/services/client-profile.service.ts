@@ -11,7 +11,6 @@ import {
 })
 export class ClientProfileService {
   constructor(
-    private http: HttpClient,
     private authenticationService: AuthenticationService,
     private dataManagementService: DataManagementService
   ) {}
@@ -28,10 +27,11 @@ export class ClientProfileService {
         await this.authenticationService.userID
       ),
     };
-
     return new Promise(async (resolve, reject) => {
       await this.dataManagementService.getData(url, options).then(
-        async (success) => resolve(),
+        async (success) => {
+          resolve();
+        },
         async (error) => reject()
       );
     });

@@ -20,13 +20,17 @@ export class DataManagementService {
 
   async getData(url: string, options: Options): Promise<void> {
     return new Promise(async (resolve, reject) => {
-      this.http.get(url, options).subscribe((response) => {
-        const clientData = response as ClientData;
-        sessionStorage.setItem('profile', JSON.stringify(clientData.profile));
-        sessionStorage.setItem('leads', JSON.stringify(clientData.leads));
-        resolve();
-      });
-      reject();
+      try {
+        this.http.get(url, options).subscribe((response) => {
+          const clientData = response as ClientData;
+
+          sessionStorage.setItem('profile', JSON.stringify(clientData.profile));
+          sessionStorage.setItem('leads', JSON.stringify(clientData.leads));
+          resolve();
+        });
+      } catch {
+        reject();
+      }
     });
   }
 
