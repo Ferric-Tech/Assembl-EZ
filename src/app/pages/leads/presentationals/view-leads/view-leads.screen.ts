@@ -13,7 +13,7 @@ import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
   styleUrls: ['./view-leads.screen.scss'],
 })
 export class ViewLeadsScreen implements OnInit {
-  @Input() leads: { id: string; data: { [key: string]: string } }[] = [];
+  @Input() leads: { [key: string]: any } = {};
   @Output() viewStateSelected = new EventEmitter<number>();
   @Output() leadClicked = new EventEmitter<number>();
 
@@ -56,10 +56,11 @@ export class ViewLeadsScreen implements OnInit {
       }
     );
 
-    this.leads.forEach((lead) => {
+    Object.keys(this.leads).forEach((leadRef) => {
+      let lead = this.leads[leadRef] as { name: string; email: string };
       let leadListItem: string[] = [];
-      leadListItem.push(lead.data['name']);
-      leadListItem.push(lead.data['email']);
+      leadListItem.push(lead.name);
+      leadListItem.push(lead.email);
       this.leadListConfig.lines.push(leadListItem);
     });
   }

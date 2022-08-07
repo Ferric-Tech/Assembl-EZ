@@ -21,7 +21,7 @@ export class LeadsPage {
   viewState = ViewState;
   currentViewState = ViewState.MENU;
 
-  leads: any;
+  leads: { [key: string]: any } = {};
   lead: { [key: string]: string } = {};
 
   isWarning = false;
@@ -31,19 +31,16 @@ export class LeadsPage {
 
   constructor(private leadService: LeadsService) {}
 
-  async ngOnInit() {
-    await this.getLeads();
-  }
-
   onLeadAdded(formValue: { [key: string]: string }) {
     this.leadService.addLead(formValue).then(
-      (success) => {
-        this.currentViewState = ViewState.VIEW_ALL;
+      async (success) => {
         this.notificationConfig = {
           type: NotificationType.LEAD,
           notification: Notification.LEAD_ADDED,
         };
         this.isNotifying = true;
+        await this.geUpdatedLeads();
+        this.currentViewState = ViewState.VIEW_ALL;
       },
       (error) => {
         this.warnigConfig = {
@@ -56,15 +53,26 @@ export class LeadsPage {
   }
 
   onLeadClicked(index: number) {
-    this.lead = this.leads[index]['data'];
+    let leadRefs = Object.values(this.leads);
+    this.lead = leadRefs[index];
     this.currentViewState = ViewState.VIEW_LEAD;
   }
 
-  onViewStateSelected(viewState: number) {
+  async onViewStateSelected(viewState: number) {
+    switch (viewState) {
+      case ViewState.VIEW_ALL: {
+        await this.geUpdatedLeads();
+      }
+    }
     this.currentViewState = viewState;
   }
 
-  private async getLeads(): Promise<void> {
-    this.leads = await this.leadService.getLeads();
+  private async geUpdatedLeads(): Promise<void> {
+    await this.leadService.getLeads().then(
+      async (success) => {
+        this.leads = success;
+      },
+      (error) => {}
+    );
   }
 }

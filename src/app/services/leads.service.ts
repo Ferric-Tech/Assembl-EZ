@@ -3,6 +3,10 @@ import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 import { AuthenticationService } from './authentication-service.service';
+import {
+  CollectionType,
+  DataManagementService,
+} from './data-management.service';
 
 @Injectable({
   providedIn: 'root',
@@ -11,45 +15,36 @@ export class LeadsService {
   constructor(
     private http: HttpClient,
     private authenticationService: AuthenticationService,
-    private afs: AngularFirestore
+    private dataManagementService: DataManagementService
   ) {}
 
   async getLeads(): Promise<Object> {
-    return new Promise(async (resolve) => {
-      const url = 'https://us-central1-assembl-ez.cloudfunctions.net/getLeads';
-      const options = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        params: new HttpParams().set(
-          'userID',
-          await this.authenticationService.userID
-        ),
-      };
-
-      this.http.get(url, options).subscribe((response) => {
-        resolve(response);
-      });
+    return new Promise(async (resolve, reject) => {
+      resolve(JSON.parse(sessionStorage['leads']));
+      reject();
     });
   }
 
-  async addLead(formValue: { [key: string]: string }): Promise<Object> {
-    return new Promise(async (resolve) => {
-      const url = 'https://us-central1-assembl-ez.cloudfunctions.net/addLead';
-      const body = formValue;
-      const options = {
-        headers: new HttpHeaders({
-          'Content-Type': 'application/json',
-        }),
-        params: new HttpParams().set(
-          'userID',
-          await this.authenticationService.userID
-        ),
-      };
+  async addLead(formValue: { [key: string]: string }): Promise<void> {
+    const url = 'https://us-central1-assembl-ez.cloudfunctions.net/addLead';
+    const body = formValue;
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams().set(
+        'userID',
+        await this.authenticationService.userID
+      ),
+    };
 
-      this.http.post(url, body, options).subscribe((response) => {
-        resolve(response);
-      });
+    return new Promise(async (resolve, reject) => {
+      await this.dataManagementService
+        .postData(CollectionType.LEADS, url, body, options)
+        .then(
+          async (success) => resolve(),
+          async (error) => reject()
+        );
     });
   }
 }

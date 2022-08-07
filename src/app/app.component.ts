@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from './services/authentication-service.service';
+import { ClientProfileService } from './services/client-profile.service';
 import { DataManagementService } from './services/data-management.service';
 
 @Component({
@@ -12,12 +13,12 @@ export class AppComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private dataManagementService: DataManagementService
+    private clientProfileService: ClientProfileService
   ) {}
 
   async ngOnInit() {
     (await this.authService.isAuthenticated())
-      ? this.dataManagementService.getClientData()
+      ? this.clientProfileService.getClientData()
       : null;
   }
 }

@@ -24,6 +24,7 @@ import {
 import { DataManagementService } from 'app/services/data-management.service';
 import { BehaviorSubject } from 'rxjs';
 import { ClientData } from 'app/interfaces/api.interface';
+import { ClientProfileService } from 'app/services/client-profile.service';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -45,10 +46,10 @@ export class SignInPage implements OnInit {
   isLoading = false;
 
   constructor(
-    private authenticationService: AuthenticationService,
     private router: Router,
-    private errorHandlingService: ErrorHandlingService,
-    private dataManagementService: DataManagementService
+    private authenticationService: AuthenticationService,
+    private clientProfileService: ClientProfileService,
+    private errorHandlingService: ErrorHandlingService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -71,8 +72,7 @@ export class SignInPage implements OnInit {
     this.isLoading = true;
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
-        this.dataManagementService.getClientData();
-
+        this.clientProfileService.getClientData();
         this.isLoading = false;
         this.router.navigate(['']);
       },
