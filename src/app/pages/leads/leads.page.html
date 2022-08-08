@@ -4,20 +4,20 @@
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-lead-menu-screen>
 
-  <app-add-lead-screen
+  <app-lead-form-screen
     *ngSwitchCase="viewState.ADD"
     [assignToOptions]="assignToOptions"
     (leadAdded)="onLeadAdded($event)"
     (viewStateSelected)="onViewStateSelected($event)"
-  ></app-add-lead-screen>
+  ></app-lead-form-screen>
 
-  <app-add-lead-screen
+  <app-lead-form-screen
     *ngSwitchCase="viewState.EDIT"
     [assignToOptions]="assignToOptions"
     [currentValues]="lead"
     (leadAdded)="onLeadEdited($event)"
     (viewStateSelected)="onViewStateSelected($event)"
-  ></app-add-lead-screen>
+  ></app-lead-form-screen>
 
   <app-view-leads-screen
     *ngSwitchCase="viewState.VIEW_ALL"

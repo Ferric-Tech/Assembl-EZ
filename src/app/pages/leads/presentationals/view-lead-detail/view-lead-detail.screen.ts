@@ -41,7 +41,7 @@ export class ViewLeadDetailScreen {
   @Input() lead: { [key: string]: string } = {};
   @Input() assignToOptions: FormFieldOption[] = [];
   @Output() viewStateSelected = new EventEmitter<number>();
-  @Output() requestToEdit = new EventEmitter<{ [key: string]: string }>();
+  @Output() requestToEdit = new EventEmitter<void>();
 
   menuOptions: MenuOption[] = [
     {
@@ -94,7 +94,7 @@ export class ViewLeadDetailScreen {
   onActionSelected(action: MenuAction) {
     switch (action) {
       case MenuAction.EDIT: {
-        this.requestToEdit.emit(this.lead);
+        this.requestToEdit.emit();
       }
     }
   }

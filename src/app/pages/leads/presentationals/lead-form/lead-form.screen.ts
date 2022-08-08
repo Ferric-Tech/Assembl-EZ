@@ -13,11 +13,11 @@ import {
 import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 
 @Component({
-  selector: 'app-add-lead-screen',
-  templateUrl: './add-lead.screen.html',
-  styleUrls: ['./add-lead.screen.scss'],
+  selector: 'app-lead-form-screen',
+  templateUrl: './lead-form.screen.html',
+  styleUrls: ['./lead-form.screen.scss'],
 })
-export class AddLeadScreen {
+export class LeadFormScreen {
   @Input() assignToOptions: FormFieldOption[] = [];
   @Input() currentValues: { [key: string]: string } = {};
   @Output() leadAdded = new EventEmitter<{ [key: string]: string }>();

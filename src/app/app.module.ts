@@ -33,7 +33,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { AgentsPage } from './pages/agents/agents.page';
 import { SignInScreen } from './pages/sign-in/presentationals/sign-in/sign-in.screen';
 import { RegisterFlow } from './pages/sign-in/presentationals/register/register.flow';
-import { AddLeadScreen } from './pages/leads/presentationals/add-lead/add-lead.screen';
+import { LeadFormScreen } from './pages/leads/presentationals/lead-form/lead-form.screen';
 import { LeadMenuScreen } from './pages/leads/presentationals/lead-menu/lead-menu.screen';
 import { ViewLeadsScreen } from './pages/leads/presentationals/view-leads/view-leads.screen';
 import { WarningsModal } from './modals/warning/warning.modal';
@@ -46,7 +46,7 @@ import { BusinessDetailsScreen } from './pages/sign-in/presentationals/register/
 import { ContactDetailsScreen } from './pages/sign-in/presentationals/register/presentationals/contact-details/contact-details.screen';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { LoadingSpinnerComponent } from './components/loading-spinner/loading-spinner.component';
-import { NewAgentScreen } from './pages/agents/presentationals/new-agent/new-agent.screen';
+import { AgentFormScreen } from './pages/agents/presentationals/agent-form/agent-form.screen';
 import { ViewAgentDetailScreen } from './pages/agents/presentationals/view-agent-detail/view-agent-detail.screen';
 import { ViewAgentsScreen } from './pages/agents/presentationals/view-agents/view-agents.screen';
 import { DetailPresentationComponent } from './components/detail-presentation/detail-presentation.component';
@@ -82,7 +82,7 @@ export const firebaseConfig = {
     AgentsPage,
     SignInScreen,
     RegisterFlow,
-    AddLeadScreen,
+    LeadFormScreen,
     LeadMenuScreen,
     ViewLeadsScreen,
     WarningsModal,
@@ -93,7 +93,7 @@ export const firebaseConfig = {
     BusinessDetailsScreen,
     ContactDetailsScreen,
     LoadingSpinnerComponent,
-    NewAgentScreen,
+    AgentFormScreen,
     ViewAgentDetailScreen,
     ViewAgentsScreen,
     DetailPresentationComponent,

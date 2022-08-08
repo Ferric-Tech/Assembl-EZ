@@ -69,3 +69,37 @@ exports.addAgent = functions.https.onRequest(async (req: any, res: any) => {
       });
   });
 });
+
+exports.editAgent = functions.https.onRequest(async (req: any, res: any) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  corsHandler(req, res, async () => {
+    const userID = req.query.userID;
+    const agentID = req.query.agentID;
+    const db = admin.firestore();
+    if (req.body.id) {
+      delete req.body.id;
+    }
+
+    // Add profile details to principle profile
+    try {
+      var docRef = db
+        .collection('client-data')
+        .doc(userID)
+        .collection('agents')
+        .doc(agentID);
+      docRef.set(req.body, { merge: true });
+    } catch (error) {
+      res.send(error);
+    }
+
+    // Write profile to agent profile
+    try {
+      req.body.principleAccount = userID;
+      var docRef = db.collection('client-data').doc(agentID);
+      docRef.set(req.body, { merge: true });
+    } catch (error) {
+      res.send(error);
+    }
+    res.send({ ...req.body, ...{ id: agentID } });
+  });
+});

@@ -6,15 +6,23 @@
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-view-agents-screen>
 
-  <app-new-agent-screen
+  <app-agent-form-screen
     *ngSwitchCase="viewState.ADD"
-    (formSubmitted)="onNewAgentFormSubmitted($event)"
+    (formSubmitted)="onAgentAdded($event)"
     (viewStateSelected)="onViewStateSelected($event)"
-  ></app-new-agent-screen>
+  ></app-agent-form-screen>
+
+  <app-agent-form-screen
+    *ngSwitchCase="viewState.EDIT"
+    [currentValues]="currentValues"
+    (formSubmitted)="onAgentEdited($event)"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-agent-form-screen>
 
   <app-view-agent-detail-screen
     *ngSwitchCase="viewState.VIEW_AGENT"
     [agentProfile]="agentProfile"
     (viewStateSelected)="onViewStateSelected($event)"
+    (requestToEdit)="onRequestToEdit()"
   ></app-view-agent-detail-screen>
 </div>

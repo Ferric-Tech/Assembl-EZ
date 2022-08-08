@@ -34,6 +34,9 @@ exports.editLead = functions.https.onRequest(async (req: any, res: any) => {
   corsHandler(req, res, async () => {
     const userID = req.query.userID;
     const leadID = req.query.leadID;
+    if (req.body.id) {
+      delete req.body.id;
+    }
     try {
       const db = admin.firestore();
       var docRef = db

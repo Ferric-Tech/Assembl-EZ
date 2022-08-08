@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import {
+  MenuAction,
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
@@ -8,6 +9,7 @@ import { AgentPageViewState as ViewState } from 'app/enums/viewstates.enum';
 import { DetailPresentationConfig } from 'app/interfaces/detail-presentation-component';
 import { ExpansionPanelConfig } from 'app/interfaces/expansion-table.interface';
 import { ExpansionPanelContentType } from 'app/enums/expansion-table.enum';
+import { AgentProfile } from 'app/services/agent.service';
 
 @Component({
   selector: 'app-view-agent-detail-screen',
@@ -15,11 +17,18 @@ import { ExpansionPanelContentType } from 'app/enums/expansion-table.enum';
   styleUrls: ['./view-agent-detail.screen.scss'],
 })
 export class ViewAgentDetailScreen {
-  @Input() agentProfile: { [key: string]: string } = {};
+  @Input() agentProfile = {} as AgentProfile;
   @Input() agentLeads: { [key: string]: any } = {};
   @Output() viewStateSelected = new EventEmitter<number>();
+  @Output() requestToEdit = new EventEmitter<{ [key: string]: string }>();
 
   menuOptions: MenuOption[] = [
+    {
+      style: MenuOptionStyle.PRIMARY,
+      display: 'Edit agent details',
+      optionType: MenuOptionType.ACTION,
+      action: MenuAction.EDIT,
+    },
     {
       style: MenuOptionStyle.SECONDARY,
       display: 'Back to agent list',
@@ -69,5 +78,13 @@ export class ViewAgentDetailScreen {
 
   onViewStateSelected(viewState: ViewState) {
     this.viewStateSelected.emit(viewState);
+  }
+
+  onActionSelected(action: MenuAction) {
+    switch (action) {
+      case MenuAction.EDIT: {
+        this.requestToEdit.emit();
+      }
+    }
   }
 }

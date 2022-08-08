@@ -15,5 +15,6 @@ exports.addLead = leadsModule.addLead;
 exports.editLead = leadsModule.editLead;
 exports.updateUserProfile = usersModule.updateUserProfile;
 exports.addAgent = usersModule.addAgent;
+exports.editAgent = usersModule.editAgent;
 exports.getClientData = clientDataModule.getClientData;
 exports.email = emailerModule.email;

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormFieldType } from 'app/enums/form.eum';
 import { FormConfig } from 'app/interfaces/form-screen.interface';
 import {
@@ -9,11 +9,12 @@ import {
 import { AgentPageViewState as ViewState } from 'app/enums/viewstates.enum';
 
 @Component({
-  selector: 'app-new-agent-screen',
-  templateUrl: './new-agent.screen.html',
-  styleUrls: ['./new-agent.screen.scss'],
+  selector: 'app-agent-form-screen',
+  templateUrl: './agent-form.screen.html',
+  styleUrls: ['./agent-form.screen.scss'],
 })
-export class NewAgentScreen {
+export class AgentFormScreen {
+  @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
   @Output() viewStateSelected = new EventEmitter<number>();
 

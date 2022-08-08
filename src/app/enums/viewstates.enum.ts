@@ -40,4 +40,5 @@ export enum AgentPageViewState {
   VIEW_AGENT = 1,
   VIEW = 2,
   ADD = 3,
+  EDIT = 4,
 }

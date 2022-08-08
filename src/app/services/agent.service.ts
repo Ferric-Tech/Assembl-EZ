@@ -1,6 +1,7 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { FormFieldOption } from 'app/interfaces/form-screen.interface';
+import { last } from 'rxjs';
 import {
   AuthenticationService,
   SignInDetails,
@@ -10,7 +11,8 @@ import {
   DataManagementService,
 } from './data-management.service';
 
-export interface Agent {
+export interface AgentProfile {
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
@@ -27,7 +29,7 @@ export class AgentService {
     private dataManagementService: DataManagementService
   ) {}
 
-  getAgents(): Promise<{ [key: string]: Agent }> {
+  getAgents(): Promise<{ [key: string]: AgentProfile }> {
     return new Promise(async (resolve, reject) => {
       try {
         resolve(JSON.parse(sessionStorage['agents']));
@@ -55,7 +57,7 @@ export class AgentService {
     });
   }
 
-  async addAgent(agent: Agent): Promise<void> {
+  async addAgent(agent: AgentProfile): Promise<void> {
     const url = 'https://us-central1-assembl-ez.cloudfunctions.net/addAgent';
     const options = {
       headers: new HttpHeaders({
@@ -66,6 +68,29 @@ export class AgentService {
         await this.authenticationService.userID
       ),
     };
+    return new Promise(async (resolve, reject) => {
+      await this.dataManagementService
+        .postData(CollectionType.AGENT, url, agent, options)
+        .then(
+          async (success) => {
+            resolve();
+          },
+          async (error) => reject()
+        );
+    });
+  }
+
+  async editAgent(agent: AgentProfile): Promise<void> {
+    const url = 'https://us-central1-assembl-ez.cloudfunctions.net/editAgent';
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams()
+        .set('userID', await this.authenticationService.userID)
+        .set('agentID', agent.id),
+    };
+
     return new Promise(async (resolve, reject) => {
       await this.dataManagementService
         .postData(CollectionType.AGENT, url, agent, options)
