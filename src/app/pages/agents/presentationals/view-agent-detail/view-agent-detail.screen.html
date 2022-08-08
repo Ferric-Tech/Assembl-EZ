@@ -6,6 +6,10 @@
   [config]="agentDetailsConfig"
 ></app-detail-presentation-component>
 
+<app-expansion-table-component
+  [expansionPanelConfig]="leadsExpansionPanelConfig"
+></app-expansion-table-component>
+
 <app-menu-component
   [menuOptions]="menuOptions"
   (viewStateSelected)="onViewStateSelected($event)"

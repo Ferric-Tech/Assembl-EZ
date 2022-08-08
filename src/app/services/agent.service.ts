@@ -1,5 +1,6 @@
 import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { FormFieldOption } from 'app/interfaces/form-screen.interface';
 import {
   AuthenticationService,
   SignInDetails,
@@ -26,10 +27,31 @@ export class AgentService {
     private dataManagementService: DataManagementService
   ) {}
 
-  getAgents(): Promise<Object> {
+  getAgents(): Promise<{ [key: string]: Agent }> {
     return new Promise(async (resolve, reject) => {
-      resolve(JSON.parse(sessionStorage['agents']));
-      reject();
+      try {
+        resolve(JSON.parse(sessionStorage['agents']));
+      } catch (error) {
+        reject(error);
+      }
+    });
+  }
+
+  async getAgentOptions(): Promise<FormFieldOption[]> {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let listOfAgents: FormFieldOption[] = [];
+        const agents = await this.getAgents();
+        Object.keys(agents).forEach((id) => {
+          listOfAgents.push({
+            display: agents[id].firstName + agents[id].lastName,
+            value: id,
+          });
+        });
+        resolve(listOfAgents);
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 

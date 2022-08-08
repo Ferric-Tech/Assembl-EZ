@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
+import { FormFieldOption } from 'app/interfaces/form-screen.interface';
 import {
   NotificationConfig,
   NotificationType,
@@ -10,6 +11,8 @@ import {
   WarningConfig,
   WarningType,
 } from 'app/modals/warning/warning.modal';
+import { AgentService } from 'app/services/agent.service';
+import { AuthenticationService } from 'app/services/authentication-service.service';
 import { LeadsService } from 'app/services/leads.service';
 import { LoadingService } from 'app/services/loading.service';
 
@@ -24,6 +27,7 @@ export class LeadsPage {
 
   leads: { [key: string]: any } = {};
   lead: { [key: string]: string } = {};
+  assignToOptions: FormFieldOption[] = [];
 
   isWarning = false;
   warnigConfig: WarningConfig | undefined;
@@ -32,7 +36,9 @@ export class LeadsPage {
 
   constructor(
     private leadService: LeadsService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private authenticationService: AuthenticationService,
+    private agentService: AgentService
   ) {}
 
   onLeadAdded(formValue: { [key: string]: string }) {
@@ -69,6 +75,11 @@ export class LeadsPage {
     switch (viewState) {
       case ViewState.VIEW_ALL: {
         await this.getUpdatedLeads();
+        await this.setAssigningToOptions();
+        break;
+      }
+      case ViewState.ADD: {
+        await this.setAssigningToOptions();
       }
     }
     this.currentViewState = viewState;
@@ -80,6 +91,26 @@ export class LeadsPage {
         this.leads = leads;
       },
       (error) => {}
+    );
+  }
+
+  private async setAssigningToOptions() {
+    this.assignToOptions.push(
+      {
+        display: 'Unassigned',
+        value: '',
+      },
+      {
+        display: 'Myself',
+        value: await this.authenticationService.userID,
+      }
+    );
+
+    this.agentService.getAgentOptions().then(
+      async (agentsList) => {
+        this.assignToOptions = this.assignToOptions.concat(agentsList);
+      },
+      async (error) => {}
     );
   }
 }

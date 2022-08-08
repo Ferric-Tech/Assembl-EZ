@@ -13,7 +13,7 @@ export class AgentsPage {
   viewState = ViewState;
   currentViewState = ViewState.VIEW;
   agents: { [key: string]: any } = {};
-  agent: { [key: string]: string } = {};
+  agentProfile: { [key: string]: string } = {};
 
   constructor(
     private emailsService: EmailsService,
@@ -39,7 +39,7 @@ export class AgentsPage {
 
   onAgentClicked(index: number) {
     let agentRefs = Object.values(this.agents);
-    this.agent = agentRefs[index];
+    this.agentProfile = agentRefs[index];
     this.currentViewState = ViewState.VIEW_AGENT;
   }
 

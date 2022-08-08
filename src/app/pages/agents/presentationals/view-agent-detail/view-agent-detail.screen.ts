@@ -6,6 +6,8 @@ import {
 } from 'app/interfaces/menu-screen.interface';
 import { AgentPageViewState as ViewState } from 'app/enums/viewstates.enum';
 import { DetailPresentationConfig } from 'app/interfaces/detail-presentation-component';
+import { ExpansionPanelConfig } from 'app/interfaces/expansion-table.interface';
+import { ExpansionPanelContentType } from 'app/enums/expansion-table.enum';
 
 @Component({
   selector: 'app-view-agent-detail-screen',
@@ -13,7 +15,8 @@ import { DetailPresentationConfig } from 'app/interfaces/detail-presentation-com
   styleUrls: ['./view-agent-detail.screen.scss'],
 })
 export class ViewAgentDetailScreen {
-  @Input() agent: { [key: string]: string } = {};
+  @Input() agentProfile: { [key: string]: string } = {};
+  @Input() agentLeads: { [key: string]: any } = {};
   @Output() viewStateSelected = new EventEmitter<number>();
 
   menuOptions: MenuOption[] = [
@@ -30,19 +33,35 @@ export class ViewAgentDetailScreen {
     lines: [],
   } as DetailPresentationConfig;
 
+  leadsExpansionPanelConfig: ExpansionPanelConfig[] = [
+    {
+      title: 'Leads',
+      contentType: ExpansionPanelContentType.LIST,
+      listContent: {
+        title: 'There are no leads currently assigned to this agent',
+        headers: [
+          { content: 'Client', widthFactor: 1 },
+          { content: 'Status', widthFactor: 1 },
+        ],
+        isInExpansionTable: true,
+        lines: [],
+      },
+    },
+  ];
+
   ngOnInit() {
     this.agentDetailsConfig.title =
-      this.agent['firstName'] + ' ' + this.agent['lastName'];
+      this.agentProfile['firstName'] + ' ' + this.agentProfile['lastName'];
 
     this.agentDetailsConfig.lines.push(
       {
         header: 'Email',
-        detail: this.agent['email'],
+        detail: this.agentProfile['email'],
         oneliner: true,
       },
       {
         header: 'Contact number',
-        detail: this.agent['contactNumber'],
+        detail: this.agentProfile['contactNumber'],
         oneliner: true,
       }
     );

@@ -4,8 +4,8 @@ import { ListConfig } from './list-screen.interface';
 
 export interface ExpansionPanelConfig {
   title: string;
-  description?: string;
   contentType: ExpansionPanelContentType;
+  description?: string;
   formContent?: FormConfig;
   listContent?: ListConfig;
 }

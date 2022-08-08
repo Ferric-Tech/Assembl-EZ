@@ -6,6 +6,7 @@
 
   <app-add-lead-screen
     *ngSwitchCase="viewState.ADD"
+    [assignToOptions]="assignToOptions"
     (leadAdded)="onLeadAdded($event)"
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-add-lead-screen>
