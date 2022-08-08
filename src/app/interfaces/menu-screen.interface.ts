@@ -2,11 +2,16 @@ export enum MenuOptionType {
   HOME,
   URL,
   VIEWSTATE,
+  ACTION,
 }
 
 export enum MenuOptionStyle {
   PRIMARY,
   SECONDARY,
+}
+
+export enum MenuAction {
+  EDIT = 1,
 }
 
 export interface MenuOption {
@@ -15,4 +20,5 @@ export interface MenuOption {
   optionType: MenuOptionType;
   link?: string;
   viewState?: number;
+  action?: MenuAction;
 }

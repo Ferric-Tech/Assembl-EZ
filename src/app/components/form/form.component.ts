@@ -5,7 +5,6 @@ import {
   Input,
   OnInit,
   Output,
-  SimpleChanges,
 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { FormFieldType } from 'app/enums/form.eum';
@@ -25,6 +24,7 @@ export class FormComponent implements OnInit {
     proceedText: '',
     canProceed: false,
   };
+  @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<any>();
   @Output() formChanged = new EventEmitter<any>();
 
@@ -66,6 +66,16 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this.setForm();
+    this.assignFormValues();
+  }
+
+  private assignFormValues() {
+    if (this.currentValues) {
+      Object.keys(this.currentValues).forEach((key) => {
+        this.form.controls[key]?.setValue(this.currentValues[key]);
+      });
+      this.formChanged.emit(this.form.value);
+    }
   }
 
   onSubmit() {

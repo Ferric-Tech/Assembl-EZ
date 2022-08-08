@@ -9,6 +9,7 @@ export enum NotificationType {
 export enum Notification {
   RESET_PASSWORD_EMAIL_SENT,
   LEAD_ADDED,
+  LEAD_EDITED,
   REGISTRATION_COMPLETE,
 }
 
@@ -47,7 +48,16 @@ export class NotificationsModal implements OnInit {
         return;
       }
       case NotificationType.LEAD: {
-        this.header = 'Lead added';
+        switch (this.notificationConfig?.notification) {
+          case Notification.LEAD_ADDED: {
+            this.header = 'Lead added';
+            return;
+          }
+          case Notification.LEAD_EDITED: {
+            this.header = 'Lead edited';
+            return;
+          }
+        }
         return;
       }
       case NotificationType.REGISTER: {
@@ -66,7 +76,8 @@ export class NotificationsModal implements OnInit {
           email reset';
         return;
       }
-      case Notification.LEAD_ADDED: {
+      case Notification.LEAD_ADDED:
+      case Notification.LEAD_EDITED: {
         this.body = '';
         return;
       }

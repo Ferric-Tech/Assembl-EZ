@@ -45,4 +45,26 @@ export class LeadsService {
         );
     });
   }
+
+  async editLead(formValue: { [key: string]: string }): Promise<void> {
+    const url = 'https://us-central1-assembl-ez.cloudfunctions.net/editLead';
+    const body = formValue;
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams()
+        .set('userID', await this.authenticationService.userID)
+        .set('leadID', formValue['id']),
+    };
+
+    return new Promise(async (resolve, reject) => {
+      await this.dataManagementService
+        .postData(CollectionType.LEAD, url, body, options)
+        .then(
+          async (success) => resolve(),
+          async (error) => reject()
+        );
+    });
+  }
 }

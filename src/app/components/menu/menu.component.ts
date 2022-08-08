@@ -13,6 +13,7 @@ import {
 export class MenuComponent {
   @Input() menuOptions: MenuOption[] = [];
   @Output() viewStateSelected = new EventEmitter<number>();
+  @Output() actionSelected = new EventEmitter<number>();
 
   constructor(private router: Router) {}
 
@@ -30,6 +31,11 @@ export class MenuComponent {
       case MenuOptionType.VIEWSTATE: {
         if (!option.viewState) return;
         this.viewStateSelected.emit(option.viewState);
+        break;
+      }
+      case MenuOptionType.ACTION: {
+        if (!option.action) return;
+        this.actionSelected.emit(option.action);
       }
     }
   }

@@ -15,6 +15,7 @@ export enum Warning {
   WEAK_PASSWORD,
   MISMATCHED_PASSWORD,
   UNABLE_TO_ADD,
+  UNABLE_TO_EDIT,
 }
 
 export interface WarningConfig {
@@ -65,6 +66,10 @@ export class WarningsModal implements OnInit {
         switch (this.warningConfig?.warning) {
           case Warning.UNABLE_TO_ADD: {
             this.header = 'Unable to add lead';
+            return;
+          }
+          case Warning.UNABLE_TO_EDIT: {
+            this.header = 'Unable to edit lead';
             return;
           }
         }
@@ -122,7 +127,17 @@ export class WarningsModal implements OnInit {
         switch (this.warningConfig?.type) {
           case WarningType.LEADS: {
             this.body =
-              'We were uable to add your lead at this time. Please retry';
+              'We were unable to add your lead at this time. Please retry';
+            return;
+          }
+        }
+        return;
+      }
+      case Warning.UNABLE_TO_EDIT: {
+        switch (this.warningConfig?.type) {
+          case WarningType.LEADS: {
+            this.body =
+              'We were unable to edit your lead at this time. Please retry';
             return;
           }
         }

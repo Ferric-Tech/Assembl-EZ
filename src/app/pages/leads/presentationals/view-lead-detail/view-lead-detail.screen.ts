@@ -1,11 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  MenuAction,
   MenuOption,
   MenuOptionStyle,
   MenuOptionType,
 } from 'app/interfaces/menu-screen.interface';
 import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
+import { DetailPresentationConfig } from 'app/interfaces/detail-presentation-component';
+import { FormFieldOption } from 'app/interfaces/form-screen.interface';
 
 export interface PageConfig {
   header: string;
@@ -36,11 +39,19 @@ export enum ResultType {
 })
 export class ViewLeadDetailScreen {
   @Input() lead: { [key: string]: string } = {};
+  @Input() assignToOptions: FormFieldOption[] = [];
   @Output() viewStateSelected = new EventEmitter<number>();
+  @Output() requestToEdit = new EventEmitter<{ [key: string]: string }>();
 
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.PRIMARY,
+      display: 'Edit this lead',
+      optionType: MenuOptionType.ACTION,
+      action: MenuAction.EDIT,
+    },
+    {
+      style: MenuOptionStyle.SECONDARY,
       display: 'Back to leads',
       optionType: MenuOptionType.VIEWSTATE,
       viewState: ViewState.VIEW_ALL,
@@ -49,9 +60,50 @@ export class ViewLeadDetailScreen {
 
   resultsType = ResultType;
 
-  constructor(public router: Router) {}
+  leadDetailsConfig = {
+    title: '',
+    lines: [],
+  } as DetailPresentationConfig;
+
+  ngOnInit() {
+    let agentDisplayNames = this.setAgentDisplayNames();
+    this.leadDetailsConfig.title = this.lead['name'];
+    this.leadDetailsConfig.lines.push(
+      {
+        header: 'Email',
+        detail: this.lead['email'],
+        oneliner: true,
+      },
+      {
+        header: 'Contact number',
+        detail: this.lead['contactNumber'],
+        oneliner: true,
+      },
+      {
+        header: 'Assigned to',
+        detail: agentDisplayNames[this.lead['assignedTo']] || 'Unassigned',
+        oneliner: true,
+      }
+    );
+  }
 
   onViewStateSelected(viewState: number) {
     this.viewStateSelected.emit(viewState);
+  }
+
+  onActionSelected(action: MenuAction) {
+    switch (action) {
+      case MenuAction.EDIT: {
+        this.requestToEdit.emit(this.lead);
+      }
+    }
+  }
+
+  private setAgentDisplayNames(): { [key: string]: string } {
+    let agentDisplayNames: { [key: string]: string } = {};
+    this.assignToOptions.forEach((agent) => {
+      agentDisplayNames[agent.value] = agent.display;
+    });
+    return agentDisplayNames;
   }
 }

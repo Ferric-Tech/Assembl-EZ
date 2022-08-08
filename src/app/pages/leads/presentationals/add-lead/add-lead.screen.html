@@ -1,6 +1,7 @@
 <app-page-header-component [header]="'New Lead'"></app-page-header-component>
 <app-form-component
   [formConfig]="newLeadFormConfig"
+  [currentValues]="currentValues"
   (formSubmitted)="onLeadAdded($event)"
   (formChanged)="onLeadFormChanged($event)"
 ></app-form-component>

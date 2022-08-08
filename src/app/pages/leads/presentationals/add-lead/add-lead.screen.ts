@@ -19,6 +19,7 @@ import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 })
 export class AddLeadScreen {
   @Input() assignToOptions: FormFieldOption[] = [];
+  @Input() currentValues: { [key: string]: string } = {};
   @Output() leadAdded = new EventEmitter<{ [key: string]: string }>();
   @Output() viewStateSelected = new EventEmitter<number>();
 

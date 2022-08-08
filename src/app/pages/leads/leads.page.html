@@ -11,6 +11,14 @@
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-add-lead-screen>
 
+  <app-add-lead-screen
+    *ngSwitchCase="viewState.EDIT"
+    [assignToOptions]="assignToOptions"
+    [currentValues]="lead"
+    (leadAdded)="onLeadEdited($event)"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-add-lead-screen>
+
   <app-view-leads-screen
     *ngSwitchCase="viewState.VIEW_ALL"
     [leads]="leads"
@@ -22,7 +30,9 @@
   <app-view-lead-detail-screen
     *ngSwitchCase="viewState.VIEW_LEAD"
     [lead]="lead"
+    [assignToOptions]="assignToOptions"
     (viewStateSelected)="onViewStateSelected($event)"
+    (requestToEdit)="onRequestToEdit()"
   ></app-view-lead-detail-screen>
 
   <app-warning-modal

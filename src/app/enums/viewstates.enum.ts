@@ -26,6 +26,7 @@ export enum LeadsPageViewState {
   ADD = 2,
   VIEW_ALL = 3,
   VIEW_LEAD = 4,
+  EDIT = 5,
 }
 
 export enum RegisterScreenViewState {

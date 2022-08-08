@@ -1,11 +1,11 @@
 <app-page-header-component [header]="'Lead detail'"></app-page-header-component>
 
-<div class="results-container" *ngFor="let detail of lead | keyvalue">
-  <div class="description-line">{{ detail.key }}</div>
-  <div>{{ detail.value }}</div>
-</div>
+<app-detail-presentation-component
+  [config]="leadDetailsConfig"
+></app-detail-presentation-component>
 
 <app-menu-component
   [menuOptions]="menuOptions"
   (viewStateSelected)="onViewStateSelected($event)"
+  (actionSelected)="onActionSelected($event)"
 ></app-menu-component>

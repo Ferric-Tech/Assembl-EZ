@@ -65,10 +65,44 @@ export class LeadsPage {
     );
   }
 
+  onLeadEdited(formValue: { [key: string]: string }) {
+    this.loadingService.setLoading();
+    formValue['id'] = this.lead['id'];
+    this.leadService.editLead(formValue).then(
+      async (success) => {
+        this.notificationConfig = {
+          type: NotificationType.LEAD,
+          notification: Notification.LEAD_EDITED,
+        };
+        this.loadingService.cancelLoading();
+        this.isNotifying = true;
+        await this.getUpdatedLeads();
+        this.currentViewState = ViewState.VIEW_ALL;
+      },
+      (error) => {
+        this.loadingService.cancelLoading();
+        this.warnigConfig = {
+          type: WarningType.LEADS,
+          warning: Warning.UNABLE_TO_EDIT,
+        };
+        this.isWarning = true;
+      }
+    );
+  }
+
   onLeadClicked(index: number) {
     let leadRefs = Object.values(this.leads);
     this.lead = leadRefs[index];
+    Object.keys(this.leads).forEach((key) => {
+      if (JSON.stringify(this.leads[key]) === JSON.stringify(leadRefs[index])) {
+        this.lead['id'] = key;
+      }
+    });
     this.currentViewState = ViewState.VIEW_LEAD;
+  }
+
+  onRequestToEdit() {
+    this.currentViewState = ViewState.EDIT;
   }
 
   async onViewStateSelected(viewState: number) {
@@ -79,6 +113,7 @@ export class LeadsPage {
         break;
       }
       case ViewState.ADD: {
+        this.lead = {};
         await this.setAssigningToOptions();
       }
     }

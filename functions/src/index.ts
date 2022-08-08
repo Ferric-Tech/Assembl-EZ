@@ -12,6 +12,7 @@ const clientDataModule = require('./modules/client-data');
 const emailerModule = require('./modules/emailer');
 
 exports.addLead = leadsModule.addLead;
+exports.editLead = leadsModule.editLead;
 exports.updateUserProfile = usersModule.updateUserProfile;
 exports.addAgent = usersModule.addAgent;
 exports.getClientData = clientDataModule.getClientData;
