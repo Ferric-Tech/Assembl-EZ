@@ -13,7 +13,11 @@
             field.fieldType
           )
         "
-        class="field-title"
+        [ngClass]="
+          [fieldType.CHECKBOX].includes(field.fieldType)
+            ? 'large-field-title'
+            : 'standard-field-title'
+        "
       >
         {{ field.fieldDisplay }}
       </p>

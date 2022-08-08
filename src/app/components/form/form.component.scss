@@ -14,9 +14,14 @@
   flex-direction: row;
 }
 
-.field-title {
+.standard-field-title {
   margin: 10px 0;
   width: 50%;
+}
+
+.large-field-title {
+  margin: 10px 0;
+  width: 85%;
 }
 
 .field-input {

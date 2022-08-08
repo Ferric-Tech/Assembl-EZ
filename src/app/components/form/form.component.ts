@@ -70,12 +70,14 @@ export class FormComponent implements OnInit {
   }
 
   private assignFormValues() {
-    if (this.currentValues) {
-      Object.keys(this.currentValues).forEach((key) => {
-        this.form.controls[key]?.setValue(this.currentValues[key]);
-      });
-      this.formChanged.emit(this.form.value);
+    if (Object.keys(this.currentValues).length === 0) {
+      return;
     }
+
+    Object.keys(this.currentValues).forEach((key) => {
+      this.form.controls[key]?.setValue(this.currentValues[key]);
+    });
+    this.formChanged.emit(this.form.value);
   }
 
   onSubmit() {
