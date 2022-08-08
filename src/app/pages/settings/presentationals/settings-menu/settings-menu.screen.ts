@@ -4,28 +4,28 @@ import {
   MenuOptionStyle,
   MenuOptionType,
 } from 'app/interfaces/menu-screen.interface';
-import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
+import { SettingsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 
 @Component({
-  selector: 'app-lead-menu-screen',
-  templateUrl: './lead-menu.screen.html',
-  styleUrls: ['./lead-menu.screen.scss'],
+  selector: 'app-settings-menu-screen',
+  templateUrl: './settings-menu.screen.html',
+  styleUrls: ['./settings-menu.screen.scss'],
 })
-export class LeadMenuScreen {
+export class SettingsMenuScreen {
   @Output() viewStateSelected = new EventEmitter<number>();
 
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.PRIMARY,
-      display: 'Add Lead',
+      display: 'View profile',
       optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.ADD,
+      viewState: ViewState.PROFILE,
     },
     {
       style: MenuOptionStyle.PRIMARY,
-      display: 'View Leads',
+      display: 'Passwords',
       optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.VIEW_ALL,
+      viewState: ViewState.PASSWORDS,
     },
     {
       style: MenuOptionStyle.SECONDARY,

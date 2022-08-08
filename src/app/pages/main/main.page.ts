@@ -40,6 +40,12 @@ export class MainPage {
       link: 'agents',
     },
     {
+      style: MenuOptionStyle.PRIMARY,
+      display: 'Settings',
+      optionType: MenuOptionType.URL,
+      link: 'settings',
+    },
+    {
       style: MenuOptionStyle.SECONDARY,
       display: 'Sign out',
       optionType: MenuOptionType.VIEWSTATE,

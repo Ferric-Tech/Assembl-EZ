@@ -42,3 +42,9 @@ export enum AgentPageViewState {
   ADD = 3,
   EDIT = 4,
 }
+
+export enum SettingsPageViewState {
+  MENU = 1,
+  PROFILE = 2,
+  PASSWORDS = 3,
+}

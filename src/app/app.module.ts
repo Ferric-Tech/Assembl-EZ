@@ -50,6 +50,8 @@ import { AgentFormScreen } from './pages/agents/presentationals/agent-form/agent
 import { ViewAgentDetailScreen } from './pages/agents/presentationals/view-agent-detail/view-agent-detail.screen';
 import { ViewAgentsScreen } from './pages/agents/presentationals/view-agents/view-agents.screen';
 import { DetailPresentationComponent } from './components/detail-presentation/detail-presentation.component';
+import { SettingsPage } from './pages/settings/settings.page';
+import { SettingsMenuScreen } from './pages/settings/presentationals/settings-menu/settings-menu.screen';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -97,6 +99,8 @@ export const firebaseConfig = {
     ViewAgentDetailScreen,
     ViewAgentsScreen,
     DetailPresentationComponent,
+    SettingsPage,
+    SettingsMenuScreen,
   ],
   imports: [
     BrowserModule,

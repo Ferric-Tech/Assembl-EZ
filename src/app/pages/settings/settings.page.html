@@ -1,0 +1,5 @@
+<div [ngSwitch]="currentViewState">
+  <app-settings-menu-screen
+    *ngSwitchCase="viewState.MENU"
+  ></app-settings-menu-screen>
+</div>
