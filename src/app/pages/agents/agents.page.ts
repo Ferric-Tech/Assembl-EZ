@@ -92,6 +92,7 @@ export class AgentsPage {
   }
 
   private async setAgentLeads() {
+    this.agentLeads = {};
     let leads: { [key: string]: any } = await this.leadsService.getLeads();
     Object.keys(leads).forEach((key) => {
       if (leads[key]['assignedTo'] === this.agentProfile.id) {
