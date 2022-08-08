@@ -49,6 +49,7 @@ import { LoadingSpinnerComponent } from './components/loading-spinner/loading-sp
 import { NewAgentScreen } from './pages/agents/presentationals/new-agent/new-agent.screen';
 import { ViewAgentDetailScreen } from './pages/agents/presentationals/view-agent-detail/view-agent-detail.screen';
 import { ViewAgentsScreen } from './pages/agents/presentationals/view-agents/view-agents.screen';
+import { DetailPresentationComponent } from './components/detail-presentation/detail-presentation.component';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -95,6 +96,7 @@ export const firebaseConfig = {
     NewAgentScreen,
     ViewAgentDetailScreen,
     ViewAgentsScreen,
+    DetailPresentationComponent,
   ],
   imports: [
     BrowserModule,

@@ -2,10 +2,9 @@
   [header]="'Agent profile'"
 ></app-page-header-component>
 
-<div class="results-container" *ngFor="let detail of agent | keyvalue">
-  <div class="description-line">{{ detail.key }}</div>
-  <div>{{ detail.value }}</div>
-</div>
+<app-detail-presentation-component
+  [config]="agentDetailsConfig"
+></app-detail-presentation-component>
 
 <app-menu-component
   [menuOptions]="menuOptions"

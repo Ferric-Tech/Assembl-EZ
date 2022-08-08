@@ -1,0 +1,11 @@
+<div class="title">{{ config.title }}</div>
+<div class="results-container" *ngFor="let line of config.lines">
+  <div *ngIf="line.oneliner" class="oneliner">
+    <div class="oneline-header">{{ line.header }}</div>
+    <div class="oneline-detail">{{ line.detail }}</div>
+  </div>
+  <div *ngIf="!line.oneliner">
+    <div class="description-line">{{ line.header }}</div>
+    <div>{{ line.detail }}</div>
+  </div>
+</div>
