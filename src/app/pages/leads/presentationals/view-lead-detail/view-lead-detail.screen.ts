@@ -68,23 +68,25 @@ export class ViewLeadDetailScreen {
   ngOnInit() {
     let agentDisplayNames = this.setAgentDisplayNames();
     this.leadDetailsConfig.title = this.lead['name'];
-    this.leadDetailsConfig.lines.push(
-      {
+    if (this.lead['email']) {
+      this.leadDetailsConfig.lines.push({
         header: 'Email',
         detail: this.lead['email'],
         oneliner: true,
-      },
-      {
+      });
+    }
+    if (this.lead['contactNumber']) {
+      this.leadDetailsConfig.lines.push({
         header: 'Contact number',
         detail: this.lead['contactNumber'],
         oneliner: true,
-      },
-      {
-        header: 'Assigned to',
-        detail: agentDisplayNames[this.lead['assignedTo']] || 'Unassigned',
-        oneliner: true,
-      }
-    );
+      });
+    }
+    this.leadDetailsConfig.lines.push({
+      header: 'Assigned to',
+      detail: agentDisplayNames[this.lead['assignedTo']] || 'Unassigned',
+      oneliner: true,
+    });
   }
 
   onViewStateSelected(viewState: number) {

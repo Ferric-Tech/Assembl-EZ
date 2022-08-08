@@ -22,6 +22,7 @@
   <app-view-agent-detail-screen
     *ngSwitchCase="viewState.VIEW_AGENT"
     [agentProfile]="agentProfile"
+    [agentLeads]="agentLeads"
     (viewStateSelected)="onViewStateSelected($event)"
     (requestToEdit)="onRequestToEdit()"
   ></app-view-agent-detail-screen>

@@ -78,7 +78,7 @@ export class LeadFormScreen {
 
   menuOptions: MenuOption[] = [
     {
-      style: MenuOptionStyle.PRIMARY,
+      style: MenuOptionStyle.SECONDARY,
       display: 'Back to lead menu',
       optionType: MenuOptionType.VIEWSTATE,
       viewState: ViewState.MENU,

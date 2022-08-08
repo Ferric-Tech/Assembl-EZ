@@ -47,11 +47,8 @@ export class ViewAgentDetailScreen {
       title: 'Leads',
       contentType: ExpansionPanelContentType.LIST,
       listContent: {
-        title: 'There are no leads currently assigned to this agent',
-        headers: [
-          { content: 'Client', widthFactor: 1 },
-          { content: 'Status', widthFactor: 1 },
-        ],
+        title: '',
+        headers: [],
         isInExpansionTable: true,
         lines: [],
       },
@@ -74,6 +71,27 @@ export class ViewAgentDetailScreen {
         oneliner: true,
       }
     );
+
+    if (Object.keys(this.agentLeads).length === 0) {
+      if (this.leadsExpansionPanelConfig[0].listContent) {
+        this.leadsExpansionPanelConfig[0].listContent.title =
+          'There are currently no leads assigned to this agent';
+        return;
+      }
+    }
+
+    if (this.leadsExpansionPanelConfig[0].listContent) {
+      this.leadsExpansionPanelConfig[0].listContent.headers = [
+        { content: 'Client', widthFactor: 1 },
+        { content: 'Status', widthFactor: 1 },
+      ];
+      Object.keys(this.agentLeads).forEach((key) => {
+        this.leadsExpansionPanelConfig[0].listContent?.lines.push([
+          this.agentLeads[key]['name'],
+          'Open',
+        ]);
+      });
+    }
   }
 
   onViewStateSelected(viewState: ViewState) {

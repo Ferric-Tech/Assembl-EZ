@@ -3,6 +3,7 @@ import { AgentPageViewState as ViewState } from 'app/enums/viewstates.enum';
 import { EmailsService } from 'app/services/emails.service';
 import { AgentProfile, AgentService } from 'app/services/agent.service';
 import { LoadingService } from 'app/services/loading.service';
+import { LeadsService } from 'app/services/leads.service';
 
 @Component({
   selector: 'app-agents-page',
@@ -14,11 +15,13 @@ export class AgentsPage {
   currentViewState = ViewState.VIEW;
   agents: { [key: string]: any } = {};
   agentProfile = {} as AgentProfile;
+  agentLeads: { [key: string]: any } = {};
   currentValues: { [key: string]: any } = {};
 
   constructor(
     private emailsService: EmailsService,
     private agentService: AgentService,
+    private leadsService: LeadsService,
     private loadingService: LoadingService
   ) {
     this.getUpdatedAgents();
@@ -37,6 +40,7 @@ export class AgentsPage {
         this.loadingService.cancelLoading();
       }
     );
+    await this.getUpdatedAgents();
     this.currentViewState = ViewState.VIEW;
   }
 
@@ -54,10 +58,26 @@ export class AgentsPage {
         this.loadingService.cancelLoading();
       }
     );
+    await this.getUpdatedAgents();
     this.currentViewState = ViewState.VIEW;
   }
 
-  onAgentClicked(index: number) {
+  async onAgentClicked(index: number) {
+    this.setAgentProfile(index);
+    await this.setAgentLeads();
+    this.currentViewState = ViewState.VIEW_AGENT;
+  }
+
+  onRequestToEdit() {
+    this.currentValues = this.agentProfile;
+    this.currentViewState = ViewState.EDIT;
+  }
+
+  onViewStateSelected(viewState: number) {
+    this.currentViewState = viewState;
+  }
+
+  private setAgentProfile(index: number) {
     let agentRefs = Object.values(this.agents);
     this.agentProfile = agentRefs[index];
     Object.keys(this.agents).forEach((key) => {
@@ -71,13 +91,13 @@ export class AgentsPage {
     this.currentViewState = ViewState.VIEW_AGENT;
   }
 
-  onRequestToEdit() {
-    this.currentValues = this.agentProfile;
-    this.currentViewState = ViewState.EDIT;
-  }
-
-  onViewStateSelected(viewState: number) {
-    this.currentViewState = viewState;
+  private async setAgentLeads() {
+    let leads: { [key: string]: any } = await this.leadsService.getLeads();
+    Object.keys(leads).forEach((key) => {
+      if (leads[key]['assignedTo'] === this.agentProfile.id) {
+        this.agentLeads[key] = leads[key];
+      }
+    });
   }
 
   private async getUpdatedAgents(): Promise<void> {

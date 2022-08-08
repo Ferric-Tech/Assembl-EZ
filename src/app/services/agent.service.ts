@@ -46,7 +46,7 @@ export class AgentService {
         const agents = await this.getAgents();
         Object.keys(agents).forEach((id) => {
           listOfAgents.push({
-            display: agents[id].firstName + agents[id].lastName,
+            display: agents[id].firstName + ' ' + agents[id].lastName,
             value: id,
           });
         });

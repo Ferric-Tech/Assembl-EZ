@@ -130,6 +130,7 @@ export class LeadsPage {
   }
 
   private async setAssigningToOptions() {
+    this.assignToOptions = [];
     this.assignToOptions.push(
       {
         display: 'Unassigned',

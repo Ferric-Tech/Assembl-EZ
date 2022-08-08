@@ -28,6 +28,12 @@ export class ViewLeadsScreen implements OnInit {
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.PRIMARY,
+      display: 'Add lead',
+      optionType: MenuOptionType.VIEWSTATE,
+      viewState: ViewState.ADD,
+    },
+    {
+      style: MenuOptionStyle.SECONDARY,
       display: 'Back to lead menu',
       optionType: MenuOptionType.VIEWSTATE,
       viewState: ViewState.MENU,
@@ -48,6 +54,11 @@ export class ViewLeadsScreen implements OnInit {
 
   private setleadListConfig() {
     let agentDisplayNames = this.setAgentDisplayNames();
+    if (Object.keys(this.leads).length === 0) {
+      this.leadListConfig.title =
+        'It seems that you have no leads as yet. Why not add a lead now';
+      return;
+    }
 
     this.leadListConfig.headers.push(
       {

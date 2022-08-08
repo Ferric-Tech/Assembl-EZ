@@ -105,11 +105,11 @@ export class DataManagementService {
       }
       case CollectionType.AGENT: {
         let leads: { [key: string]: any } = {};
-        if (sessionStorage['agent']) {
-          leads = JSON.parse(sessionStorage['agent']);
+        if (sessionStorage['agents']) {
+          leads = JSON.parse(sessionStorage['agents']);
         }
         leads[docRef] = body;
-        sessionStorage.setItem('agent', JSON.stringify(leads));
+        sessionStorage.setItem('agents', JSON.stringify(leads));
         return;
       }
       case CollectionType.PROFILE: {
