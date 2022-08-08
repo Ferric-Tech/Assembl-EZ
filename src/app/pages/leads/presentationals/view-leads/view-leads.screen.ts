@@ -6,6 +6,7 @@ import {
   MenuOptionType,
 } from 'app/interfaces/menu-screen.interface';
 import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
+import { FormFieldOption } from 'app/interfaces/form-screen.interface';
 
 @Component({
   selector: 'app-view-leads-screen',
@@ -14,6 +15,7 @@ import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 })
 export class ViewLeadsScreen implements OnInit {
   @Input() leads: { [key: string]: any } = {};
+  @Input() assignToOptions: FormFieldOption[] = [];
   @Output() viewStateSelected = new EventEmitter<number>();
   @Output() leadClicked = new EventEmitter<number>();
 
@@ -45,6 +47,8 @@ export class ViewLeadsScreen implements OnInit {
   }
 
   private setleadListConfig() {
+    let agentDisplayNames = this.setAgentDisplayNames();
+
     this.leadListConfig.headers.push(
       {
         widthFactor: 1,
@@ -52,16 +56,28 @@ export class ViewLeadsScreen implements OnInit {
       },
       {
         widthFactor: 1,
-        content: 'Email',
+        content: 'Assigned to',
       }
     );
 
     Object.keys(this.leads).forEach((leadRef) => {
-      let lead = this.leads[leadRef] as { name: string; email: string };
+      let lead = this.leads[leadRef] as {
+        name: string;
+        email: string;
+        assignedTo: string;
+      };
       let leadListItem: string[] = [];
       leadListItem.push(lead.name);
-      leadListItem.push(lead.email);
+      leadListItem.push(agentDisplayNames[lead.assignedTo] || 'Unassigned');
       this.leadListConfig.lines.push(leadListItem);
     });
+  }
+
+  private setAgentDisplayNames(): { [key: string]: string } {
+    let agentDisplayNames: { [key: string]: string } = {};
+    this.assignToOptions.forEach((agent) => {
+      agentDisplayNames[agent.value] = agent.display;
+    });
+    return agentDisplayNames;
   }
 }

@@ -14,6 +14,7 @@
   <app-view-leads-screen
     *ngSwitchCase="viewState.VIEW_ALL"
     [leads]="leads"
+    [assignToOptions]="assignToOptions"
     (viewStateSelected)="onViewStateSelected($event)"
     (leadClicked)="onLeadClicked($event)"
   ></app-view-leads-screen>

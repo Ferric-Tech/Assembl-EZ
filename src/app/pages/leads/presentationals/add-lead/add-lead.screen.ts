@@ -10,8 +10,6 @@ import {
   MenuOptionType,
 } from 'app/interfaces/menu-screen.interface';
 import { LeadsPageViewState as ViewState } from 'app/enums/viewstates.enum';
-import { AuthenticationService } from 'app/services/authentication-service.service';
-import { AgentService } from 'app/services/agent.service';
 
 @Component({
   selector: 'app-add-lead-screen',
