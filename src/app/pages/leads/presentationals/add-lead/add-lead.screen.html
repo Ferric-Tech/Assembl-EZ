@@ -2,6 +2,7 @@
 <app-form-component
   [formConfig]="newLeadFormConfig"
   (formSubmitted)="onLeadAdded($event)"
+  (formChanged)="onLeadFormChanged($event)"
 ></app-form-component>
 <app-menu-component
   [menuOptions]="menuOptions"

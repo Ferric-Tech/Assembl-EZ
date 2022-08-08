@@ -118,7 +118,7 @@ export class ContactDetailsScreen {
     this.formSubmitted.emit(formValue);
   }
 
-  onContacDetailsForChanged(formValue: { [key: string]: string | boolean }) {
+  onContacDetailsFormChanged(formValue: { [key: string]: string | boolean }) {
     if (this.isPrimaryContactSelected != formValue['isPrimaryContact']) {
       this.isPrimaryContactSelected = formValue['isPrimaryContact'] as boolean;
       this.isPrimaryContactSelected
