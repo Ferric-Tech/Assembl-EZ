@@ -41,6 +41,10 @@
   flex-direction: row;
 }
 
+.field-select {
+  background-color: white;
+}
+
 .field-radio-group {
   display: flex;
   flex-direction: column;
@@ -138,6 +142,10 @@ mat-radio-button {
 
 mat-icon {
   margin: 0 5px;
+}
+
+::ng-deep .mat-select-value {
+  margin-left: 5px;
 }
 
 .right-spacer-gap {
