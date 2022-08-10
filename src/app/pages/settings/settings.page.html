@@ -24,13 +24,14 @@
 
   <app-business-details-screen
     *ngSwitchCase="viewState.EDIT_BUS_BASICS"
-    [currentValues]="profile"
     (formSubmitted)="onProfileUpdated($event)"
     (editCancelled)="onUpdateCancelled()"
   ></app-business-details-screen>
 
   <app-contact-details-screen
     *ngSwitchCase="viewState.EDIT_BUS_CONTACTS"
+    [currentValues]="profile"
     (formSubmitted)="onProfileUpdated($event)"
+    (editCancelled)="onUpdateCancelled()"
   ></app-contact-details-screen>
 </div>

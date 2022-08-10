@@ -36,7 +36,7 @@ export class FormComponent implements OnInit {
   get validForm() {
     let formValid = true;
     this.formConfig.fields.forEach((field, index) => {
-      if (typeof this.form.controls[field.fieldName].value === 'object') {
+      if (typeof this.form.controls[field.fieldName]?.value === 'object') {
         // Complex logic required to test if multi-selector is empty
         if (this.form.controls[field.fieldName].value != null) {
           if (
@@ -86,6 +86,7 @@ export class FormComponent implements OnInit {
 
   onSubmit() {
     this.removeFromGroupTitles();
+    this.setOpttedOutFieldsAsEmpty();
     this.formSubmitted.emit(this.form.value);
   }
 
@@ -149,6 +150,19 @@ export class FormComponent implements OnInit {
     Object.keys(this.form.controls).forEach((key) => {
       if (listOfFormGroupTitles.includes(key)) {
         this.form.removeControl(key);
+      }
+    });
+  }
+
+  private setOpttedOutFieldsAsEmpty() {
+    this.formConfig.fields.forEach((field) => {
+      if (
+        field.fieldType === FormFieldType.OPT_OUT &&
+        this.form.controls[field.fieldName]
+      ) {
+        field.optsOutOf
+          ? this.form.addControl(field.optsOutOf, new FormControl(''))
+          : null;
       }
     });
   }
