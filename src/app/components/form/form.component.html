@@ -107,6 +107,7 @@
           <mat-radio-button
             *ngFor="let option of field.options"
             value="{{ option.value }}"
+            [checked]="field.defaultValue === option.value"
             >{{ option.display }}</mat-radio-button
           >
         </mat-radio-group>

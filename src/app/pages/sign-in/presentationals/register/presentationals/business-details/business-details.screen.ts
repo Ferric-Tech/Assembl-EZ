@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { EntityType, FormFieldType } from 'app/enums/form.eum';
 import {
   FormConfig,
@@ -11,65 +11,82 @@ import {
   styleUrls: ['./business-details.screen.scss'],
 })
 export class BusinessDetailsScreen {
+  @Input() isFirstTimeRegistration = false;
+  @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
 
   formStage = 1;
   selectedOpertateAs = 0;
 
-  opertateAsField: FormFieldConfig = {
-    fieldDisplay: 'How do you operate',
-    fieldName: 'entityType',
-    fieldType: FormFieldType.RADIO,
-    options: [
-      {
-        display: 'As a sole proprietor',
-        value: EntityType.SOLE_PROPRIETOR,
-      },
-      {
-        display: 'As a registered entity',
-        value: EntityType.REGISTERED_ENTITY,
-      },
-    ],
-    defaultValue: 0,
-  };
+  opertateAsField = {} as FormFieldConfig;
+  tradingAsField = {} as FormFieldConfig;
+  legalNameField = {} as FormFieldConfig;
+  tradingUnderLegalNameField = {} as FormFieldConfig;
+  businessDetailsFormConfig = {} as FormConfig;
 
-  tradingAsField: FormFieldConfig = {
-    fieldDisplay: 'Trading name',
-    fieldName: 'tradingName',
-    fieldType: FormFieldType.INPUT_GENERAL,
-    defaultValue: '',
-  };
+  ngOnInit() {
+    this.opertateAsField = {
+      fieldDisplay: 'How do you operate',
+      fieldName: 'entityType',
+      fieldType: FormFieldType.RADIO,
+      options: [
+        {
+          display: 'As a sole proprietor',
+          value: EntityType.SOLE_PROPRIETOR,
+        },
+        {
+          display: 'As a registered entity',
+          value: EntityType.REGISTERED_ENTITY,
+        },
+      ],
+      defaultValue: this.currentValues['entityType'] || 0,
+    };
 
-  legalNameField: FormFieldConfig = {
-    fieldDisplay: 'Legal name',
-    fieldName: 'legalName',
-    fieldType: FormFieldType.INPUT_GENERAL,
-    defaultValue: '',
-  };
+    this.tradingAsField = {
+      fieldDisplay: 'Trading name',
+      fieldName: 'tradingName',
+      fieldType: FormFieldType.INPUT_GENERAL,
+      defaultValue: this.currentValues['tradingName'] || '',
+    };
 
-  tradingUnderLegalNameField: FormFieldConfig = {
-    fieldDisplay: 'Trading and legam names differ',
-    fieldName: 'tradingAndLegalNameDiffer',
-    fieldType: FormFieldType.CHECKBOX,
-    defaultValue: false,
-  };
+    this.legalNameField = {
+      fieldDisplay: 'Legal name',
+      fieldName: 'legalName',
+      fieldType: FormFieldType.INPUT_GENERAL,
+      defaultValue: this.currentValues['legalName'] || '',
+    };
 
-  businessDetailsFormConfig: FormConfig = {
-    formTitle:
-      'Great! You have been registered on our platform. Let find out a little more about your business',
-    isInExpansionTable: false,
-    isDynamic: true,
-    canProceed: false,
-    proceedBlocked: false,
-    fields: [this.opertateAsField],
-    proceedText: 'Proceed',
-  };
+    this.tradingUnderLegalNameField = {
+      fieldDisplay: 'Trading and legam names differ',
+      fieldName: 'tradingAndLegalNameDiffer',
+      fieldType: FormFieldType.CHECKBOX,
+      defaultValue: this.currentValues['tradingAndLegalNameDiffer'] || false,
+    };
+
+    this.businessDetailsFormConfig = {
+      formTitle: this.isFirstTimeRegistration
+        ? 'Great! You have been registered on our platform. \
+        Let find out a little more about your business'
+        : '',
+      isInExpansionTable: false,
+      isDynamic: true,
+      canProceed: false,
+      proceedBlocked: true,
+      canCancel: true,
+      fields: [this.opertateAsField],
+      proceedText: 'Proceed',
+    };
+    this.setFormStage2(this.currentValues);
+    this.onBusinessDetailsForChanged(this.currentValues);
+  }
 
   onBusinessDetailsFormSubmitted(formValue: { [key: string]: string }) {
     this.formSubmitted.emit(formValue);
   }
 
   onBusinessDetailsForChanged(formValue: { [key: string]: string }) {
+    this.businessDetailsFormConfig.proceedBlocked = !this.changeMade(formValue);
+
     switch (this.businessDetailsFormConfig.fields.length) {
       case 1: {
         this.setFormStage2(formValue);
@@ -121,5 +138,15 @@ export class BusinessDetailsScreen {
         this.tradingUnderLegalNameField
       );
     }
+  }
+
+  private changeMade(formValue: { [key: string]: string }): boolean {
+    let changeMade = false;
+    Object.keys(formValue).forEach((fieldName) => {
+      if (formValue[fieldName] != this.currentValues[fieldName]) {
+        changeMade = true;
+      }
+    });
+    return changeMade;
   }
 }

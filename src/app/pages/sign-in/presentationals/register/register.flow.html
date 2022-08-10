@@ -9,6 +9,7 @@
 
   <app-business-details-screen
     *ngSwitchCase="viewState.BUSINESS"
+    [isFirstTimeRegistration]="true"
     (formSubmitted)="onBusinessDetailsSubmitted($event)"
   ></app-business-details-screen>
 
