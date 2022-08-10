@@ -37,6 +37,13 @@ export class ClientProfileService {
     });
   }
 
+  getUserProfile(): Promise<Object> {
+    return new Promise(async (resolve, reject) => {
+      resolve(JSON.parse(sessionStorage['profile']));
+      reject();
+    });
+  }
+
   async addUserProfile(formValue: { [key: string]: string }): Promise<void> {
     const url =
       'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';

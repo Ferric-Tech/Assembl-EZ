@@ -52,6 +52,7 @@ import { ViewAgentsScreen } from './pages/agents/presentationals/view-agents/vie
 import { DetailPresentationComponent } from './components/detail-presentation/detail-presentation.component';
 import { SettingsPage } from './pages/settings/settings.page';
 import { SettingsMenuScreen } from './pages/settings/presentationals/settings-menu/settings-menu.screen';
+import { ViewProfileScreen } from './pages/settings/presentationals/view-profile/view-profile.screen';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -101,6 +102,7 @@ export const firebaseConfig = {
     DetailPresentationComponent,
     SettingsPage,
     SettingsMenuScreen,
+    ViewProfileScreen,
   ],
   imports: [
     BrowserModule,

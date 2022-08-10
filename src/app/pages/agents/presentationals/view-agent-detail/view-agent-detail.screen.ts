@@ -40,6 +40,7 @@ export class ViewAgentDetailScreen {
   agentDetailsConfig = {
     title: '',
     lines: [],
+    inExpansionPanel: false,
   } as DetailPresentationConfig;
 
   leadsExpansionPanelConfig: ExpansionPanelConfig[] = [

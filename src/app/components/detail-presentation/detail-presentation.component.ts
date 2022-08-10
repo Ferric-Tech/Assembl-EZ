@@ -7,7 +7,11 @@ import { DetailPresentationConfig } from 'app/interfaces/detail-presentation-com
   styleUrls: ['./detail-presentation.component.scss'],
 })
 export class DetailPresentationComponent implements OnInit {
-  @Input() config: DetailPresentationConfig = { title: '', lines: [] };
+  @Input() detailConfig: DetailPresentationConfig = {
+    title: '',
+    lines: [],
+    inExpansionPanel: false,
+  };
 
   constructor() {}
 

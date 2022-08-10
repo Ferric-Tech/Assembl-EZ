@@ -1,5 +1,12 @@
 <div [ngSwitch]="currentViewState">
   <app-settings-menu-screen
     *ngSwitchCase="viewState.MENU"
+    (viewStateSelected)="onViewStateSelected($event)"
   ></app-settings-menu-screen>
+
+  <app-view-profile-screen
+    *ngSwitchCase="viewState.PROFILE"
+    [profile]="profile"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-view-profile-screen>
 </div>

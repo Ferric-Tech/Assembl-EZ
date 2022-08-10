@@ -1,6 +1,7 @@
 export interface DetailPresentationConfig {
   title: string;
   lines: DetailPresentationLine[];
+  inExpansionPanel: boolean;
 }
 
 export interface DetailPresentationLine {

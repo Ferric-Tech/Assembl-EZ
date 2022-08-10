@@ -21,6 +21,12 @@
               [listConfig]="panel.listContent"
             ></app-list-component>
           </div>
+          <div *ngSwitchCase="contentType.DETAIL">
+            <app-detail-presentation-component
+              *ngIf="panel.detailPresentationContent"
+              [detailConfig]="panel.detailPresentationContent"
+            ></app-detail-presentation-component>
+          </div>
         </div>
       </mat-expansion-panel>
     </mat-accordion>
