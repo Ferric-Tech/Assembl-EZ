@@ -150,9 +150,10 @@
       </div>
     </div>
   </div>
-  <div *ngIf="validForm" class="form-button-container">
-    <button class="primary-menu-button" type="submit">
+  <div class="form-button-container">
+    <button *ngIf="validForm" class="primary-menu-button" type="submit">
       {{ formConfig.proceedText }}
     </button>
+    <button *ngIf="formConfig.canCancel" class="menu-button">Cancel</button>
   </div>
 </form>

@@ -43,6 +43,7 @@ export class LeadFormScreen {
     isInExpansionTable: false,
     isDynamic: true,
     canProceed: false,
+    proceedBlocked: false,
     fields: [
       {
         fieldDisplay: 'Name',

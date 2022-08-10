@@ -23,6 +23,7 @@ export class FormComponent implements OnInit {
     fields: [],
     proceedText: '',
     canProceed: false,
+    proceedBlocked: false,
   };
   @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<any>();
@@ -58,8 +59,11 @@ export class FormComponent implements OnInit {
         }
       }
     });
-    // canProceed allows the parent to over-ride
-    return (formValid && this.form.valid) || this.formConfig.canProceed;
+    // canProceed amd proceedBlocked allows the parent to over-ride
+    return (
+      (formValid && this.form.valid && !this.formConfig.proceedBlocked) ||
+      this.formConfig.canProceed
+    );
   }
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}

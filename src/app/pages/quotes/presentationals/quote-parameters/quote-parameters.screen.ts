@@ -15,6 +15,7 @@ export class QuoteParametersScreen {
     isInExpansionTable: false,
     isDynamic: false,
     canProceed: true,
+    proceedBlocked: false,
     fields: [
       {
         fieldDisplay: 'Present non-required components',

@@ -40,6 +40,7 @@ export class ContactDetailsScreen {
     isInExpansionTable: false,
     isDynamic: true,
     canProceed: false,
+    proceedBlocked: false,
     fields: [
       {
         fieldName: 'groupTitleCompany',

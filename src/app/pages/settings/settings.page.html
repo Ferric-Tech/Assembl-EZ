@@ -1,3 +1,8 @@
+<app-page-header-component
+  *ngIf="[viewState.EDIT_BASICS, viewState.EDIT_BUS_BASICS, viewState.EDIT_BUS_CONTACTS].includes(currentViewState)"
+  [header]="'Edit Profile'"
+></app-page-header-component>
+
 <div [ngSwitch]="currentViewState">
   <app-settings-menu-screen
     *ngSwitchCase="viewState.MENU"

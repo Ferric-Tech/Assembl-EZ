@@ -15,6 +15,7 @@ export class ForgotPasswordScreen {
     isInExpansionTable: false,
     isDynamic: false,
     canProceed: false,
+    proceedBlocked: false,
     fields: [
       {
         fieldDisplay: 'Email',

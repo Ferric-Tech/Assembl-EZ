@@ -35,6 +35,7 @@ export class AgentFormScreen {
     isInExpansionTable: false,
     isDynamic: false,
     canProceed: false,
+    proceedBlocked: false,
     fields: [
       {
         fieldDisplay: 'First name',

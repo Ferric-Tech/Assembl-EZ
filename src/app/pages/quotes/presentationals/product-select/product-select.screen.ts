@@ -50,6 +50,7 @@ export class ProductSelectScreen implements OnInit {
     isInExpansionTable: false,
     isDynamic: true,
     canProceed: false,
+    proceedBlocked: false,
     fields: [this.productGroupField],
     proceedText: 'Proceed',
   };

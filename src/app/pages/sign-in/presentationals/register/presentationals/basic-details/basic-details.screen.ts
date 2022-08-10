@@ -20,8 +20,10 @@ export class BasicDetailsComponent {
     this.registerFormConfig = {
       formTitle: '',
       isInExpansionTable: false,
-      isDynamic: false,
+      isDynamic: true,
       canProceed: false,
+      proceedBlocked: true,
+      canCancel: true,
       fields: [
         {
           fieldDisplay: 'First name',
@@ -52,6 +54,7 @@ export class BasicDetailsComponent {
     };
 
     if (this.isFirstTimeRegistration) {
+      this.registerFormConfig.proceedBlocked = false;
       this.registerFormConfig.formTitle =
         'Registering is a quick easy three-step process, \
           lets start by gettig your basic details';
@@ -70,6 +73,10 @@ export class BasicDetailsComponent {
         }
       );
     }
+  }
+
+  onFormChanged(formValue: { [key: string]: string }) {
+    this.registerFormConfig.proceedBlocked = !this.changeMade(formValue);
   }
 
   onRegisterFormSubmitted(formValue: { [key: string]: string }) {

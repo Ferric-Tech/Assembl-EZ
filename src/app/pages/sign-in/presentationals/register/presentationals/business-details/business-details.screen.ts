@@ -60,6 +60,7 @@ export class BusinessDetailsScreen {
     isInExpansionTable: false,
     isDynamic: true,
     canProceed: false,
+    proceedBlocked: false,
     fields: [this.opertateAsField],
     proceedText: 'Proceed',
   };

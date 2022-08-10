@@ -7,6 +7,8 @@ export interface FormConfig {
   isDynamic: boolean;
   proceedText: string;
   canProceed: boolean;
+  proceedBlocked: boolean;
+  canCancel?: boolean;
 }
 
 export interface FormFieldConfig {

@@ -15,6 +15,7 @@ export class SignInScreen {
     isInExpansionTable: false,
     isDynamic: false,
     canProceed: false,
+    proceedBlocked: false,
     fields: [
       {
         fieldDisplay: 'Email',
