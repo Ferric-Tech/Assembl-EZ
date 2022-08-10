@@ -47,4 +47,7 @@ export enum SettingsPageViewState {
   MENU = 1,
   PROFILE = 2,
   PASSWORDS = 3,
+  EDIT_BASICS = 4,
+  EDIT_BUS_BASICS = 5,
+  EDIT_BUS_CONTACTS = 6,
 }

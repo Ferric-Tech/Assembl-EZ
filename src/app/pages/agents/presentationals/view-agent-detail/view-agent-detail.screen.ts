@@ -45,6 +45,7 @@ export class ViewAgentDetailScreen {
 
   leadsExpansionPanelConfig: ExpansionPanelConfig[] = [
     {
+      panelName: 'leads',
       title: 'Leads',
       contentType: ExpansionPanelContentType.LIST,
       listContent: {

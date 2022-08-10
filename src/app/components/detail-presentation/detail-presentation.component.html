@@ -9,11 +9,21 @@
 >
   <div *ngIf="line.oneliner" class="oneliner">
     <div class="oneline-header">{{ line.header }}</div>
-    <div class="oneline-detail">{{ line.detail }}</div>
+    <div *ngIf="line.isLink" class="oneline-detail">
+      <a href="{{ line.linkAddress }}" target="_blank">{{ line.detail }}</a>
+    </div>
+    <div *ngIf="!line.isLink">
+      <div>{{ line.detail }}</div>
+    </div>
   </div>
   <div *ngIf="!line.oneliner">
     <div class="description-line">{{ line.header }}</div>
-    <div>{{ line.detail }}</div>
+    <div *ngIf="line.isLink">
+      <a href="{{ line.linkAddress }}" target="_blank">{{ line.detail }}</a>
+    </div>
+    <div *ngIf="!line.isLink">
+      <div>{{ line.detail }}</div>
+    </div>
   </div>
 </div>
 <div class="footer"></div>

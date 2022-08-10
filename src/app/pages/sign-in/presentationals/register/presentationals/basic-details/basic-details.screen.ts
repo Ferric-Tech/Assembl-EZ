@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormFieldType } from 'app/enums/form.eum';
 import { FormConfig } from 'app/interfaces/form-screen.interface';
 
@@ -8,60 +8,93 @@ import { FormConfig } from 'app/interfaces/form-screen.interface';
   styleUrls: ['./basic-details.screen.scss'],
 })
 export class BasicDetailsComponent {
+  @Input() isFirstTimeRegistration = false;
+  @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
   @Output() isPasswordMismatched = new EventEmitter<void>();
+  @Output() editCancelled = new EventEmitter<void>();
 
-  registerFormConfig: FormConfig = {
-    formTitle:
-      'Registering is a quick easy three-step process, \
-      lets start by gettig your basic details',
-    isInExpansionTable: false,
-    isDynamic: false,
-    canProceed: false,
-    fields: [
-      {
-        fieldDisplay: 'First name',
-        fieldName: 'firstName',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
-      },
-      {
-        fieldDisplay: 'Last name',
-        fieldName: 'lastName',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
-      },
-      {
-        fieldDisplay: 'Email',
-        fieldName: 'email',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
-      },
-      {
-        fieldDisplay: 'Contact number',
-        fieldName: 'contactNumber',
-        fieldType: FormFieldType.INPUT_GENERAL,
-        defaultValue: '',
-      },
-      {
-        fieldDisplay: 'Password',
-        fieldName: 'password',
-        fieldType: FormFieldType.PASSWORD,
-        defaultValue: '',
-      },
-      {
-        fieldDisplay: 'Confirm password',
-        fieldName: 'confirmPassword',
-        fieldType: FormFieldType.PASSWORD,
-        defaultValue: '',
-      },
-    ],
-    proceedText: 'Proceed',
-  };
+  registerFormConfig = {} as FormConfig;
+
+  ngOnInit() {
+    this.registerFormConfig = {
+      formTitle: '',
+      isInExpansionTable: false,
+      isDynamic: false,
+      canProceed: false,
+      fields: [
+        {
+          fieldDisplay: 'First name',
+          fieldName: 'firstName',
+          fieldType: FormFieldType.INPUT_GENERAL,
+          defaultValue: this.currentValues['firstName'] || '',
+        },
+        {
+          fieldDisplay: 'Last name',
+          fieldName: 'lastName',
+          fieldType: FormFieldType.INPUT_GENERAL,
+          defaultValue: this.currentValues['lastName'] || '',
+        },
+        {
+          fieldDisplay: 'Email',
+          fieldName: 'email',
+          fieldType: FormFieldType.INPUT_GENERAL,
+          defaultValue: this.currentValues['email'] || '',
+        },
+        {
+          fieldDisplay: 'Contact number',
+          fieldName: 'contactNumber',
+          fieldType: FormFieldType.INPUT_GENERAL,
+          defaultValue: this.currentValues['contactNumber'] || '',
+        },
+      ],
+      proceedText: 'Proceed',
+    };
+
+    if (this.isFirstTimeRegistration) {
+      this.registerFormConfig.formTitle =
+        'Registering is a quick easy three-step process, \
+          lets start by gettig your basic details';
+      this.registerFormConfig.fields.push(
+        {
+          fieldDisplay: 'Password',
+          fieldName: 'password',
+          fieldType: FormFieldType.PASSWORD,
+          defaultValue: '',
+        },
+        {
+          fieldDisplay: 'Confirm password',
+          fieldName: 'confirmPassword',
+          fieldType: FormFieldType.PASSWORD,
+          defaultValue: '',
+        }
+      );
+    }
+  }
 
   onRegisterFormSubmitted(formValue: { [key: string]: string }) {
-    formValue['password'] === formValue['confirmPassword']
+    if (this.isFirstTimeRegistration) {
+      this.passwordsmatch(formValue)
+        ? this.formSubmitted.emit(formValue)
+        : this.isPasswordMismatched.emit();
+      return;
+    }
+    this.changeMade(formValue)
       ? this.formSubmitted.emit(formValue)
-      : this.isPasswordMismatched.emit();
+      : this.editCancelled.emit();
+  }
+
+  private passwordsmatch(formValue: { [key: string]: string }): boolean {
+    return formValue['password'] === formValue['confirmPassword'];
+  }
+
+  private changeMade(formValue: { [key: string]: string }): boolean {
+    let changeMade = false;
+    Object.keys(formValue).forEach((fieldName) => {
+      if (formValue[fieldName] != this.currentValues[fieldName]) {
+        changeMade = true;
+      }
+    });
+    return changeMade;
   }
 }

@@ -56,6 +56,7 @@ export class QuoteResultsScreen implements OnInit {
         ]);
       });
       this.expansionPanelConfig.push({
+        panelName: product.productName,
         title: product.productName,
         description: product.price.toFixed(2).toString(),
         contentType: ExpansionPanelContentType.LIST,

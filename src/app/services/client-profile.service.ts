@@ -44,7 +44,7 @@ export class ClientProfileService {
     });
   }
 
-  async addUserProfile(formValue: { [key: string]: string }): Promise<void> {
+  async updateUserProfile(formValue: { [key: string]: string }): Promise<void> {
     const url =
       'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
     const body = formValue;

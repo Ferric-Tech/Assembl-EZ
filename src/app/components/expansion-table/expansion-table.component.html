@@ -8,6 +8,7 @@
             {{ panel.description }}
           </mat-panel-description>
         </mat-expansion-panel-header>
+
         <div [ngSwitch]="panel.contentType">
           <div *ngSwitchCase="contentType.FORM">
             <app-form-component
@@ -15,17 +16,29 @@
               [formConfig]="panel.formContent"
             ></app-form-component>
           </div>
+
           <div *ngSwitchCase="contentType.LIST">
             <app-list-component
               *ngIf="panel.listContent"
               [listConfig]="panel.listContent"
             ></app-list-component>
           </div>
+
           <div *ngSwitchCase="contentType.DETAIL">
             <app-detail-presentation-component
               *ngIf="panel.detailPresentationContent"
               [detailConfig]="panel.detailPresentationContent"
             ></app-detail-presentation-component>
+          </div>
+
+          <div *ngIf="panel.optionToEdit" class="button-container">
+            <button
+              *ngIf="panel.optionToEdit"
+              class="primary-menu-button"
+              (click)="onEditClicked(panel.panelName)"
+            >
+              Edit
+            </button>
           </div>
         </div>
       </mat-expansion-panel>

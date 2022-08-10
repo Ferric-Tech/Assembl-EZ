@@ -10,3 +10,8 @@ export enum FormFieldType {
   FIELD_GROUP_TITLE,
   OPT_OUT,
 }
+
+export enum EntityType {
+  SOLE_PROPRIETOR = 1,
+  REGISTERED_ENTITY = 2,
+}

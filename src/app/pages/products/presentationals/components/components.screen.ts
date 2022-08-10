@@ -52,6 +52,7 @@ export class ComponentsPage {
         fields.push([product.displayGeneral, product.price.toString()]);
       });
       this.expansionPanelConfig.push({
+        panelName: productGroup,
         title: productGroup,
         contentType: ExpansionPanelContentType.LIST,
         listContent: {

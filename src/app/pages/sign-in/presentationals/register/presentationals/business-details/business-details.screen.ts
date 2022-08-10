@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output } from '@angular/core';
-import { FormFieldType } from 'app/enums/form.eum';
+import { EntityType, FormFieldType } from 'app/enums/form.eum';
 import {
   FormConfig,
   FormFieldConfig,
@@ -23,11 +23,11 @@ export class BusinessDetailsScreen {
     options: [
       {
         display: 'As a sole proprietor',
-        value: 1,
+        value: EntityType.SOLE_PROPRIETOR,
       },
       {
         display: 'As a registered entity',
-        value: 2,
+        value: EntityType.REGISTERED_ENTITY,
       },
     ],
     defaultValue: 0,

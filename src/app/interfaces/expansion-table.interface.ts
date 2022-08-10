@@ -4,10 +4,12 @@ import { FormConfig } from './form-screen.interface';
 import { ListConfig } from './list-screen.interface';
 
 export interface ExpansionPanelConfig {
+  panelName: string;
   title: string;
   contentType: ExpansionPanelContentType;
   description?: string;
   formContent?: FormConfig;
   listContent?: ListConfig;
   detailPresentationContent?: DetailPresentationConfig;
+  optionToEdit?: boolean;
 }

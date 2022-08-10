@@ -115,7 +115,15 @@ export class SignInPage implements OnInit {
   private updateProfile(formValue: { [key: string]: string }) {
     delete formValue['password'];
     delete formValue['confirmPassword'];
-    this.clientProfileService.addUserProfile(formValue);
+    this.loadingService.setLoading();
+    this.clientProfileService.updateUserProfile(formValue).then(
+      async (success) => {
+        this.loadingService.cancelLoading();
+      },
+      async (error) => {
+        this.loadingService.cancelLoading();
+      }
+    );
   }
 
   onRegisterPasswordMismatch() {
