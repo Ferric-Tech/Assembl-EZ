@@ -113,7 +113,15 @@ export class DataManagementService {
         return;
       }
       case CollectionType.PROFILE: {
-        sessionStorage.setItem('profile', JSON.stringify(body));
+        let profile: { [key: string]: any } = {};
+        if (sessionStorage['profile']) {
+          profile = JSON.parse(sessionStorage['profile']);
+        }
+        Object.keys(body).forEach((key) => {
+          profile[key] = body[key];
+        });
+
+        sessionStorage.setItem('profile', JSON.stringify(profile));
       }
     }
   }
