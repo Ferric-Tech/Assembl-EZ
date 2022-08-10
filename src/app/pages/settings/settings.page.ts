@@ -23,7 +23,7 @@ export class SettingsPage {
     this.profileService.updateUserProfile(formValue).then(
       async (success) => {
         this.loadingService.cancelLoading();
-        this.onViewStateSelected(ViewState.PROFILE);
+        this.onViewStateSelected(ViewState.VIEW_PROFILE);
       },
       async (error) => {
         this.loadingService.cancelLoading();
@@ -32,19 +32,11 @@ export class SettingsPage {
   }
 
   onUpdateCancelled() {
-    this.onViewStateSelected(ViewState.PROFILE);
+    this.onViewStateSelected(ViewState.VIEW_PROFILE);
   }
 
   async onViewStateSelected(viewState: number) {
-    switch (viewState) {
-      case ViewState.PROFILE:
-      case ViewState.EDIT_BASICS:
-      case ViewState.EDIT_BUS_BASICS:
-      case ViewState.EDIT_BUS_CONTACTS: {
-        await this.getUpdatedProfile();
-        break;
-      }
-    }
+    await this.getUpdatedProfile();
     this.currentViewState = viewState;
   }
 

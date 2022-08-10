@@ -45,9 +45,11 @@ export enum AgentPageViewState {
 
 export enum SettingsPageViewState {
   MENU = 1,
-  PROFILE = 2,
-  PASSWORDS = 3,
+  VIEW_PROFILE = 2,
+  PASSWORDS_MENU = 3,
   EDIT_BASICS = 4,
   EDIT_BUS_BASICS = 5,
   EDIT_BUS_CONTACTS = 6,
+  EDIT_PASSWORD = 7,
+  EDIT_DEFAULT_PASSWORD = 8,
 }

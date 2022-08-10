@@ -27,12 +27,12 @@ export class MainPage {
       optionType: MenuOptionType.URL,
       link: 'quotes',
     },
-    {
-      style: MenuOptionStyle.PRIMARY,
-      display: 'Products',
-      optionType: MenuOptionType.URL,
-      link: 'products',
-    },
+    // {
+    //   style: MenuOptionStyle.PRIMARY,
+    //   display: 'Products',
+    //   optionType: MenuOptionType.URL,
+    //   link: 'products',
+    // },
     {
       style: MenuOptionStyle.PRIMARY,
       display: 'Agents',

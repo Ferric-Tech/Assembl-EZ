@@ -7,31 +7,31 @@ import {
 import { SettingsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 
 @Component({
-  selector: 'app-settings-menu-screen',
-  templateUrl: './settings-menu.screen.html',
-  styleUrls: ['./settings-menu.screen.scss'],
+  selector: 'app-passwords-menu-screen',
+  templateUrl: './passwords-menu.screen.html',
+  styleUrls: ['./passwords-menu.screen.scss'],
 })
-export class SettingsMenuScreen {
+export class PasswordsMenuScreen {
   @Output() viewStateSelected = new EventEmitter<number>();
 
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.PRIMARY,
-      display: 'View profile',
+      display: 'Change personal password',
       optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.VIEW_PROFILE,
+      viewState: ViewState.EDIT_PASSWORD,
     },
     {
       style: MenuOptionStyle.PRIMARY,
-      display: 'Passwords',
+      display: 'New agents default password',
       optionType: MenuOptionType.VIEWSTATE,
       viewState: ViewState.PASSWORDS_MENU,
     },
     {
       style: MenuOptionStyle.SECONDARY,
-      display: 'Back to main menu',
-      optionType: MenuOptionType.HOME,
-      link: '',
+      display: 'Back to settings menu',
+      optionType: MenuOptionType.VIEWSTATE,
+      viewState: ViewState.MENU,
     },
   ];
 

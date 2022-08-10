@@ -10,7 +10,7 @@
   ></app-settings-menu-screen>
 
   <app-view-profile-screen
-    *ngSwitchCase="viewState.PROFILE"
+    *ngSwitchCase="viewState.VIEW_PROFILE"
     [profile]="profile"
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-view-profile-screen>
@@ -34,4 +34,9 @@
     (formSubmitted)="onProfileUpdated($event)"
     (editCancelled)="onUpdateCancelled()"
   ></app-contact-details-screen>
+
+  <app-passwords-menu-screen
+    *ngSwitchCase="viewState.PASSWORDS_MENU"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-passwords-menu-screen>
 </div>
