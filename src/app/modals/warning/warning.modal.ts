@@ -5,6 +5,7 @@ export enum WarningType {
   REGISTER,
   LEADS,
   FORGOT_PASSWORD,
+  PASSWORD_CHANGE,
 }
 
 export enum Warning {
@@ -60,6 +61,10 @@ export class WarningsModal implements OnInit {
       }
       case WarningType.REGISTER: {
         this.header = 'Unable to register user';
+        return;
+      }
+      case WarningType.PASSWORD_CHANGE: {
+        this.header = 'Unable to change password';
         return;
       }
       case WarningType.LEADS: {
@@ -120,7 +125,7 @@ export class WarningsModal implements OnInit {
       }
       case Warning.MISMATCHED_PASSWORD: {
         this.body =
-          'The passwords you have entered do not match each other. Please correct and click "Register" again';
+          'The passwords you have entered do not match each other. Please correct and retry';
         return;
       }
       case Warning.UNABLE_TO_ADD: {

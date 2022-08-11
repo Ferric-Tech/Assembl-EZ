@@ -17,15 +17,15 @@ export class PasswordsMenuScreen {
   menuOptions: MenuOption[] = [
     {
       style: MenuOptionStyle.PRIMARY,
-      display: 'Change personal password',
+      display: 'Personal password',
       optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.EDIT_PASSWORD,
+      viewState: ViewState.EDIT_PERSONAL_PASSWORD,
     },
     {
       style: MenuOptionStyle.PRIMARY,
-      display: 'New agents default password',
+      display: 'New agents password',
       optionType: MenuOptionType.VIEWSTATE,
-      viewState: ViewState.PASSWORDS_MENU,
+      viewState: ViewState.EDIT_AGENT_PASSWORD,
     },
     {
       style: MenuOptionStyle.SECONDARY,

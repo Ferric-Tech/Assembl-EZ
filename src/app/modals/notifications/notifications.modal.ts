@@ -4,6 +4,8 @@ export enum NotificationType {
   REGISTER,
   FORGOT_PASSWORD,
   LEAD,
+  CHANGE_PASSWORD,
+  PROFILE_UPDATED,
 }
 
 export enum Notification {
@@ -11,6 +13,8 @@ export enum Notification {
   LEAD_ADDED,
   LEAD_EDITED,
   REGISTRATION_COMPLETE,
+  PASSWORD_CHANGED,
+  PROFILE_UPDATED,
 }
 
 export interface NotificationConfig {
@@ -64,6 +68,14 @@ export class NotificationsModal implements OnInit {
         this.header = 'Registration complete';
         return;
       }
+      case NotificationType.CHANGE_PASSWORD: {
+        this.header = 'Password updated';
+        return;
+      }
+      case NotificationType.PROFILE_UPDATED: {
+        this.header = 'Profile updated';
+        return;
+      }
     }
   }
 
@@ -89,6 +101,14 @@ export class NotificationsModal implements OnInit {
           page';
         return;
       }
+      case Notification.PASSWORD_CHANGED: {
+        this.body = 'Your password have been successfully updated';
+        return;
+      }
+      case Notification.PROFILE_UPDATED: {
+        this.body = 'Your profile have been successfully updated';
+        return;
+      }
     }
   }
 
@@ -96,7 +116,9 @@ export class NotificationsModal implements OnInit {
     switch (this.notificationConfig?.type) {
       case NotificationType.FORGOT_PASSWORD:
       case NotificationType.LEAD:
-      case NotificationType.REGISTER: {
+      case NotificationType.REGISTER:
+      case NotificationType.CHANGE_PASSWORD:
+      case NotificationType.PROFILE_UPDATED: {
         this.proceedButtonText = 'Understood';
         return;
       }

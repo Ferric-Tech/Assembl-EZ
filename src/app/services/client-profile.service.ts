@@ -39,7 +39,9 @@ export class ClientProfileService {
 
   getUserProfile(): Promise<Object> {
     return new Promise(async (resolve, reject) => {
-      resolve(JSON.parse(sessionStorage['profile']));
+      if (sessionStorage['profile']) {
+        resolve(JSON.parse(sessionStorage['profile']));
+      }
       reject();
     });
   }

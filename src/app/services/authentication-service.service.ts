@@ -2,7 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/compat/auth';
 import { User } from '@angular/fire/auth';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import {
+  EmailAuthProvider,
+  getAuth,
+  updatePassword,
+  reauthenticateWithCredential,
+} from 'firebase/auth';
 
 export interface SignInDetails {
   email: string;
@@ -16,10 +21,7 @@ export interface SignInDetails {
 export class AuthenticationService {
   userData: Observable<User>;
 
-  constructor(
-    private angularFireAuth: AngularFireAuth,
-    private http: HttpClient
-  ) {
+  constructor(private angularFireAuth: AngularFireAuth) {
     this.userData = angularFireAuth.authState as unknown as Observable<User>;
   }
 
@@ -87,6 +89,41 @@ export class AuthenticationService {
       await this.angularFireAuth.onAuthStateChanged((user) => {
         user ? resolve(true) : resolve(false);
       });
+    });
+  }
+
+  async updatePassword(
+    newPassword: string,
+    oldPassword: string
+  ): Promise<void> {
+    return new Promise(async (resolve, reject) => {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (user) {
+        const userEmail = user.email;
+        if (userEmail) {
+          const credential = EmailAuthProvider.credential(
+            userEmail,
+            oldPassword
+          );
+          await reauthenticateWithCredential(user, credential).catch(
+            (error) => {
+              reject(error.message);
+            }
+          );
+          updatePassword(user, newPassword)
+            .then(() => {
+              resolve();
+            })
+            .catch((error) => {
+              reject(error.message);
+            });
+        } else {
+          reject('no-user-email');
+        }
+      } else {
+        reject('no-user-signed-in');
+      }
     });
   }
 }

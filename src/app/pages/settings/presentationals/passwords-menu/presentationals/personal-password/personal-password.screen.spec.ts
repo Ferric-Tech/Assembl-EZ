@@ -1,18 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { PasswordsMenuScreen } from './passwords-menu.screen';
 
-describe('PasswordsMenuComponent', () => {
-  let component: PasswordsMenuScreen;
-  let fixture: ComponentFixture<PasswordsMenuScreen>;
+import { PersonalPasswordScreen } from './personal-password.screen';
+
+describe('ChangePersonalPasswordComponent', () => {
+  let component: PersonalPasswordScreen;
+  let fixture: ComponentFixture<PersonalPasswordScreen>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [PasswordsMenuScreen],
+      declarations: [PersonalPasswordScreen],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PasswordsMenuScreen);
+    fixture = TestBed.createComponent(PersonalPasswordScreen);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

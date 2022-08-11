@@ -47,6 +47,7 @@ export class ErrorHandlingService {
   }
 }
 
+// auth/network-request-failed
 // Full list of possible firebase errors:https://firebase.google.com/docs/auth/admin/errors
 
 // auth/internal-error	        The Authentication server encountered an unexpected error while trying to process the request. The error message should contain the response from the Authentication server containing additional information. If the error persists, please report the problem to our Bug Report support channel.

@@ -54,6 +54,8 @@ import { SettingsPage } from './pages/settings/settings.page';
 import { SettingsMenuScreen } from './pages/settings/presentationals/settings-menu/settings-menu.screen';
 import { ViewProfileScreen } from './pages/settings/presentationals/view-profile/view-profile.screen';
 import { PasswordsMenuScreen } from './pages/settings/presentationals/passwords-menu/passwords-menu.screen';
+import { PersonalPasswordScreen } from './pages/settings/presentationals/passwords-menu/presentationals/personal-password/personal-password.screen';
+import { AgentPasswordScreen } from './pages/settings/presentationals/passwords-menu/presentationals/agent-password/agent-password.screen';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -105,6 +107,9 @@ export const firebaseConfig = {
     SettingsMenuScreen,
     ViewProfileScreen,
     PasswordsMenuScreen,
+    PersonalPasswordScreen,
+    AgentPasswordScreen,
+    PersonalPasswordScreen,
   ],
   imports: [
     BrowserModule,

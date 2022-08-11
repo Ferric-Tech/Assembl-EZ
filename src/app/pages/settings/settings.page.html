@@ -39,4 +39,29 @@
     *ngSwitchCase="viewState.PASSWORDS_MENU"
     (viewStateSelected)="onViewStateSelected($event)"
   ></app-passwords-menu-screen>
+
+  <app-personal-password-screen
+    *ngSwitchCase="viewState.EDIT_PERSONAL_PASSWORD"
+    (formSubmitted)="onPersonalPasswordChange($event)"
+    (isPasswordMismatched)="onPasswordMismatch()"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-personal-password-screen>
+
+  <app-agent-password-screen
+    *ngSwitchCase="viewState.EDIT_AGENT_PASSWORD"
+    (viewStateSelected)="onViewStateSelected($event)"
+    (isPasswordMismatched)="onPasswordMismatch()"
+  ></app-agent-password-screen>
+
+  <app-warning-modal
+    *ngIf="isWarning"
+    [warningConfig]="warnigConfig"
+    (proceed)="isWarning = false"
+  ></app-warning-modal>
+
+  <app-notifications-modal
+    *ngIf="isNotifying"
+    [notificationConfig]="notificationConfig"
+    (proceed)="onNotificationProceed()"
+  ></app-notifications-modal>
 </div>
