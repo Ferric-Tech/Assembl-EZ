@@ -26,4 +26,23 @@
     (viewStateSelected)="onViewStateSelected($event)"
     (requestToEdit)="onRequestToEdit()"
   ></app-view-agent-detail-screen>
+
+  <app-agent-password-screen
+    *ngSwitchCase="viewState.SET_AGENT_PASSWORD"
+    (formSubmitted)="onAgentPasswordSet($event)"
+    (viewStateSelected)="onViewStateSelected($event)"
+    (isPasswordMismatched)="onPasswordMismatch()"
+  ></app-agent-password-screen>
+
+  <app-warning-modal
+    *ngIf="isWarning"
+    [warningConfig]="warnigConfig"
+    (proceed)="isWarning = false"
+  ></app-warning-modal>
+
+  <app-notifications-modal
+    *ngIf="isNotifying"
+    [notificationConfig]="notificationConfig"
+    (proceed)="onNotificationProceed()"
+  ></app-notifications-modal>
 </div>

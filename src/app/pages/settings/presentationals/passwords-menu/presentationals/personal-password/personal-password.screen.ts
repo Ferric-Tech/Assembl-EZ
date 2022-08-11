@@ -36,20 +36,20 @@ export class PersonalPasswordScreen {
     canCancel: true,
     fields: [
       {
-        fieldDisplay: 'Password',
+        fieldDisplay: 'Current password',
+        fieldName: 'oldPassword',
+        fieldType: FormFieldType.PASSWORD,
+        defaultValue: '',
+      },
+      {
+        fieldDisplay: 'New Password',
         fieldName: 'newPassword',
         fieldType: FormFieldType.PASSWORD,
         defaultValue: '',
       },
       {
-        fieldDisplay: 'Confirm password',
+        fieldDisplay: 'Confirm new password',
         fieldName: 'confirmNewPassword',
-        fieldType: FormFieldType.PASSWORD,
-        defaultValue: '',
-      },
-      {
-        fieldDisplay: 'Current password',
-        fieldName: 'oldPassword',
         fieldType: FormFieldType.PASSWORD,
         defaultValue: '',
       },

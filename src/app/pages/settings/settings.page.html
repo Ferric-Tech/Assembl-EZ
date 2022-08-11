@@ -49,6 +49,7 @@
 
   <app-agent-password-screen
     *ngSwitchCase="viewState.EDIT_AGENT_PASSWORD"
+    (formSubmitted)="onAgentPasswordChange($event)"
     (viewStateSelected)="onViewStateSelected($event)"
     (isPasswordMismatched)="onPasswordMismatch()"
   ></app-agent-password-screen>

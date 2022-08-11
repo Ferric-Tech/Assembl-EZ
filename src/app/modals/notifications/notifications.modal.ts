@@ -6,6 +6,7 @@ export enum NotificationType {
   LEAD,
   CHANGE_PASSWORD,
   PROFILE_UPDATED,
+  REQUIRES_AGENT_PASSWORD,
 }
 
 export enum Notification {
@@ -13,8 +14,10 @@ export enum Notification {
   LEAD_ADDED,
   LEAD_EDITED,
   REGISTRATION_COMPLETE,
-  PASSWORD_CHANGED,
+  PERSONAL_PASSWORD_CHANGED,
+  AGENT_PASSWORD_CHANGED,
   PROFILE_UPDATED,
+  REQUIRES_AGENT_PASSWORD,
 }
 
 export interface NotificationConfig {
@@ -76,6 +79,10 @@ export class NotificationsModal implements OnInit {
         this.header = 'Profile updated';
         return;
       }
+      case NotificationType.REQUIRES_AGENT_PASSWORD: {
+        this.header = 'Agent password requird';
+        return;
+      }
     }
   }
 
@@ -101,12 +108,23 @@ export class NotificationsModal implements OnInit {
           page';
         return;
       }
-      case Notification.PASSWORD_CHANGED: {
+      case Notification.PERSONAL_PASSWORD_CHANGED: {
         this.body = 'Your password have been successfully updated';
+        return;
+      }
+      case Notification.AGENT_PASSWORD_CHANGED: {
+        this.body = 'Your agent default have been successfully updated';
         return;
       }
       case Notification.PROFILE_UPDATED: {
         this.body = 'Your profile have been successfully updated';
+        return;
+      }
+      case Notification.REQUIRES_AGENT_PASSWORD: {
+        this.body =
+          'Before we can add your first agent, \
+          we notived that you have not set up your agent default \
+          password. You will need to do this before you can add an agent';
         return;
       }
     }
@@ -120,6 +138,10 @@ export class NotificationsModal implements OnInit {
       case NotificationType.CHANGE_PASSWORD:
       case NotificationType.PROFILE_UPDATED: {
         this.proceedButtonText = 'Understood';
+        return;
+      }
+      case NotificationType.REQUIRES_AGENT_PASSWORD: {
+        this.proceedButtonText = 'To agent password set up';
         return;
       }
     }

@@ -61,12 +61,6 @@ export class AgentFormScreen {
         fieldType: FormFieldType.INPUT_GENERAL,
         defaultValue: '',
       },
-      {
-        fieldDisplay: 'Password',
-        fieldName: 'password',
-        fieldType: FormFieldType.PASSWORD,
-        defaultValue: '',
-      },
     ],
     proceedText: 'Proceed',
   };

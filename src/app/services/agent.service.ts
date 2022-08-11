@@ -102,4 +102,16 @@ export class AgentService {
         );
     });
   }
+
+  getAgentDefaultPassword(): Promise<string> {
+    return new Promise(async (resolve, reject) => {
+      if (sessionStorage['profile']) {
+        let profile = JSON.parse(sessionStorage['profile']);
+        profile['agentDefaultPassword']
+          ? resolve(profile['agentDefaultPassword'])
+          : reject();
+      }
+      reject();
+    });
+  }
 }

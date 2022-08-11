@@ -4,6 +4,17 @@ import { EmailsService } from 'app/services/emails.service';
 import { AgentProfile, AgentService } from 'app/services/agent.service';
 import { LoadingService } from 'app/services/loading.service';
 import { LeadsService } from 'app/services/leads.service';
+import {
+  Notification,
+  NotificationConfig,
+  NotificationType,
+} from 'app/modals/notifications/notifications.modal';
+import { ClientProfileService } from 'app/services/client-profile.service';
+import {
+  Warning,
+  WarningConfig,
+  WarningType,
+} from 'app/modals/warning/warning.modal';
 
 @Component({
   selector: 'app-agents-page',
@@ -17,23 +28,31 @@ export class AgentsPage {
   agentProfile = {} as AgentProfile;
   agentLeads: { [key: string]: any } = {};
   currentValues: { [key: string]: any } = {};
+  notificationConfig: NotificationConfig | undefined;
+  isNotifying = false;
+  warnigConfig: WarningConfig | undefined;
+  isWarning = false;
 
   constructor(
     private emailsService: EmailsService,
     private agentService: AgentService,
     private leadsService: LeadsService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private profileService: ClientProfileService
   ) {
     this.getUpdatedAgents();
   }
 
   async onAgentAdded(formValue: { [key: string]: string }) {
     const agent = formValue as unknown as AgentProfile;
+    this.agentService.getAgentDefaultPassword().then((password) => {
+      agent.password = password;
+    });
     agent.contactNumber = '+27' + parseInt(agent.contactNumber).toString();
     this.loadingService.setLoading();
     await this.agentService.addAgent(agent).then(
       (success) => {
-        this.emailsService.newAgentEmail();
+        // this.emailsService.newAgentEmail();
         this.loadingService.cancelLoading();
       },
       (error) => {
@@ -74,7 +93,63 @@ export class AgentsPage {
   }
 
   onViewStateSelected(viewState: number) {
-    this.currentViewState = viewState;
+    if (viewState === ViewState.ADD) {
+      this.loadingService.setLoading();
+      this.agentService.getAgentDefaultPassword().then(
+        (agentDefaultPassword) => {
+          this.loadingService.cancelLoading();
+          if (!agentDefaultPassword) {
+            this.notificationConfig = {
+              type: NotificationType.REQUIRES_AGENT_PASSWORD,
+              notification: Notification.REQUIRES_AGENT_PASSWORD,
+            };
+            this.isNotifying = true;
+            this.currentViewState = ViewState.SET_AGENT_PASSWORD;
+          } else {
+            this.currentViewState = viewState;
+          }
+        },
+        (error) => {
+          this.loadingService.cancelLoading();
+        }
+      );
+    } else {
+      this.currentViewState = viewState;
+    }
+  }
+
+  onAgentPasswordSet(formValue: { [key: string]: string }) {
+    this.loadingService.setLoading();
+    this.profileService
+      .updateUserProfile({
+        agentDefaultPassword: formValue['newPassword'],
+      })
+      .then(
+        async (success) => {
+          this.loadingService.cancelLoading();
+          this.notificationConfig = {
+            type: NotificationType.CHANGE_PASSWORD,
+            notification: Notification.AGENT_PASSWORD_CHANGED,
+          };
+          this.isNotifying = true;
+          this.currentViewState = ViewState.ADD;
+        },
+        async (error) => {
+          this.loadingService.cancelLoading();
+        }
+      );
+  }
+
+  onPasswordMismatch() {
+    this.warnigConfig = {
+      type: WarningType.PASSWORD_CHANGE,
+      warning: Warning.MISMATCHED_PASSWORD,
+    };
+    this.isWarning = true;
+  }
+
+  onNotificationProceed() {
+    this.isNotifying = false;
   }
 
   private setAgentProfile(index: number) {

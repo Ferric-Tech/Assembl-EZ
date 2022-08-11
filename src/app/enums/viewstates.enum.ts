@@ -41,6 +41,7 @@ export enum AgentPageViewState {
   VIEW = 2,
   ADD = 3,
   EDIT = 4,
+  SET_AGENT_PASSWORD = 5,
 }
 
 export enum SettingsPageViewState {

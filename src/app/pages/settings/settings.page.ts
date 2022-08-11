@@ -63,7 +63,7 @@ export class SettingsPage {
           this.loadingService.cancelLoading();
           this.notificationConfig = {
             type: NotificationType.CHANGE_PASSWORD,
-            notification: Notification.PASSWORD_CHANGED,
+            notification: Notification.PERSONAL_PASSWORD_CHANGED,
           };
           this.isNotifying = true;
           this.onViewStateSelected(ViewState.PASSWORDS_MENU);
@@ -72,6 +72,28 @@ export class SettingsPage {
           this.loadingService.cancelLoading();
           this.warnigConfig = this.errorHandlingService.getWarningConfig(error);
           this.isWarning = true;
+        }
+      );
+  }
+
+  onAgentPasswordChange(formValue: { [key: string]: string }) {
+    this.loadingService.setLoading();
+    this.profileService
+      .updateUserProfile({
+        agentDefaultPassword: formValue['newPassword'],
+      })
+      .then(
+        async (success) => {
+          this.loadingService.cancelLoading();
+          this.notificationConfig = {
+            type: NotificationType.CHANGE_PASSWORD,
+            notification: Notification.AGENT_PASSWORD_CHANGED,
+          };
+          this.isNotifying = true;
+          this.onViewStateSelected(ViewState.PASSWORDS_MENU);
+        },
+        async (error) => {
+          this.loadingService.cancelLoading();
         }
       );
   }
@@ -96,7 +118,7 @@ export class SettingsPage {
 
   onPasswordMismatch() {
     this.warnigConfig = {
-      type: WarningType.REGISTER,
+      type: WarningType.PASSWORD_CHANGE,
       warning: Warning.MISMATCHED_PASSWORD,
     };
     this.isWarning = true;
