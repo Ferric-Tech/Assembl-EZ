@@ -7,9 +7,12 @@ import { BehaviorSubject } from 'rxjs';
 export class LoadingService {
   isLoading$ = new BehaviorSubject<boolean>(false);
   _isLoading$ = this.isLoading$.asObservable();
+  loadingexplainer$ = new BehaviorSubject<string>('');
+  _loadingexplainer$ = this.loadingexplainer$.asObservable();
 
-  setLoading() {
+  setLoading(explainer: string) {
     this.isLoading$.next(true);
+    this.loadingexplainer$.next(explainer);
   }
 
   cancelLoading() {

@@ -49,7 +49,7 @@ export class AgentsPage {
       agent.password = password;
     });
     agent.contactNumber = '+27' + parseInt(agent.contactNumber).toString();
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Adding agent');
     await this.agentService.addAgent(agent).then(
       (success) => {
         // this.emailsService.newAgentEmail();
@@ -68,7 +68,7 @@ export class AgentsPage {
     const agent = formValue as unknown as AgentProfile;
     agent.contactNumber = '+27' + parseInt(agent.contactNumber).toString();
     agent.id = this.agentProfile.id;
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Updating agent');
     await this.agentService.editAgent(agent).then(
       (success) => {
         this.loadingService.cancelLoading();
@@ -94,7 +94,7 @@ export class AgentsPage {
 
   onViewStateSelected(viewState: number) {
     if (viewState === ViewState.ADD) {
-      this.loadingService.setLoading();
+      this.loadingService.setLoading('Checking for agent password');
       this.agentService.getAgentDefaultPassword().then(
         (agentDefaultPassword) => {
           this.loadingService.cancelLoading();
@@ -119,7 +119,7 @@ export class AgentsPage {
   }
 
   onAgentPasswordSet(formValue: { [key: string]: string }) {
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Setting password');
     this.profileService
       .updateUserProfile({
         agentDefaultPassword: formValue['newPassword'],

@@ -1,5 +1,6 @@
 .screen-container {
   display: flex;
+  flex-direction: column;
   position: absolute;
   top: 0px;
   width: 100%;
@@ -8,4 +9,13 @@
   align-items: center;
   justify-content: center;
   background-color: rgba(25, 189, 211, 0.333);
+}
+
+.explainer {
+  display: flex;
+  width: 80%;
+  margin: 10px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
 }

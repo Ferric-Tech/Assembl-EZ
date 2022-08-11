@@ -4,4 +4,7 @@
   </div>
   <router-outlet></router-outlet>
 </div>
-<app-loading-spinner *ngIf="isLoading"></app-loading-spinner>
+<app-loading-spinner
+  *ngIf="isLoading"
+  [explainer]="loadingExplainer"
+></app-loading-spinner>

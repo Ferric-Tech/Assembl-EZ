@@ -42,7 +42,7 @@ export class LeadsPage {
   ) {}
 
   onLeadAdded(formValue: { [key: string]: string }) {
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Adding lead');
     this.leadService.addLead(formValue).then(
       async (success) => {
         this.notificationConfig = {
@@ -66,7 +66,7 @@ export class LeadsPage {
   }
 
   onLeadEdited(formValue: { [key: string]: string }) {
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Updating lead');
     formValue['id'] = this.lead['id'];
     this.leadService.editLead(formValue).then(
       async (success) => {

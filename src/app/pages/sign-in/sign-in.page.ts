@@ -68,7 +68,7 @@ export class SignInPage implements OnInit {
       email: formValue['email'],
       password: formValue['password'],
     };
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Signing in');
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
         this.clientProfileService.getClientData();
@@ -115,7 +115,7 @@ export class SignInPage implements OnInit {
   private updateProfile(formValue: { [key: string]: string }) {
     delete formValue['password'];
     delete formValue['confirmPassword'];
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Updating profile');
     this.clientProfileService.updateUserProfile(formValue).then(
       async (success) => {
         this.loadingService.cancelLoading();

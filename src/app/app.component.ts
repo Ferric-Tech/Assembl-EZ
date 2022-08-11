@@ -12,6 +12,7 @@ import { LoadingService } from './services/loading.service';
 export class AppComponent {
   title = 'assembl-ez';
   isLoading = false;
+  loadingExplainer = '';
 
   constructor(
     private authService: AuthenticationService,
@@ -20,12 +21,25 @@ export class AppComponent {
   ) {}
 
   async ngOnInit() {
-    (await this.authService.isAuthenticated())
-      ? this.clientProfileService.getClientData()
-      : null;
+    this.intialiseSubscriptions();
+    this.loadingService.setLoading('Calling Profile');
+    if (await this.authService.isAuthenticated()) {
+      this.intialiseSession();
+    }
+    this.loadingService.cancelLoading();
+  }
 
+  private intialiseSubscriptions() {
+    // Loading service
     this.loadingService._isLoading$.subscribe((isLoading) => {
       this.isLoading = isLoading;
     });
+    this.loadingService._loadingexplainer$.subscribe((loadingexplainer) => {
+      this.loadingExplainer = loadingexplainer;
+    });
+  }
+
+  private async intialiseSession() {
+    await this.clientProfileService.getClientData();
   }
 }

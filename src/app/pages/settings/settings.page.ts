@@ -37,7 +37,7 @@ export class SettingsPage {
   ) {}
 
   onProfileUpdated(formValue: { [key: string]: string }) {
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Updating profile');
     this.profileService.updateUserProfile(formValue).then(
       async (success) => {
         this.loadingService.cancelLoading();
@@ -55,7 +55,7 @@ export class SettingsPage {
   }
 
   onPersonalPasswordChange(formValue: { [key: string]: string }) {
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Updating password');
     this.authService
       .updatePassword(formValue['newPassword'], formValue['oldPassword'])
       .then(
@@ -77,7 +77,7 @@ export class SettingsPage {
   }
 
   onAgentPasswordChange(formValue: { [key: string]: string }) {
-    this.loadingService.setLoading();
+    this.loadingService.setLoading('Updating password');
     this.profileService
       .updateUserProfile({
         agentDefaultPassword: formValue['newPassword'],
