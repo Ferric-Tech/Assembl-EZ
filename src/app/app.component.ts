@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from './services/authentication-service.service';
-import { ClientProfileService } from './services/client-profile.service';
+import { ProfileService } from './services/profile.service';
 import { DataManagementService } from './services/data-management.service';
 import { LoadingService } from './services/loading.service';
 
@@ -16,7 +16,7 @@ export class AppComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private clientProfileService: ClientProfileService,
+    private clientProfileService: ProfileService,
     private loadingService: LoadingService
   ) {}
 
@@ -40,6 +40,6 @@ export class AppComponent {
   }
 
   private async intialiseSession() {
-    await this.clientProfileService.getClientData();
+    await this.clientProfileService.getUserProfileHosted();
   }
 }

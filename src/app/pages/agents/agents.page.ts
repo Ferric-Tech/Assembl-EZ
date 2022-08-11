@@ -9,7 +9,7 @@ import {
   NotificationConfig,
   NotificationType,
 } from 'app/modals/notifications/notifications.modal';
-import { ClientProfileService } from 'app/services/client-profile.service';
+import { ProfileService } from 'app/services/profile.service';
 import {
   Warning,
   WarningConfig,
@@ -38,7 +38,7 @@ export class AgentsPage {
     private agentService: AgentService,
     private leadsService: LeadsService,
     private loadingService: LoadingService,
-    private profileService: ClientProfileService
+    private profileService: ProfileService
   ) {
     this.getUpdatedAgents();
   }

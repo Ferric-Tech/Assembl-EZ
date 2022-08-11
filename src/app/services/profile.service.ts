@@ -9,13 +9,13 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ClientProfileService {
+export class ProfileService {
   constructor(
     private authenticationService: AuthenticationService,
     private dataManagementService: DataManagementService
   ) {}
 
-  async getClientData(): Promise<void> {
+  async getUserProfileHosted(): Promise<void> {
     const url =
       'https://us-central1-assembl-ez.cloudfunctions.net/getClientData';
     const options = {
@@ -37,7 +37,7 @@ export class ClientProfileService {
     });
   }
 
-  getUserProfile(): Promise<Object> {
+  getUserProfileLocal(): Promise<Object> {
     return new Promise(async (resolve, reject) => {
       if (sessionStorage['profile']) {
         resolve(JSON.parse(sessionStorage['profile']));
@@ -51,7 +51,9 @@ export class ClientProfileService {
       'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
     const body = formValue;
     const options = {
-      headers: this.getHeaders(),
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
       params: new HttpParams().set(
         'userID',
         await this.authenticationService.userID
@@ -65,12 +67,6 @@ export class ClientProfileService {
           async (success) => resolve(),
           async (error) => reject()
         );
-    });
-  }
-
-  private getHeaders() {
-    return new HttpHeaders({
-      'Content-Type': 'application/json',
     });
   }
 }

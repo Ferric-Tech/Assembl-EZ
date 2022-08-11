@@ -22,7 +22,7 @@ import {
   NotificationType,
 } from 'app/modals/notifications/notifications.modal';
 import { BehaviorSubject } from 'rxjs';
-import { ClientProfileService } from 'app/services/client-profile.service';
+import { ProfileService } from 'app/services/profile.service';
 import { LoadingService } from 'app/services/loading.service';
 
 @Component({
@@ -46,7 +46,7 @@ export class SignInPage implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private clientProfileService: ClientProfileService,
+    private clientProfileService: ProfileService,
     private errorHandlingService: ErrorHandlingService,
     private loadingService: LoadingService
   ) {}
@@ -71,7 +71,7 @@ export class SignInPage implements OnInit {
     this.loadingService.setLoading('Signing in');
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
-        this.clientProfileService.getClientData();
+        this.clientProfileService.getUserProfileHosted();
         this.router.navigate(['']);
         this.loadingService.cancelLoading();
       },

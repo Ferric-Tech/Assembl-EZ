@@ -11,7 +11,7 @@ import {
   WarningType,
 } from 'app/modals/warning/warning.modal';
 import { AuthenticationService } from 'app/services/authentication-service.service';
-import { ClientProfileService } from 'app/services/client-profile.service';
+import { ProfileService } from 'app/services/profile.service';
 import { ErrorHandlingService } from 'app/services/error-handling.service';
 import { LoadingService } from 'app/services/loading.service';
 
@@ -30,7 +30,7 @@ export class SettingsPage {
   isNotifying = false;
 
   constructor(
-    private profileService: ClientProfileService,
+    private profileService: ProfileService,
     private loadingService: LoadingService,
     private authService: AuthenticationService,
     private errorHandlingService: ErrorHandlingService
@@ -108,7 +108,7 @@ export class SettingsPage {
   }
 
   private async getUpdatedProfile(): Promise<void> {
-    await this.profileService.getUserProfile().then(
+    await this.profileService.getUserProfileLocal().then(
       async (profile) => {
         this.profile = profile;
       },
