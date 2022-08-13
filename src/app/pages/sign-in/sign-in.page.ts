@@ -25,6 +25,7 @@ import { BehaviorSubject } from 'rxjs';
 import { ProfileService } from 'app/services/profile.service';
 import { LoadingService } from 'app/services/loading.service';
 import { AppInitialisationService } from 'app/services/app-initialisation.service';
+import { UserInfo } from 'app/interfaces/api.interface';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -120,7 +121,7 @@ export class SignInPage implements OnInit {
     this.loadingService.setLoading('Updating profile');
     return new Promise(async (resolve, reject) => {
       this.clientProfileService
-        .updateUserProfile(formValue)
+        .updateUserInfo(formValue as unknown as UserInfo)
         .then(
           async (success) => {
             resolve();

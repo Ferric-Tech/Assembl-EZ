@@ -14,6 +14,7 @@ export class ContactDetailsScreen {
   @Input() isFirstTimeRegistration = false;
   @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
+  @Output() editCancelled = new EventEmitter<void>();
 
   private opttableFields: { [key: string]: FormFieldConfig } = {};
   private primaryContactFields = [] as FormFieldConfig[];
@@ -175,6 +176,10 @@ export class ContactDetailsScreen {
         this.contactDetailsFormConfig.fields.splice(index, 1);
       }
     });
+  }
+
+  onFormCancelled() {
+    this.editCancelled.emit();
   }
 
   private addOptedInFields(formValue: { [key: string]: string | boolean }) {

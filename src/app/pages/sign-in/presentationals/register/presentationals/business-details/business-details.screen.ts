@@ -14,6 +14,7 @@ export class BusinessDetailsScreen {
   @Input() isFirstTimeRegistration = false;
   @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<{ [key: string]: string }>();
+  @Output() editCancelled = new EventEmitter<void>();
 
   formStage = 1;
   selectedOpertateAs = 0;
@@ -116,6 +117,10 @@ export class BusinessDetailsScreen {
         }
       }
     }
+  }
+
+  onFormCancelled() {
+    this.editCancelled.emit();
   }
 
   private isEntityTypeAsChanged(currentValue: string) {

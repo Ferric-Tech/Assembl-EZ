@@ -79,6 +79,10 @@ export class BasicDetailsComponent {
     this.registerFormConfig.proceedBlocked = !this.changeMade(formValue);
   }
 
+  onFormCancelled() {
+    this.editCancelled.emit();
+  }
+
   onRegisterFormSubmitted(formValue: { [key: string]: string }) {
     if (this.isFirstTimeRegistration) {
       this.passwordsmatch(formValue)

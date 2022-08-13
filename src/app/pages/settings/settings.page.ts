@@ -14,6 +14,7 @@ import { AuthenticationService } from 'app/services/authentication-service.servi
 import { ProfileService } from 'app/services/profile.service';
 import { ErrorHandlingService } from 'app/services/error-handling.service';
 import { LoadingService } from 'app/services/loading.service';
+import { UserInfo } from 'app/interfaces/api.interface';
 
 @Component({
   selector: 'app-settings-page',
@@ -38,7 +39,7 @@ export class SettingsPage {
 
   onProfileUpdated(formValue: { [key: string]: string }) {
     this.loadingService.setLoading('Updating profile');
-    this.profileService.updateUserProfile(formValue).then(
+    this.profileService.updateUserInfo(formValue as unknown as UserInfo).then(
       async (success) => {
         this.loadingService.cancelLoading();
         this.notificationConfig = {
@@ -79,9 +80,9 @@ export class SettingsPage {
   onAgentPasswordChange(formValue: { [key: string]: string }) {
     this.loadingService.setLoading('Updating password');
     this.profileService
-      .updateUserProfile({
+      .updateUserInfo({
         agentDefaultPassword: formValue['newPassword'],
-      })
+      } as UserInfo)
       .then(
         async (success) => {
           this.loadingService.cancelLoading();
@@ -108,7 +109,7 @@ export class SettingsPage {
   }
 
   private async getUpdatedProfile(): Promise<void> {
-    this.profile = this.profileService.getUserProfile();
+    this.profile = this.profileService.getUserInfo();
   }
 
   onPasswordMismatch() {

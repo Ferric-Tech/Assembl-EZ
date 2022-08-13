@@ -1,7 +1,12 @@
 export interface ClientData {
-  profile: { userInfo: UserInfo; flags: FlagData };
+  profile: ProfileData;
   leads: LeadData;
   agents: AgentData;
+}
+
+export interface ProfileData {
+  userInfo: UserInfo;
+  flags: FlagData;
 }
 
 export interface UserInfo {

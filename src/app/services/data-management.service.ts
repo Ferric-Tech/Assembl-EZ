@@ -1,6 +1,10 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ClientData, UserRecord } from 'app/interfaces/api.interface';
+import {
+  ClientData,
+  ProfileData,
+  UserRecord,
+} from 'app/interfaces/api.interface';
 import { AuthenticationService } from './authentication-service.service';
 
 export interface Options {
@@ -9,9 +13,10 @@ export interface Options {
 }
 
 export enum CollectionType {
-  AGENT,
-  LEAD,
-  PROFILE,
+  AGENT = 'agents',
+  LEAD = 'leads',
+  USER_INFO = 'userInfo',
+  FLAGS = 'flags',
 }
 
 @Injectable({
@@ -40,97 +45,61 @@ export class DataManagementService {
   async postData(
     collectionType: CollectionType,
     url: string,
-    body: any
+    body: Object
   ): Promise<void> {
     return new Promise(async (resolve, reject) => {
-      switch (collectionType) {
-        case CollectionType.AGENT: {
-          try {
-            this.http
-              .post(url, body, await this.setHttpOptions())
-              .subscribe((response) => {
-                let userRecord = response as UserRecord;
-                this.sessionStorageAdd(collectionType, body, userRecord.uid);
-                resolve();
-              });
-          } catch {
-            reject();
-          }
-          return;
-        }
-        case CollectionType.LEAD: {
-          try {
-            this.http
-              .post(url, body, await this.setHttpOptions())
-              .subscribe((docRef) => {
-                let doc = docRef as { _path: { segments: string[] } };
-                this.sessionStorageAdd(
-                  collectionType,
-                  body,
-                  doc._path.segments[3]
-                );
-                resolve();
-              });
-          } catch {
-            reject();
-          }
-          return;
-        }
-        case CollectionType.PROFILE: {
-          try {
-            this.http
-              .post(url, body, await this.setHttpOptions())
-              .subscribe((docRef) => {
-                let doc = docRef as { _path: { segments: string[] } };
-                this.sessionStorageAdd(
-                  collectionType,
-                  body,
-                  doc._path.segments[1]
-                );
-                resolve();
-              });
-          } catch {
-            reject();
-          }
-          return;
-        }
+      try {
+        this.http
+          .post(url, body, await this.setHttpOptions())
+          .subscribe((response) => {
+            const doc = this.setDocument(collectionType, body);
+            const docRef = this.setDocRef(collectionType, response);
+            this.updateSessionStorage(collectionType, doc, docRef);
+            resolve();
+          });
+      } catch {
+        reject();
       }
     });
   }
 
-  private sessionStorageAdd(
-    collectionType: CollectionType,
-    body: any,
-    docRef: string
-  ) {
+  private setDocument(collectionType: CollectionType, body: any): Object {
+    let doc = {};
     switch (collectionType) {
-      case CollectionType.LEAD: {
-        let leads = JSON.parse(sessionStorage['leads']);
-        leads[docRef] = body;
-        sessionStorage.setItem('leads', JSON.stringify(leads));
-        return;
-      }
-      case CollectionType.AGENT: {
-        let leads: { [key: string]: any } = {};
-        if (sessionStorage['agents']) {
-          leads = JSON.parse(sessionStorage['agents']);
-        }
-        leads[docRef] = body;
-        sessionStorage.setItem('agents', JSON.stringify(leads));
-        return;
-      }
-      case CollectionType.PROFILE: {
-        let profile: { [key: string]: any } = {};
-        if (sessionStorage['profile']) {
-          profile = JSON.parse(sessionStorage['profile']);
-        }
-        Object.keys(body).forEach((key) => {
-          profile[key] = body[key];
-        });
-
-        sessionStorage.setItem('profile', JSON.stringify(profile));
+      case CollectionType.USER_INFO: {
+        const _body = body as ProfileData;
+        return _body.userInfo;
       }
     }
+    return doc;
+  }
+
+  private setDocRef(collectionType: CollectionType, response: any): string {
+    switch (collectionType) {
+      case CollectionType.AGENT: {
+        let userRecord = response as UserRecord;
+        return userRecord.uid;
+      }
+      case CollectionType.LEAD: {
+        let doc = response as { _path: { segments: string[] } };
+        return doc._path.segments[3];
+      }
+    }
+    return '';
+  }
+
+  private updateSessionStorage(
+    collectionType: CollectionType,
+    newDetails: any,
+    docRef: string
+  ) {
+    let currentDocument = JSON.parse(sessionStorage[collectionType]);
+    if (docRef) {
+      currentDocument[docRef] = newDetails;
+    } else {
+      currentDocument = newDetails;
+    }
+    sessionStorage.setItem(collectionType, JSON.stringify(currentDocument));
   }
 
   private async setHttpOptions() {

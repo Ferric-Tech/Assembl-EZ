@@ -28,10 +28,10 @@ export class AppInitialisationService {
       await this.dataManagementService.getData(url).then(
         async (response) => {
           const clientData = response as ClientData;
-          this.setLocal('profile', clientData.profile.userInfo);
+          this.setLocal('userInfo', clientData.profile.userInfo);
+          this.setLocal('flags', clientData.profile.flags);
           this.setLocal('leads', clientData.leads);
           this.setLocal('agents', clientData.agents);
-          this.setLocal('flags', clientData.profile.flags);
           resolve();
         },
         async (error) => reject(error)
@@ -59,7 +59,7 @@ export class AppInitialisationService {
   }
 
   private isAlphaUser(): boolean {
-    let profile = this.profileService.getUserProfile();
+    let profile = this.profileService.getUserInfo();
     return profile.isAlphaUser;
   }
 }

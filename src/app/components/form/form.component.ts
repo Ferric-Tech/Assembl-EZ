@@ -28,6 +28,7 @@ export class FormComponent implements OnInit {
   @Input() currentValues: { [key: string]: string } = {};
   @Output() formSubmitted = new EventEmitter<any>();
   @Output() formChanged = new EventEmitter<any>();
+  @Output() formCancelled = new EventEmitter<void>();
 
   fieldType = FormFieldType;
   form = this.fb.group({});
@@ -95,6 +96,10 @@ export class FormComponent implements OnInit {
       this.formChanged.emit(this.form.value);
       this.setForm();
     }
+  }
+
+  onFormCancelled() {
+    this.formCancelled.emit();
   }
 
   toggleField(index: number) {

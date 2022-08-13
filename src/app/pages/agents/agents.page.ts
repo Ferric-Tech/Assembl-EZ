@@ -15,6 +15,7 @@ import {
   WarningConfig,
   WarningType,
 } from 'app/modals/warning/warning.modal';
+import { UserInfo } from 'app/interfaces/api.interface';
 
 @Component({
   selector: 'app-agents-page',
@@ -121,9 +122,9 @@ export class AgentsPage {
   onAgentPasswordSet(formValue: { [key: string]: string }) {
     this.loadingService.setLoading('Setting password');
     this.profileService
-      .updateUserProfile({
+      .updateUserInfo({
         agentDefaultPassword: formValue['newPassword'],
-      })
+      } as UserInfo)
       .then(
         async (success) => {
           this.loadingService.cancelLoading();
