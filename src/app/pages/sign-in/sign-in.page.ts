@@ -24,6 +24,7 @@ import {
 import { BehaviorSubject } from 'rxjs';
 import { ProfileService } from 'app/services/profile.service';
 import { LoadingService } from 'app/services/loading.service';
+import { AppInitialisationService } from 'app/services/app-initialisation.service';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -48,7 +49,8 @@ export class SignInPage implements OnInit {
     private authenticationService: AuthenticationService,
     private clientProfileService: ProfileService,
     private errorHandlingService: ErrorHandlingService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private appInitialisationService: AppInitialisationService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -71,7 +73,7 @@ export class SignInPage implements OnInit {
     this.loadingService.setLoading('Signing in');
     await this.authenticationService.userSignIn(signInDetails).then(
       async (success) => {
-        this.clientProfileService.getUserProfileHosted();
+        this.appInitialisationService.intialise();
         this.router.navigate(['']);
         this.loadingService.cancelLoading();
       },
@@ -103,8 +105,8 @@ export class SignInPage implements OnInit {
     );
   }
 
-  onRegistrationComplete(formValue: { [key: string]: string }) {
-    this.updateProfile(formValue);
+  async onRegistrationComplete(formValue: { [key: string]: string }) {
+    await this.updateProfile(formValue);
     this.notificationConfig = {
       type: NotificationType.REGISTER,
       notification: Notification.REGISTRATION_COMPLETE,
@@ -112,18 +114,28 @@ export class SignInPage implements OnInit {
     this.isNotifying = true;
   }
 
-  private updateProfile(formValue: { [key: string]: string }) {
+  private updateProfile(formValue: { [key: string]: string }): Promise<void> {
     delete formValue['password'];
     delete formValue['confirmPassword'];
     this.loadingService.setLoading('Updating profile');
-    this.clientProfileService.updateUserProfile(formValue).then(
-      async (success) => {
-        this.loadingService.cancelLoading();
-      },
-      async (error) => {
-        this.loadingService.cancelLoading();
-      }
-    );
+    return new Promise(async (resolve, reject) => {
+      this.clientProfileService
+        .updateUserProfile(formValue)
+        .then(
+          async (success) => {
+            resolve();
+            this.loadingService.cancelLoading();
+          },
+          async (error) => {
+            this.loadingService.cancelLoading();
+            reject(error);
+          }
+        )
+        .catch((error) => {
+          reject(error);
+          this.loadingService.cancelLoading();
+        });
+    });
   }
 
   onRegisterPasswordMismatch() {

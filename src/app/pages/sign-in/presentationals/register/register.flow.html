@@ -2,6 +2,7 @@
 <div [ngSwitch]="currentViewState">
   <app-basic-details-screen
     *ngSwitchCase="viewState.BASIC"
+    [isFirstTimeRegistration]="true"
     (formSubmitted)="onBasicDetailsSubmitted($event)"
     (isPasswordMismatched)="onPasswordMismatch()"
   ></app-basic-details-screen>

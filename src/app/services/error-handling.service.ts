@@ -14,40 +14,45 @@ export class ErrorHandlingService {
   getWarningConfig(error: string): WarningConfig {
     let warningConfig = {} as WarningConfig;
     if (error.includes('auth/invalid-email')) {
-      warningConfig = {
+      return {
         type: WarningType.SIGN_IN,
         warning: Warning.INVALID_EMAIL,
       };
     }
     if (error.includes('auth/user-not-found')) {
-      warningConfig = {
+      return {
         type: WarningType.SIGN_IN,
         warning: Warning.USER_NOT_FOUND,
       };
     }
     if (error.includes('auth/wrong-password')) {
-      warningConfig = {
+      return {
         type: WarningType.SIGN_IN,
         warning: Warning.WRONG_PASSWORD,
       };
     }
     if (error.includes('auth/email-already-in-use')) {
-      warningConfig = {
+      return {
         type: WarningType.REGISTER,
         warning: Warning.EMAIL_ALREADY_EXISTS,
       };
     }
     if (error.includes('auth/weak-password')) {
-      warningConfig = {
+      return {
         type: WarningType.REGISTER,
         warning: Warning.WEAK_PASSWORD,
       };
     }
-    return warningConfig;
+    return {
+      type: WarningType.GENERAL,
+      warning: Warning.GENERAL,
+    };
   }
 }
 
 // auth/network-request-failed
+// auth/internal-error
+
 // Full list of possible firebase errors:https://firebase.google.com/docs/auth/admin/errors
 
 // auth/internal-error	        The Authentication server encountered an unexpected error while trying to process the request. The error message should contain the response from the Authentication server containing additional information. If the error persists, please report the problem to our Bug Report support channel.

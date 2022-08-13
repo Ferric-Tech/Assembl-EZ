@@ -3,6 +3,7 @@ import { AuthenticationService } from './services/authentication-service.service
 import { ProfileService } from './services/profile.service';
 import { DataManagementService } from './services/data-management.service';
 import { LoadingService } from './services/loading.service';
+import { AppInitialisationService } from './services/app-initialisation.service';
 
 @Component({
   selector: 'app-root',
@@ -16,15 +17,15 @@ export class AppComponent {
 
   constructor(
     private authService: AuthenticationService,
-    private clientProfileService: ProfileService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private appInitialisationService: AppInitialisationService
   ) {}
 
   async ngOnInit() {
     this.intialiseSubscriptions();
     this.loadingService.setLoading('Calling Profile');
     if (await this.authService.isAuthenticated()) {
-      this.intialiseSession();
+      this.appInitialisationService.intialise();
     }
     this.loadingService.cancelLoading();
   }
@@ -37,9 +38,5 @@ export class AppComponent {
     this.loadingService._loadingexplainer$.subscribe((loadingexplainer) => {
       this.loadingExplainer = loadingexplainer;
     });
-  }
-
-  private async intialiseSession() {
-    await this.clientProfileService.getUserProfileHosted();
   }
 }

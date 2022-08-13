@@ -8,6 +8,7 @@ import {
   updatePassword,
   reauthenticateWithCredential,
 } from 'firebase/auth';
+import { AppInitialisationService } from './app-initialisation.service';
 
 export interface SignInDetails {
   email: string;
@@ -37,15 +38,15 @@ export class AuthenticationService {
     });
   }
 
-  userRegistration(signInDetails: SignInDetails): Promise<any> {
+  userRegistration(signInDetails: SignInDetails): Promise<void> {
     return new Promise(async (resolve, reject) => {
       this.angularFireAuth
         .createUserWithEmailAndPassword(
           signInDetails.email,
           signInDetails.password
         )
-        .then((res: any) => {
-          resolve({ response: 'auth/successful' });
+        .then((response) => {
+          resolve();
         })
         .catch((err: any) => {
           reject(err.message);
@@ -57,9 +58,7 @@ export class AuthenticationService {
     return new Promise(async (resolve, reject) => {
       this.angularFireAuth
         .signInWithEmailAndPassword(signInDetails.email, signInDetails.password)
-        .then((res: any) => {
-          resolve({ response: 'auth/successful' });
-        })
+        .then((res: any) => {})
         .catch((err: any) => {
           reject(err.message);
         });

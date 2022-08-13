@@ -1,6 +1,5 @@
-import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { AuthenticationService } from './authentication-service.service';
+import { ClientData, UserInfo } from 'app/interfaces/api.interface';
 import {
   CollectionType,
   DataManagementService,
@@ -10,59 +9,22 @@ import {
   providedIn: 'root',
 })
 export class ProfileService {
-  constructor(
-    private authenticationService: AuthenticationService,
-    private dataManagementService: DataManagementService
-  ) {}
+  constructor(private dataManagementService: DataManagementService) {}
 
-  async getUserProfileHosted(): Promise<void> {
-    const url =
-      'https://us-central1-assembl-ez.cloudfunctions.net/getClientData';
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      params: new HttpParams().set(
-        'userID',
-        await this.authenticationService.userID
-      ),
-    };
-    return new Promise(async (resolve, reject) => {
-      await this.dataManagementService.getData(url, options).then(
-        async (success) => {
-          resolve();
-        },
-        async (error) => reject()
-      );
-    });
-  }
-
-  getUserProfileLocal(): Promise<Object> {
-    return new Promise(async (resolve, reject) => {
-      if (sessionStorage['profile']) {
-        resolve(JSON.parse(sessionStorage['profile']));
-      }
-      reject();
-    });
+  getUserProfile(): UserInfo {
+    return sessionStorage['profile']
+      ? JSON.parse(sessionStorage['profile'])
+      : {};
   }
 
   async updateUserProfile(formValue: { [key: string]: string }): Promise<void> {
     const url =
       'https://us-central1-assembl-ez.cloudfunctions.net/updateUserProfile';
     const body = formValue;
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      params: new HttpParams().set(
-        'userID',
-        await this.authenticationService.userID
-      ),
-    };
 
     return new Promise(async (resolve, reject) => {
       await this.dataManagementService
-        .postData(CollectionType.PROFILE, url, body, options)
+        .postData(CollectionType.PROFILE, url, body)
         .then(
           async (success) => resolve(),
           async (error) => reject()

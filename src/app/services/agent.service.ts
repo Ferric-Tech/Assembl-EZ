@@ -59,18 +59,10 @@ export class AgentService {
 
   async addAgent(agent: AgentProfile): Promise<void> {
     const url = 'https://us-central1-assembl-ez.cloudfunctions.net/addAgent';
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      params: new HttpParams().set(
-        'userID',
-        await this.authenticationService.userID
-      ),
-    };
+
     return new Promise(async (resolve, reject) => {
       await this.dataManagementService
-        .postData(CollectionType.AGENT, url, agent, options)
+        .postData(CollectionType.AGENT, url, agent)
         .then(
           async (success) => {
             resolve();
@@ -82,18 +74,10 @@ export class AgentService {
 
   async editAgent(agent: AgentProfile): Promise<void> {
     const url = 'https://us-central1-assembl-ez.cloudfunctions.net/editAgent';
-    const options = {
-      headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-      }),
-      params: new HttpParams()
-        .set('userID', await this.authenticationService.userID)
-        .set('agentID', agent.id),
-    };
 
     return new Promise(async (resolve, reject) => {
       await this.dataManagementService
-        .postData(CollectionType.AGENT, url, agent, options)
+        .postData(CollectionType.AGENT, url, agent)
         .then(
           async (success) => {
             resolve();

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { ClientData, UserRecord } from 'app/interfaces/api.interface';
+import { AuthenticationService } from './authentication-service.service';
 
 export interface Options {
   headers: HttpHeaders;
@@ -17,18 +18,19 @@ export enum CollectionType {
   providedIn: 'root',
 })
 export class DataManagementService {
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    private authenticationService: AuthenticationService
+  ) {}
 
-  async getData(url: string, options: Options): Promise<void> {
+  async getData(url: string): Promise<Object> {
     return new Promise(async (resolve, reject) => {
       try {
-        this.http.get(url, options).subscribe((response) => {
-          const clientData = response as ClientData;
-          sessionStorage.setItem('profile', JSON.stringify(clientData.profile));
-          sessionStorage.setItem('leads', JSON.stringify(clientData.leads));
-          sessionStorage.setItem('agents', JSON.stringify(clientData.agents));
-          resolve();
-        });
+        this.http
+          .get(url, await this.setHttpOptions())
+          .subscribe((response) => {
+            resolve(response);
+          });
       } catch {
         reject();
       }
@@ -38,18 +40,19 @@ export class DataManagementService {
   async postData(
     collectionType: CollectionType,
     url: string,
-    body: any,
-    options: Options
+    body: any
   ): Promise<void> {
     return new Promise(async (resolve, reject) => {
       switch (collectionType) {
         case CollectionType.AGENT: {
           try {
-            this.http.post(url, body, options).subscribe((response) => {
-              let userRecord = response as UserRecord;
-              this.sessionStorageAdd(collectionType, body, userRecord.uid);
-              resolve();
-            });
+            this.http
+              .post(url, body, await this.setHttpOptions())
+              .subscribe((response) => {
+                let userRecord = response as UserRecord;
+                this.sessionStorageAdd(collectionType, body, userRecord.uid);
+                resolve();
+              });
           } catch {
             reject();
           }
@@ -57,15 +60,17 @@ export class DataManagementService {
         }
         case CollectionType.LEAD: {
           try {
-            this.http.post(url, body, options).subscribe((docRef) => {
-              let doc = docRef as { _path: { segments: string[] } };
-              this.sessionStorageAdd(
-                collectionType,
-                body,
-                doc._path.segments[3]
-              );
-              resolve();
-            });
+            this.http
+              .post(url, body, await this.setHttpOptions())
+              .subscribe((docRef) => {
+                let doc = docRef as { _path: { segments: string[] } };
+                this.sessionStorageAdd(
+                  collectionType,
+                  body,
+                  doc._path.segments[3]
+                );
+                resolve();
+              });
           } catch {
             reject();
           }
@@ -73,15 +78,17 @@ export class DataManagementService {
         }
         case CollectionType.PROFILE: {
           try {
-            this.http.post(url, body, options).subscribe((docRef) => {
-              let doc = docRef as { _path: { segments: string[] } };
-              this.sessionStorageAdd(
-                collectionType,
-                body,
-                doc._path.segments[1]
-              );
-              resolve();
-            });
+            this.http
+              .post(url, body, await this.setHttpOptions())
+              .subscribe((docRef) => {
+                let doc = docRef as { _path: { segments: string[] } };
+                this.sessionStorageAdd(
+                  collectionType,
+                  body,
+                  doc._path.segments[1]
+                );
+                resolve();
+              });
           } catch {
             reject();
           }
@@ -124,5 +131,17 @@ export class DataManagementService {
         sessionStorage.setItem('profile', JSON.stringify(profile));
       }
     }
+  }
+
+  private async setHttpOptions() {
+    return {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      params: new HttpParams().set(
+        'userID',
+        await this.authenticationService.userID
+      ),
+    };
   }
 }

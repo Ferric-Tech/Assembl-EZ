@@ -6,6 +6,7 @@ export enum WarningType {
   LEADS,
   FORGOT_PASSWORD,
   PASSWORD_CHANGE,
+  GENERAL,
 }
 
 export enum Warning {
@@ -17,6 +18,7 @@ export enum Warning {
   MISMATCHED_PASSWORD,
   UNABLE_TO_ADD,
   UNABLE_TO_EDIT,
+  GENERAL,
 }
 
 export interface WarningConfig {
@@ -84,6 +86,10 @@ export class WarningsModal implements OnInit {
         this.header = 'Unable to send';
         return;
       }
+      case WarningType.GENERAL: {
+        this.header = 'Something went wrong';
+        return;
+      }
     }
   }
 
@@ -146,12 +152,19 @@ export class WarningsModal implements OnInit {
             return;
           }
         }
+        return;
+      }
+      case Warning.GENERAL: {
+        this.body =
+          'Something went wrong, we are unsure what it is, but it has been logged, please try again';
+        return;
       }
     }
   }
 
   private setButtons() {
     switch (this.warningConfig?.type) {
+      case WarningType.GENERAL:
       case WarningType.REGISTER:
       case WarningType.SIGN_IN:
       case WarningType.FORGOT_PASSWORD: {

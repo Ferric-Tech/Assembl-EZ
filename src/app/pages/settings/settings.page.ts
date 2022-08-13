@@ -108,12 +108,7 @@ export class SettingsPage {
   }
 
   private async getUpdatedProfile(): Promise<void> {
-    await this.profileService.getUserProfileLocal().then(
-      async (profile) => {
-        this.profile = profile;
-      },
-      (error) => {}
-    );
+    this.profile = this.profileService.getUserProfile();
   }
 
   onPasswordMismatch() {
