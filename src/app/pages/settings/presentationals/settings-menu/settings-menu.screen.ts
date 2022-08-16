@@ -5,6 +5,8 @@ import {
   MenuOptionType,
 } from 'app/interfaces/menu-screen.interface';
 import { SettingsPageViewState as ViewState } from 'app/enums/viewstates.enum';
+import { UserInfoService } from 'app/services/user-info.service';
+import { UserInfo } from 'app/interfaces/api.interface';
 
 @Component({
   selector: 'app-settings-menu-screen',
@@ -13,6 +15,10 @@ import { SettingsPageViewState as ViewState } from 'app/enums/viewstates.enum';
 })
 export class SettingsMenuScreen {
   @Output() viewStateSelected = new EventEmitter<number>();
+
+  constructor(private userInfoService: UserInfoService) {
+    this.addFeatureFlagedMenuOptions();
+  }
 
   menuOptions: MenuOption[] = [
     {
@@ -37,5 +43,17 @@ export class SettingsMenuScreen {
 
   onViewStateSelected(viewState: number) {
     this.viewStateSelected.emit(viewState);
+  }
+
+  private addFeatureFlagedMenuOptions() {
+    let profile: UserInfo = this.userInfoService.getUserInfo();
+    if (profile.isAlphaUser) {
+      this.menuOptions.splice(2, 0, {
+        style: MenuOptionStyle.PRIMARY,
+        display: 'Feature flags',
+        optionType: MenuOptionType.VIEWSTATE,
+        viewState: ViewState.FEATURE_FLAGS,
+      });
+    }
   }
 }

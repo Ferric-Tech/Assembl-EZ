@@ -56,6 +56,8 @@ import { ViewProfileScreen } from './pages/settings/presentationals/view-profile
 import { PasswordsMenuScreen } from './pages/settings/presentationals/passwords-menu/passwords-menu.screen';
 import { PersonalPasswordScreen } from './pages/settings/presentationals/passwords-menu/presentationals/personal-password/personal-password.screen';
 import { AgentPasswordScreen } from './pages/settings/presentationals/passwords-menu/presentationals/agent-password/agent-password.screen';
+import { FeatureFlagsScreen } from './pages/settings/presentationals/feature-flags/feature-flags.screen';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 export const firebaseConfig = {
   apiKey: 'AIzaSyBFMwDB68eP6eixiHx5k6HxbnCnWf1HVQg',
@@ -110,6 +112,7 @@ export const firebaseConfig = {
     PersonalPasswordScreen,
     AgentPasswordScreen,
     PersonalPasswordScreen,
+    FeatureFlagsScreen,
   ],
   imports: [
     BrowserModule,
@@ -128,6 +131,7 @@ export const firebaseConfig = {
     HttpClientModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

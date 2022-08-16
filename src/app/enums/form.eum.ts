@@ -9,6 +9,7 @@ export enum FormFieldType {
   PASSWORD,
   FIELD_GROUP_TITLE,
   OPT_OUT,
+  SLIDE_TOGGLE,
 }
 
 export enum EntityType {

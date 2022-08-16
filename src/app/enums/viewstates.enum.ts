@@ -53,4 +53,5 @@ export enum SettingsPageViewState {
   EDIT_BUS_CONTACTS = 6,
   EDIT_PERSONAL_PASSWORD = 7,
   EDIT_AGENT_PASSWORD = 8,
+  FEATURE_FLAGS,
 }

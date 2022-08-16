@@ -55,6 +55,11 @@
     (isPasswordMismatched)="onPasswordMismatch()"
   ></app-agent-password-screen>
 
+  <app-feature-flags-screen
+    *ngSwitchCase="viewState.FEATURE_FLAGS"
+    (viewStateSelected)="onViewStateSelected($event)"
+  ></app-feature-flags-screen>
+
   <app-warning-modal
     *ngIf="isWarning"
     [warningConfig]="warnigConfig"

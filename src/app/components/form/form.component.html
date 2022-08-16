@@ -122,8 +122,8 @@
       </div>
 
       <div
-        class="field-group-title"
         *ngSwitchCase="fieldType.FIELD_GROUP_TITLE"
+        class="field-group-title"
       >
         <p>{{ field.fieldDisplay }}</p>
       </div>
@@ -148,6 +148,13 @@
             {{ field.fieldDisplay }}
           </p>
         </div>
+      </div>
+
+      <div class="field-checkbox" *ngSwitchCase="fieldType.SLIDE_TOGGLE">
+        <mat-slide-toggle
+          formControlName="{{ field.fieldName }}"
+          (change)="onFormChange()"
+        ></mat-slide-toggle>
       </div>
     </div>
   </div>
