@@ -93,7 +93,11 @@ export class DataManagementService {
     newDetails: any,
     docRef: string
   ) {
-    let currentDocument = JSON.parse(sessionStorage[collectionType]);
+    let currentDocument =
+      sessionStorage[collectionType] != undefined
+        ? JSON.parse(sessionStorage[collectionType])
+        : {};
+
     if (docRef) {
       currentDocument[docRef] = newDetails;
     } else {

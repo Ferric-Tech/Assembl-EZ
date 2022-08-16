@@ -44,6 +44,10 @@ export interface FlagData {
   products: boolean;
 }
 
+export class FlagDataClass implements FlagData {
+  products: boolean = false;
+}
+
 export interface UserRecord {
   disabled: boolean;
   displayName: string;

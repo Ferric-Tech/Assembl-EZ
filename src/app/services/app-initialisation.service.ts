@@ -1,14 +1,19 @@
 import { Injectable } from '@angular/core';
-import { ClientData, FlagData, UserInfo } from 'app/interfaces/api.interface';
+import {
+  ClientData,
+  FlagData,
+  FlagDataClass,
+  UserInfo,
+} from 'app/interfaces/api.interface';
 import { DataManagementService } from './data-management.service';
 import { FeatureFlagsService } from './feature-flags.service';
 import { ProfileService } from './profile.service';
+import { keys } from 'ts-transformer-keys';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppInitialisationService {
-  private profile: UserInfo | undefined;
   constructor(
     private dataManagementService: DataManagementService,
     private featureFlagsService: FeatureFlagsService,
@@ -17,10 +22,10 @@ export class AppInitialisationService {
 
   async intialise() {
     await this.getClientData();
-    // this.alphaUserSetUp();
+    this.alphaUserSetUp();
   }
 
-  async getClientData(): Promise<void> {
+  private async getClientData(): Promise<void> {
     const url =
       'https://us-central1-assembl-ez.cloudfunctions.net/getClientData';
 
@@ -29,7 +34,7 @@ export class AppInitialisationService {
         async (response) => {
           const clientData = response as ClientData;
           this.setLocal('userInfo', clientData.profile.userInfo);
-          this.setLocal('flags', clientData.profile.flags);
+          this.setLocal('flags', clientData.profile.flags || {});
           this.setLocal('leads', clientData.leads);
           this.setLocal('agents', clientData.agents);
           resolve();
@@ -43,23 +48,48 @@ export class AppInitialisationService {
     sessionStorage.setItem(dataDescription, JSON.stringify(data));
   }
 
-  private alphaUserSetUp() {
-    let flags: FlagData = this.featureFlagsService.getUserFeatureFlags();
+  private async alphaUserSetUp() {
+    let flags: FlagData = this.featureFlagsService.getFlags();
     if (Object.keys(flags).length === 0) {
       if (this.isAlphaUser()) {
-        (Object.keys(flags) as Array<keyof FlagData>).forEach((flag) => {
-          flags[flag] = false;
-        });
+        flags = this.setDefaultFlags();
+        this.featureFlagsService.updateFlags(flags);
+        return;
+      }
+      if (await this.isNewAlphaUser()) {
+        this.profileService.updateUserInfo({ isAlphaUser: true } as UserInfo);
+        this.featureFlagsService.updateFlags(flags);
       }
     }
-  }
-
-  private setUserFeatureFlags() {
-    this.profile;
   }
 
   private isAlphaUser(): boolean {
     let profile = this.profileService.getUserInfo();
     return profile.isAlphaUser;
+  }
+
+  private isNewAlphaUser(): Promise<boolean> {
+    const url = 'https://us-central1-assembl-ez.cloudfunctions.net/isAlphaUser';
+
+    return new Promise(async (resolve, reject) => {
+      await this.dataManagementService.getData(url).then(
+        async (response) => {
+          let isAlphaUserResponse = response as { isAlphaUser: boolean };
+          resolve(isAlphaUserResponse.isAlphaUser);
+        },
+        async (error) => reject(error)
+      );
+    });
+  }
+
+  setDefaultFlags(): FlagData {
+    let flags = {} as FlagData;
+    type FlagDataPropsArray = Array<keyof FlagData>;
+    const listOfFlags = Object.keys(new FlagDataClass()) as FlagDataPropsArray;
+
+    listOfFlags.forEach((flag) => {
+      flags[flag] = false;
+    });
+    return flags;
   }
 }

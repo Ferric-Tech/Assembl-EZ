@@ -103,3 +103,28 @@ exports.editAgent = functions.https.onRequest(async (req: any, res: any) => {
     res.send({ ...req.body, ...{ id: agentID } });
   });
 });
+
+exports.isAlphaUser = functions.https.onRequest(async (req: any, res: any) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  corsHandler(req, res, async () => {
+    const userID = req.query.userID;
+    try {
+      // Referance data base
+      const db = admin.firestore();
+
+      //Get client leads
+      let alphaUsers: string[] = [];
+      const alphaUsersDocRef = db.collection('alpha-users');
+
+      await alphaUsersDocRef.get().then((snapshot) => {
+        snapshot.forEach((doc) => {
+          alphaUsers.push(doc.id);
+        });
+      });
+
+      res.send({ isAlphaUser: alphaUsers.includes(userID) });
+    } catch (error) {
+      res.send(error);
+    }
+  });
+});
