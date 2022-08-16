@@ -24,7 +24,7 @@ Proposed struture of modules and endpoint
 |emails| Emails sent from the platform|- email|
 |flags| Flag settings of the user|- flags (to be renamed)|
 |leads|New and current leads of the user|- leads (to be combined)|
-|users|User profile, New agents, User's Alpha status|- profile (to be renamed) - agents (to be combined)- alphaUser|
+|users|User profile, New agents, User's Alpha status|<li>profile (to be renamed)</li> <li>agents (to be combined)</li><li>agents (to be combined)</li><li>alphaUser</li>|
 
 Focus of the prposed endpoints
 |Endpoint|Focus|Methods|Requires auth|
