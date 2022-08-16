@@ -28,6 +28,7 @@ Proposed struture of modules and endpoint
 
 Focus of the prposed endpoints
 |Endpoint|Focus|Methods|Requires auth|
+|---|---|---|---|
 |clientData|all of the users data|GET|Yes|
 |email|Email as required based on an enum received and the receipiant definded in the body|POST|Yes|
 |flags|Update the flags of the user|UPDATE|Yes|
