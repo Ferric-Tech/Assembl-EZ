@@ -8,7 +8,6 @@ import {
 import { DataManagementService } from './data-management.service';
 import { FeatureFlagsService } from './feature-flags.service';
 import { ProfileService } from './profile.service';
-import { keys } from 'ts-transformer-keys';
 
 @Injectable({
   providedIn: 'root',
