@@ -26,13 +26,13 @@ Proposed struture of modules and endpoint
 |leads|New and current leads of the user|<li>leads (to be combined)</li>|
 |users|User profile, New agents, User's Alpha status|<li>profile (to be renamed)</li> <li>agents (to be combined)</li><li>alphaUser</li>|
 
-Focus of the prposed endpoints
-|Endpoint|Focus|Methods|Requires auth|
+Focus of the proposed endpoints
+|Endpoint|Focus|Methods&nbsp;|Requires auth|
 |---|---|---|---|
 |clientData|all of the users data|<li>GET</li>|Yes|
 |email|Email as required based on an enum received and the receipiant definded in the body|<li>POST</li>|Yes|
 |flags|Update the flags of the user|<li>UPDATE</li>|Yes|
-|leads|Add and update leads|<li>POST</li><li>UPDATE</li>|Yes but not for POST (Will be allowed to receive new leads from other sources other then the platform|
+|leads|Add and update leads|<li>POST</li><li>UPDATE</li>|Yes but not for POST (will be allowed to receive new leads from other sources other then the platform|
 |profile|Add and update users profile|<li>POST</li><li>UPDATE</li>|Yes|
 |agents|Add and update agents under the users - agents will not be allowed to add agent|<li>POST</li><li>UPDATE</li>|Yes|
 |alphaUser|Get the alpha user of the status if for some reason they are added to the alpha user list, but their isAlphaUser status is not updated|<li>GET</li>|Yes|
