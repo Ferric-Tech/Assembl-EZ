@@ -7,7 +7,7 @@ import {
 } from 'app/interfaces/api.interface';
 import { DataManagementService } from './data-management.service';
 import { FeatureFlagsService } from './feature-flags.service';
-import { ProfileService } from './profile.service';
+import { UserInfoService } from './user-info.service';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,7 @@ export class AppInitialisationService {
   constructor(
     private dataManagementService: DataManagementService,
     private featureFlagsService: FeatureFlagsService,
-    private profileService: ProfileService
+    private userInfoService: UserInfoService
   ) {}
 
   async intialise() {
@@ -56,14 +56,14 @@ export class AppInitialisationService {
         return;
       }
       if (await this.isNewAlphaUser()) {
-        this.profileService.updateUserInfo({ isAlphaUser: true } as UserInfo);
+        this.userInfoService.updateUserInfo({ isAlphaUser: true } as UserInfo);
         this.featureFlagsService.updateFlags(flags);
       }
     }
   }
 
   private isAlphaUser(): boolean {
-    let profile = this.profileService.getUserInfo();
+    let profile = this.userInfoService.getUserInfo();
     return profile.isAlphaUser;
   }
 

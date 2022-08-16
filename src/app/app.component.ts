@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import { AuthenticationService } from './services/authentication-service.service';
-import { ProfileService } from './services/profile.service';
-import { DataManagementService } from './services/data-management.service';
 import { LoadingService } from './services/loading.service';
 import { AppInitialisationService } from './services/app-initialisation.service';
 

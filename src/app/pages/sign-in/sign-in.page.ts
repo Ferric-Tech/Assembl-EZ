@@ -22,10 +22,10 @@ import {
   NotificationType,
 } from 'app/modals/notifications/notifications.modal';
 import { BehaviorSubject } from 'rxjs';
-import { ProfileService } from 'app/services/profile.service';
 import { LoadingService } from 'app/services/loading.service';
 import { AppInitialisationService } from 'app/services/app-initialisation.service';
 import { UserInfo } from 'app/interfaces/api.interface';
+import { UserInfoService } from 'app/services/user-info.service';
 
 @Component({
   selector: 'app-sign-in-page',
@@ -48,7 +48,7 @@ export class SignInPage implements OnInit {
   constructor(
     private router: Router,
     private authenticationService: AuthenticationService,
-    private clientProfileService: ProfileService,
+    private userInfoService: UserInfoService,
     private errorHandlingService: ErrorHandlingService,
     private loadingService: LoadingService,
     private appInitialisationService: AppInitialisationService
@@ -120,7 +120,7 @@ export class SignInPage implements OnInit {
     delete formValue['confirmPassword'];
     this.loadingService.setLoading('Updating profile');
     return new Promise(async (resolve, reject) => {
-      this.clientProfileService
+      this.userInfoService
         .updateUserInfo(formValue as unknown as UserInfo)
         .then(
           async (success) => {

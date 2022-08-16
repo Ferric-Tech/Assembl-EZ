@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { AgentPageViewState as ViewState } from 'app/enums/viewstates.enum';
-import { EmailsService } from 'app/services/emails.service';
 import { AgentProfile, AgentService } from 'app/services/agent.service';
 import { LoadingService } from 'app/services/loading.service';
 import { LeadsService } from 'app/services/leads.service';
@@ -9,13 +8,13 @@ import {
   NotificationConfig,
   NotificationType,
 } from 'app/modals/notifications/notifications.modal';
-import { ProfileService } from 'app/services/profile.service';
 import {
   Warning,
   WarningConfig,
   WarningType,
 } from 'app/modals/warning/warning.modal';
 import { UserInfo } from 'app/interfaces/api.interface';
+import { UserInfoService } from 'app/services/user-info.service';
 
 @Component({
   selector: 'app-agents-page',
@@ -35,11 +34,10 @@ export class AgentsPage {
   isWarning = false;
 
   constructor(
-    private emailsService: EmailsService,
     private agentService: AgentService,
     private leadsService: LeadsService,
     private loadingService: LoadingService,
-    private profileService: ProfileService
+    private userInfoService: UserInfoService
   ) {
     this.getUpdatedAgents();
   }
@@ -121,7 +119,7 @@ export class AgentsPage {
 
   onAgentPasswordSet(formValue: { [key: string]: string }) {
     this.loadingService.setLoading('Setting password');
-    this.profileService
+    this.userInfoService
       .updateUserInfo({
         agentDefaultPassword: formValue['newPassword'],
       } as UserInfo)
