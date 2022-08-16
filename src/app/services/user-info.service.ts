@@ -4,12 +4,11 @@ import {
   CollectionType,
   DataManagementService,
 } from './data-management.service';
-import { keys } from 'ts-transformer-keys';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ProfileService {
+export class UserInfoService {
   constructor(private dataManagementService: DataManagementService) {}
 
   getUserInfo(): UserInfo {
