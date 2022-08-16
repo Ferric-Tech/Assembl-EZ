@@ -7,6 +7,8 @@ import {
 } from 'app/interfaces/menu-screen.interface';
 import { AuthenticationService } from 'app/services/authentication-service.service';
 import { MainPageViewState as ViewState } from 'app/enums/viewstates.enum';
+import { FeatureFlagsService } from 'app/services/feature-flags.service';
+import { FlagData } from 'app/interfaces/api.interface';
 
 @Component({
   selector: 'app-main-page',
@@ -27,12 +29,6 @@ export class MainPage {
       optionType: MenuOptionType.URL,
       link: 'quotes',
     },
-    // {
-    //   style: MenuOptionStyle.PRIMARY,
-    //   display: 'Products',
-    //   optionType: MenuOptionType.URL,
-    //   link: 'products',
-    // },
     {
       style: MenuOptionStyle.PRIMARY,
       display: 'Agents',
@@ -55,8 +51,11 @@ export class MainPage {
 
   constructor(
     private authenticationService: AuthenticationService,
+    private featureFlagsService: FeatureFlagsService,
     private router: Router
-  ) {}
+  ) {
+    this.addFeatureFlagedMenuOptions();
+  }
 
   onViewStateSelected(viewState: number) {
     switch (viewState) {
@@ -64,6 +63,18 @@ export class MainPage {
         this.authenticationService.signOut();
         this.router.navigate(['sign-in']);
       }
+    }
+  }
+
+  private addFeatureFlagedMenuOptions() {
+    let flags: FlagData = this.featureFlagsService.getFlags();
+    if (flags.products) {
+      this.menuOptions.splice(2, 0, {
+        style: MenuOptionStyle.PRIMARY,
+        display: 'Products',
+        optionType: MenuOptionType.URL,
+        link: 'products',
+      });
     }
   }
 }
