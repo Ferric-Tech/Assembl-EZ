@@ -27,7 +27,7 @@ Proposed struture of modules and endpoint
 |users|User profile, New agents, User's Alpha status|<li>profile (to be renamed)</li> <li>agents (to be combined)</li><li>alphaUser</li>|
 
 Focus of the proposed endpoints
-|Endpoint|Focus|Methods&nbsp;|Requires auth|
+|Endpoint|Focus|Methods &nbsp;|Requires auth|
 |---|---|---|---|
 |clientData|all of the users data|<li>GET</li>|Yes|
 |email|Email as required based on an enum received and the receipiant definded in the body|<li>POST</li>|Yes|
