@@ -53,12 +53,11 @@ p {
   margin: 0%;
 }
 
-.menu-button {
-  max-width: 300px;
+.menu-button-primary-large,
+.menu-button-primary-small,
+.menu-button-secondary-large,
+.menu-button-secondary-small {
   width: 100%;
-  background-color: honeydew;
-  min-height: 40px;
-  height: 10%;
   border-radius: 5px;
   align-items: center;
   justify-content: center;
@@ -66,16 +65,28 @@ p {
   border: none;
 }
 
-.primary-menu-button {
-  max-width: 300px;
-  width: 100%;
+.menu-button-primary-large,
+.menu-button-primary-small {
   background-color: rgb(15, 55, 233);
   color: honeydew;
+}
+
+.menu-button-secondary-large,
+.menu-button-secondary-small {
+  background-color: honeydew;
+  color: rgb(15, 55, 233);
+}
+
+.menu-button-primary-large,
+.menu-button-secondary-large {
+  max-width: 300px;
   min-height: 40px;
   height: 10%;
-  border-radius: 5px;
-  align-items: center;
-  justify-content: center;
-  margin: 10px 0;
-  border: none;
+}
+
+.menu-button-primary-small,
+.menu-button-secondary-small {
+  max-width: 120px;
+  min-height: 25px;
+  height: 8%;
 }
