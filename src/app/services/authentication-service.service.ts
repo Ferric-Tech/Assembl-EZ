@@ -54,11 +54,13 @@ export class AuthenticationService {
     });
   }
 
-  userSignIn(signInDetails: SignInDetails): Promise<any> {
+  userSignIn(signInDetails: SignInDetails): Promise<void> {
     return new Promise(async (resolve, reject) => {
       this.angularFireAuth
         .signInWithEmailAndPassword(signInDetails.email, signInDetails.password)
-        .then((res: any) => {})
+        .then((res: any) => {
+          resolve();
+        })
         .catch((err: any) => {
           reject(err.message);
         });
