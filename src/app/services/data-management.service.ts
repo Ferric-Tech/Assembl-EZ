@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
   ClientData,
+  LeadData,
   ProfileData,
   UserRecord,
 } from 'app/interfaces/api.interface';
@@ -70,6 +71,10 @@ export class DataManagementService {
         const _body = body as ProfileData;
         return _body.userInfo;
       }
+      case CollectionType.LEAD: {
+        const _body = body as LeadData;
+        return _body;
+      }
     }
     return doc;
   }
@@ -97,7 +102,6 @@ export class DataManagementService {
       sessionStorage[collectionType] != undefined
         ? JSON.parse(sessionStorage[collectionType])
         : {};
-
     if (docRef) {
       currentDocument[docRef] = newDetails;
     } else {

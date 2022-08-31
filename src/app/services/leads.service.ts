@@ -10,11 +10,7 @@ import {
   providedIn: 'root',
 })
 export class LeadsService {
-  constructor(
-    private http: HttpClient,
-    private authenticationService: AuthenticationService,
-    private dataManagementService: DataManagementService
-  ) {}
+  constructor(private dataManagementService: DataManagementService) {}
 
   async getLeads(): Promise<Object> {
     return new Promise(async (resolve, reject) => {
