@@ -9,11 +9,6 @@ import { AppInitialisationService } from './services/app-initialisation.service'
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  @HostListener('window:resize', ['$event'])
-  onResize(event: { target: { innerWidth: any } }) {
-    console.log(event.target.innerWidth);
-  }
-
   title = 'assembl-ez';
   isLoading = false;
   loadingExplainer = '';

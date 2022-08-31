@@ -1,7 +1,6 @@
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import {
-  ClientData,
   LeadData,
   ProfileData,
   UserRecord,
@@ -18,6 +17,10 @@ export enum CollectionType {
   LEAD = 'leads',
   USER_INFO = 'userInfo',
   FLAGS = 'flags',
+}
+
+export interface PostObject extends Object {
+  id?: string;
 }
 
 @Injectable({
@@ -46,12 +49,12 @@ export class DataManagementService {
   async postData(
     collectionType: CollectionType,
     url: string,
-    body: Object
+    body: PostObject
   ): Promise<void> {
     return new Promise(async (resolve, reject) => {
       try {
         this.http
-          .post(url, body, await this.setHttpOptions())
+          .post(url, body, await this.setHttpPostOptions(collectionType, body))
           .subscribe((response) => {
             const doc = this.setDocument(collectionType, body);
             const docRef = this.setDocRef(collectionType, response);
@@ -110,7 +113,28 @@ export class DataManagementService {
     sessionStorage.setItem(collectionType, JSON.stringify(currentDocument));
   }
 
-  private async setHttpOptions() {
+  private async setHttpPostOptions(
+    collectionType: CollectionType,
+    body: PostObject
+  ) {
+    let options = await this.setHttpOptions();
+    console.log(options);
+    console.log(body);
+    console.log(body.id);
+
+    if (collectionType === CollectionType.LEAD && body.id != undefined) {
+      console.log('Here');
+      options.params = options.params.append('leadID', body.id);
+    }
+    console.log(options);
+
+    return options;
+  }
+
+  private async setHttpOptions(): Promise<{
+    headers: HttpHeaders;
+    params: HttpParams;
+  }> {
     return {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
