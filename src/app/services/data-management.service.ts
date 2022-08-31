@@ -118,15 +118,10 @@ export class DataManagementService {
     body: PostObject
   ) {
     let options = await this.setHttpOptions();
-    console.log(options);
-    console.log(body);
-    console.log(body.id);
 
     if (collectionType === CollectionType.LEAD && body.id != undefined) {
-      console.log('Here');
       options.params = options.params.append('leadID', body.id);
     }
-    console.log(options);
 
     return options;
   }

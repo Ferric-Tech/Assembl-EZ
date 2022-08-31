@@ -126,7 +126,6 @@ export class ContactDetailsScreen {
       ],
       proceedText: 'Proceed',
     };
-    console.log(this.currentValues);
     this.onContacDetailsFormChanged(this.currentValues);
   }
 
