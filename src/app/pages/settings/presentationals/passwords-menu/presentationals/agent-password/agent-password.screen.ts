@@ -28,12 +28,12 @@ export class AgentPasswordScreen {
   ];
 
   passwordFormConfig: FormConfig = {
-    formTitle: 'Please enter your new password below to change it',
+    formTitle: 'Please enter your new agent password below to change it',
     isInExpansionTable: false,
     isDynamic: true,
     canProceed: false,
     proceedBlocked: false,
-    canCancel: true,
+    canCancel: false,
     fields: [
       {
         fieldDisplay: 'Password',

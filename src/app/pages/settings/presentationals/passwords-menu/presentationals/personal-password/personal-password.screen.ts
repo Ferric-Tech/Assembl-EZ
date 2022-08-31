@@ -33,7 +33,7 @@ export class PersonalPasswordScreen {
     isDynamic: true,
     canProceed: false,
     proceedBlocked: false,
-    canCancel: true,
+    canCancel: false,
     fields: [
       {
         fieldDisplay: 'Current password',

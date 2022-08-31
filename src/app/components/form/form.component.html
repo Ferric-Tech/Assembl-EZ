@@ -126,17 +126,13 @@
     </div>
 
     <div *ngSwitchCase="fieldType.OPT_OUT" class="field-opt-out">
-      <div *ngIf="form.value[field.fieldName]" class="field-opt-out-major">
-        <mat-checkbox
-          formControlName="{{ field.fieldName }}"
-          (change)="onFormChange()"
-        ></mat-checkbox>
-        <p (click)="toggleOptOut(field.fieldName)">
-          {{ field.fieldDisplay }}
-        </p>
-      </div>
-      <div *ngIf="!form.value[field.fieldName]" class="field-opt-out-minor">
-        <div class="left-spacer-gap"></div>
+      <div
+        [ngClass]="
+          form.value[field.fieldName]
+            ? 'field-opt-out-major'
+            : 'field-opt-out-minor'
+        "
+      >
         <mat-checkbox
           formControlName="{{ field.fieldName }}"
           (change)="onFormChange()"

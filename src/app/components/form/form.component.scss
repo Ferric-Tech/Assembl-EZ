@@ -49,6 +49,7 @@ form {
   justify-content: flex-end;
   align-items: center;
   width: 150px;
+  min-width: 150px;
   flex-direction: row;
 }
 
@@ -94,9 +95,20 @@ form {
   margin: 3px 0;
 }
 
+.field-opt-out-minor {
+  padding-left: calc(100% - 150px);
+  margin-top: -5px;
+  font-weight: bold;
+}
+
 .field-opt-out-minor mat-checkbox,
 .field-opt-out-major mat-checkbox {
   margin: 0 5px;
+}
+
+::ng-deep .field-opt-out-minor .mat-checkbox-inner-container {
+  height: 12px;
+  width: 12px;
 }
 
 .field-opt-out-minor p {
