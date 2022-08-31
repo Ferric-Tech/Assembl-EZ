@@ -151,12 +151,12 @@
     </div>
   </div>
   <div class="form-button-container">
-    <button *ngIf="validForm" class="primary-menu-button" type="submit">
+    <button *ngIf="validForm" class="menu-button-primary-large" type="submit">
       {{ formConfig.proceedText }}
     </button>
     <button
       *ngIf="formConfig.canCancel"
-      class="menu-button"
+      class="menu-button-secondary-large"
       type="button"
       (click)="onFormCancelled()"
     >

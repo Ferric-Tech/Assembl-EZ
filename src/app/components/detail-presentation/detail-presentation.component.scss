@@ -1,11 +1,16 @@
+.detail-presentation-container {
+  max-width: 600px;
+  background-color: rgb(161, 255, 255);
+  margin: auto;
+  padding: 20px;
+}
+
 .narrow-results-container {
   width: 80%;
-  margin: auto;
 }
 
 .wide-results-container {
   width: 100%;
-  margin: auto;
 }
 
 .title {
@@ -25,7 +30,6 @@
 .oneliner {
   display: flex;
   flex-direction: row;
-  width: 100%;
   margin-top: 5px;
 }
 
