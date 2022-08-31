@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
-import * as cors from 'cors';
 
+const cors = require('cors');
 const auth = admin.auth();
 const nodemailer = require('nodemailer');
 const corsHandler = cors({ origin: true });

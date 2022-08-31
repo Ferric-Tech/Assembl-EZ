@@ -19,6 +19,7 @@ export enum Warning {
   UNABLE_TO_ADD,
   UNABLE_TO_EDIT,
   GENERAL,
+  INVALID_PHONE_NUMBER,
 }
 
 export interface WarningConfig {
@@ -109,6 +110,12 @@ export class WarningsModal implements OnInit {
         valid, please enter your email address';
         return;
       }
+      case Warning.INVALID_PHONE_NUMBER: {
+        this.body =
+          'The contact number you have entered does not appear to be \
+        valid, please retry';
+        return;
+      }
       case Warning.USER_NOT_FOUND: {
         this.body =
           'It seems the email you have entered does not exist \
@@ -163,15 +170,7 @@ export class WarningsModal implements OnInit {
   }
 
   private setButtons() {
-    switch (this.warningConfig?.type) {
-      case WarningType.GENERAL:
-      case WarningType.REGISTER:
-      case WarningType.SIGN_IN:
-      case WarningType.FORGOT_PASSWORD: {
-        this.proceedButtonText = 'Understood';
-        this.cancelButtonText = '';
-        return;
-      }
-    }
+    this.proceedButtonText = 'Understood';
+    this.cancelButtonText = '';
   }
 }

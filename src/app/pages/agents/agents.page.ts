@@ -96,19 +96,16 @@ export class AgentsPage {
       this.loadingService.setLoading('Checking for agent password');
       this.agentService.getAgentDefaultPassword().then(
         (agentDefaultPassword) => {
+          this.currentViewState = viewState;
           this.loadingService.cancelLoading();
-          if (!agentDefaultPassword) {
-            this.notificationConfig = {
-              type: NotificationType.REQUIRES_AGENT_PASSWORD,
-              notification: Notification.REQUIRES_AGENT_PASSWORD,
-            };
-            this.isNotifying = true;
-            this.currentViewState = ViewState.SET_AGENT_PASSWORD;
-          } else {
-            this.currentViewState = viewState;
-          }
         },
         (error) => {
+          this.notificationConfig = {
+            type: NotificationType.REQUIRES_AGENT_PASSWORD,
+            notification: Notification.REQUIRES_AGENT_PASSWORD,
+          };
+          this.isNotifying = true;
+          this.currentViewState = ViewState.SET_AGENT_PASSWORD;
           this.loadingService.cancelLoading();
         }
       );

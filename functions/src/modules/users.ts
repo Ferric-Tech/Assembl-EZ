@@ -1,7 +1,7 @@
 import * as functions from 'firebase-functions';
-import * as cors from 'cors';
 import * as admin from 'firebase-admin';
 
+const cors = require('cors');
 const corsHandler = cors({ origin: true });
 
 exports.updateUserProfile = functions.https.onRequest(
@@ -26,47 +26,51 @@ exports.addAgent = functions.https.onRequest(async (req: any, res: any) => {
   corsHandler(req, res, async () => {
     const userID = req.query.userID;
     // Create the new user
-    admin
-      .auth()
-      .createUser({
-        email: req.body.email,
-        emailVerified: false,
-        phoneNumber: req.body.contactNumber,
-        password: req.body.password,
-        displayName: req.body.firstName + ' ' + req.body.lastName,
-        disabled: false,
-      })
-      .then(async (userRecord) => {
-        const db = admin.firestore();
-        // Delete password before saving profile
-        delete req.body.password;
+    try {
+      admin
+        .auth()
+        .createUser({
+          email: req.body.email,
+          emailVerified: false,
+          phoneNumber: req.body.contactNumber,
+          password: req.body.password,
+          displayName: req.body.firstName + ' ' + req.body.lastName,
+          disabled: false,
+        })
+        .then(async (userRecord) => {
+          const db = admin.firestore();
+          // Delete password before saving profile
+          delete req.body.password;
 
-        // Add profile details to principle profile
-        try {
-          var docRef = db
-            .collection('client-data')
-            .doc(userID)
-            .collection('agents')
-            .doc(userRecord.uid);
-          docRef.set(req.body, { merge: true });
-        } catch (error) {
+          // Add profile details to principle profile
+          try {
+            var docRef = db
+              .collection('client-data')
+              .doc(userID)
+              .collection('agents')
+              .doc(userRecord.uid);
+            docRef.set(req.body, { merge: true });
+          } catch (error) {
+            res.send(error);
+          }
+
+          // Write profile to agent profile
+          try {
+            req.body.principleAccount = userID;
+            var docRef = db.collection('client-data').doc(userRecord.uid);
+            docRef.set(req.body, { merge: true });
+          } catch (error) {
+            res.send(error);
+          }
+
+          res.send(userRecord);
+        })
+        .catch((error) => {
           res.send(error);
-        }
-
-        // Write profile to agent profile
-        try {
-          req.body.principleAccount = userID;
-          var docRef = db.collection('client-data').doc(userRecord.uid);
-          docRef.set(req.body, { merge: true });
-        } catch (error) {
-          res.send(error);
-        }
-
-        res.send(userRecord);
-      })
-      .catch((error) => {
-        res.send(error);
-      });
+        });
+    } catch (error) {
+      res.send(error);
+    }
   });
 });
 

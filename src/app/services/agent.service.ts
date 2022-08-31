@@ -64,10 +64,13 @@ export class AgentService {
       await this.dataManagementService
         .postData(CollectionType.AGENT, url, agent)
         .then(
-          async (success) => {
+          async (response) => {
+            console.log(response);
             resolve();
           },
-          async (error) => reject()
+          async (error) => {
+            reject();
+          }
         );
     });
   }
@@ -89,10 +92,10 @@ export class AgentService {
 
   getAgentDefaultPassword(): Promise<string> {
     return new Promise(async (resolve, reject) => {
-      if (sessionStorage['profile']) {
-        let profile = JSON.parse(sessionStorage['profile']);
-        profile['agentDefaultPassword']
-          ? resolve(profile['agentDefaultPassword'])
+      if (sessionStorage['userInfo']) {
+        let userInfo = JSON.parse(sessionStorage['userInfo']);
+        userInfo['agentDefaultPassword']
+          ? resolve(userInfo['agentDefaultPassword'])
           : reject();
       }
       reject();

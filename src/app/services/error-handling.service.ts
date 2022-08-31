@@ -12,7 +12,6 @@ export class ErrorHandlingService {
   constructor() {}
 
   getWarningConfig(error: string): WarningConfig {
-    let warningConfig = {} as WarningConfig;
     if (error.includes('auth/invalid-email')) {
       return {
         type: WarningType.SIGN_IN,
@@ -38,6 +37,12 @@ export class ErrorHandlingService {
       };
     }
     if (error.includes('auth/weak-password')) {
+      return {
+        type: WarningType.REGISTER,
+        warning: Warning.WEAK_PASSWORD,
+      };
+    }
+    if (error.includes('auth/invalid-phone-number')) {
       return {
         type: WarningType.REGISTER,
         warning: Warning.WEAK_PASSWORD,
