@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { AuthenticationService } from './services/authentication-service.service';
 import { LoadingService } from './services/loading.service';
 import { AppInitialisationService } from './services/app-initialisation.service';
@@ -9,6 +9,11 @@ import { AppInitialisationService } from './services/app-initialisation.service'
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
+  @HostListener('window:resize', ['$event'])
+  onResize(event: { target: { innerWidth: any } }) {
+    console.log(event.target.innerWidth);
+  }
+
   title = 'assembl-ez';
   isLoading = false;
   loadingExplainer = '';
